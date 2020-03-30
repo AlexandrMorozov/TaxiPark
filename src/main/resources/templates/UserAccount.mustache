@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyCityTaxi | Личный кабинет </title>
+
+    <link rel='stylesheet' href='/css/bootstrap.min.css' type='text/css' media='all'>
+
+    <style>
+
+        .main-wrap
+        {
+            width: 1190px;
+            height: 630px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .bblock {
+            float: left;
+            line-height: 120px;
+            margin-right: 10px;
+        }
+        .wrap :last-child {
+            margin-right: 0px;
+        }
+
+
+        .catside li:hover
+        {
+            background: #0078BF; color: #fff;
+        }
+
+        .test
+        {
+            height: 480px;
+            width: 330px;
+        }
+        ul.nav-sidebar li a
+        {
+            display: block;
+            padding: 11.5px 27.5px;
+            color: #4e555b;
+            text-decoration: none;
+            border-bottom: 1px solid #4e555b;
+            border-left: #4e555b;
+            border-right: #4e555b;
+        }
+
+        .nav > li > a {
+            padding: 11.5px 10px;
+        }
+
+
+        ul > li {
+            list-style-type: none;
+            line-height: 19px;
+        }
+
+        ul.nav-sidebar {
+            list-style: none;
+            list-style-type: none;
+            line-height: 1.38462;
+        }
+
+        .nav-sidebar
+        {
+            margin-right: 40px;
+        }
+
+        #breadcrumbs li {
+            position: relative;
+            float: left;
+            min-height: 15px;
+            margin-right: 5px;
+        }
+
+
+        .service-detail .service-detail__head-right {
+            padding-left: 30px;
+            padding-right: 40px;
+        }
+
+        .service-detail .service-detail__head-preview {
+            font-weight: 700;
+            padding: 20px 0;
+            padding-top: 20px;
+            padding-right: 0px;
+            padding-bottom: 20px;
+        }
+
+
+        .service-prop .service-prop__block-group {
+            display: inline-block;
+        }
+
+        .service-prop .service-prop__block {
+            margin-left: 20px;
+            text-align: left;
+            margin-top: -16px;
+            color:
+                    #777;
+        }
+
+        .service-prop .service-prop__block, .service-prop {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+
+        .service-prop .service-prop__value {
+            font-size: 22px;
+        }
+
+
+        html>body thead.fixedHeader tr
+        {
+            display: block
+        }
+
+        html>body tbody.scrollContent
+        {
+            display: block;
+            height: /*262px*/400px;
+            overflow: auto;
+            width: 100%
+        }
+
+        html>body thead.fixedHeader th {
+            width: /*150px*/170px;
+        }
+
+        html>body thead.fixedHeader th + th {
+            width: /*100px*/150px;
+        }
+
+        html>body thead.fixedHeader th + th + th {
+            width: /*100px*/150px;
+        }
+
+        html>body thead.fixedHeader th + th + th + th {
+            width: /*100px*/150px;
+        }
+
+      /*  html>body thead.fixedHeader th + th + th + th + th {
+            width: 200px
+        }*/
+
+        html>body thead.fixedHeader th + th + th + th + th /*+ th*/ {
+            width: /*100px*/200px;
+        }
+
+
+        html>body tbody.scrollContent td {
+            width: /*150px*/170px;
+        }
+
+        html>body tbody.scrollContent td + td {
+            width: /*100px*/150px;
+        }
+
+        html>body tbody.scrollContent td + td + td {
+            width: /*100px*/150px;
+        }
+
+        html>body tbody.scrollContent td + td + td + td {
+            width: /*100px*/150px;
+        }
+
+        /*html>body tbody.scrollContent td + td + td + td + td {
+            width: 200px
+        }*/
+
+        html>body tbody.scrollContent td + td + td + td + td /*+ td*/ {
+            width: /*100px*/200px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-light" style="height: 80px;background-color: #007bff">
+    <a class="navbar-brand" href="/">MyCityTaxi</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Компания</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="/CategoriesMenu" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Услуги
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/CategoriesMenu">Категории услуг</a>
+                    <div class="dropdown-divider"></div>
+                    {{#categories}}
+                        <a class="dropdown-item" href="/SubcategoriesMenu?id={{serviceCategoryID}}">{{serviceCategoryName}}</a>
+                    {{/categories}}
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="/CategoriesMenu" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Перевозки
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {{#transportSubcategories}}
+                        <a class="dropdown-item" href="transportPage?id={{servicesID}}&name={{serviceName}}">{{serviceName}}</a>
+                    {{/transportSubcategories}}
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/MainTimetableMenu">Расписание</a>
+            </li>
+            <li class="nav-item" style="margin-left: 750px">
+                <a class="nav-link" href="{{authEntLink}}">{{authEntLinkName}}</a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+
+<div class="main-wrap" style="margin-top: 30px">
+
+    {{#client}}
+    <div style="margin-left: 30px">
+        <h1>{{clientLogin}} - {{clientName}} {{clientSurname}}</h1>
+    </div>
+    {{/client}}
+
+    <div class="test bblock" style="margin-top: 30px">
+        <ul class="nav-sidebar nav-list catside">
+
+             <li class="">
+                 <a href="/CategoriesMenu">Заказать услуги</a>
+             </li>
+            {{#transportSubcategories}}
+            <li class="">
+            <a href="transportPage?id={{servicesID}}&name={{serviceName}}">{{serviceName}}</a>
+            </li>
+            {{/transportSubcategories}}
+            <li class="">
+                <a href="/SignOut">Выйти</a>
+            </li>
+        </ul>
+    </div>
+
+       <div style="margin-top: 30px;float: left">
+           <div>
+               <h1>Список ваших закзазов:</h1>
+           </div>
+
+           <table width="100%" class="scrollTable table table-sm ">
+               <thead class="fixedHeader thead-light">
+               <tr>
+                   <th>Название</th>
+                   <th>Дата</th>
+                   <th>Время</th>
+                   <th>Стоимость</th>
+                   <th>Отмена</th>
+               </tr>
+               </thead>
+               <tbody class="scrollContent">
+               {{#orders}}
+               <tr>
+                   <td>{{orderName}}</td>
+                   <td>{{orderDate}}</td>
+                   <td>{{orderTime}}</td>
+                   <td>{{orderCost}}</td>
+                   <td><a href="/DeleteOrder?orderID={{orderID}}"><button class="btn btn-lg btn-primary btn-block" >Отмена</button></td>
+               </tr>
+               {{/orders}}
+
+               </tbody>
+           </table>
+
+
+       </div>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

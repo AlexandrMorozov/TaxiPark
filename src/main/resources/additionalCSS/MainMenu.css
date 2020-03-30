@@ -1,0 +1,18 @@
+.bg {
+    /* The image used */
+    background-image: url(../static/img/sergei-churnosov-olga-devushka-mashina-taksi-zima-sneg-uly-1.jpg);
+
+    /* Full height */
+    /*height: 100%;*/
+    size: 1536px 2000px;
+    background-size: 1536px 2000px;
+
+
+    /* Center and scale the image nicely */
+    /*background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;*/
+
+
+
+}

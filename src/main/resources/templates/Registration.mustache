@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+
+    <title>MyCityTaxi | Регистрация</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type='text/css' media='all'>
+    <link href="/css/signin.css" rel="stylesheet">
+    <script src="/js/RegistrationChecking.js"></script>
+
+</head>
+
+<body class="text-center">
+<form class="form-signin" method="POST" action="/Registration.mustache/registrate" onsubmit="return registrationChecker();">
+    <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+    <label for="name">Имя</label>
+    <!--Имя:--><input type='text' id='name' name='name' class='form-control' required><br><i id='alert3' class='hiddentext'></i>
+    <label for="surname">Фамилия</label>
+    <!--Фамилия:--><input type='text' id='surname' name='surname' class='form-control' required><br><i id='alert5' class='hiddentext'></i>
+    <label for="dob" >Логин</label>
+    <!--Логин--><input type='text' id='dob' class='form-control' name='login' required><br><i id='alert1' class='hiddentext'></i>
+    <label for="dob1" >Пароль</label>
+    <!--Пароль:--><input type='password' id='dob1' class='form-control' name='password' required><br><i id='alert2' class='hiddentext'></i>
+    <label for="dobr" >Дата рождения</label>
+    <!--Дата рождения:--><input type='date' id='dobr' class='form-control' name='dob' required><br><i id='alert6' class='hiddentext'></i>
+    <label for="telnum">Телефон</label>
+    <!--Номер телефона:--><input type='text' id='telnum' name='telnum' class='form-control' required><br><i id='alert7' class='hiddentext'></i>
+
+    <div style="margin-bottom: 20px">
+        <a href="/Authorization">Уже зарегистрированы? Войти</a>
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
