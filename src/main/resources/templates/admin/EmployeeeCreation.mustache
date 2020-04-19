@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyCityTaxi | Добавить работника</title>
+    <link rel='stylesheet' href='/css/bootstrap.min.css' type='text/css' media='all'>
+    <script src="/js/EmployeeCreationChecking.js"></script>
+    <!--<link href="signin.css" rel="stylesheet">-->
+
+    <style>
+
+        .bblock-main{
+            float: left;
+            width: 40px;
+            margin-right: 30px;
+
+        }
+
+        .wrap {
+            width: 1300px;
+            height: 90px;
+
+        }
+
+        .bblock {
+            float: left;
+            width: 250px;
+            margin-right: 20px;
+        }
+        .wrap :last-child {
+            margin-right: 0px;
+        }
+    </style>
+
+</head>
+<body onload="checkDriverData()">
+
+
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light" style="height: 80px;background-color: #007bff">
+        <a class="navbar-brand" href="/adminportal">MyCityTaxi Admin</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/adminportal">Статистика</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/adminportal/personnel">Управление персоналом</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/adminportal/transport">Управление транспортом</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/adminportal">Управление услугами</a>
+                </li>
+                <li class="nav-item" style="margin-left: 450px">
+                    <a class="nav-link" href="/adminportal/signout">{{employeeName}}</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<h1 style="margin-left: 50px;margin-top: 20px;margin-bottom: 20px">Добавить сотрудника</h1>
+
+<form class="form-signin" method="POST" action="/adminportal/personnel/createemployee" >
+
+<ul class="nav nav-tabs" style="margin-left: 50px;margin-bottom: 20px">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#description">Основная информация</a>
+    </li>
+    <li class="nav-item" id="driverData" hidden>
+        <a class="nav-link" data-toggle="tab" href="#characteristics" onclick="f()">Водительское удостоверение</a>
+    </li>
+</ul>
+
+
+    <div class="tab-content" >
+        <div class="tab-pane fade show active" id="description" style="margin-left: 50px">
+            <div class="wrap">
+                <div class="bblock">
+                <label for="fm" >Фамилия</label>
+                <input type='text' id='fm' class='form-control bblock' style="height: 40px" name='lname' required>
+                </div>
+                <div class="bblock">
+                <label for="im" >Имя</label>
+                <input type='text' id='im' class='form-control bblock' style="height: 40px" name='name' required>
+                </div>
+                <div class="bblock">
+                    <label for="ot" >Отчество</label>
+                    <input type='text' id='ot' class='form-control' style="height: 40px" name='mname' required>
+                </div>
+
+            </div>
+            <div class="wrap">
+
+                <div class="bblock" style="width: 150px">
+                    <label for="dob" >Дата рождения</label>
+                    <input type='date' id='dob' class='form-control bblock' style="height: 40px;width: 150px;text-align: center" name='dob' required>
+                </div>
+                <div class="bblock">
+                    <label for="pob" >Место рождения</label>
+                    <input type='text' id='pob' class='form-control bblock' style="height: 40px;width: 320px" name='pob' required>
+                </div>
+
+
+            </div>
+            <div class="wrap">
+
+                <div class="bblock" style="width: 150px">
+                    <label for="pn" >Номер пасспорта</label>
+                    <input type='text' id='pn' class='form-control bblock' style="height: 40px;width: 150px" name='pn' required>
+
+                </div>
+                <div class="bblock">
+                    <label for="aor" >Адрес проживания</label>
+                    <input type='text' id='aor' class='form-control bblock' style="height: 40px;width: 320px" name='aor' required>
+
+                </div>
+
+            </div>
+            <div class="wrap">
+                <div class="bblock">
+                    <label for="loe" >Степень образования</label>
+                    <select id='loe' class='form-control bblock' style="height: 40px" name='loe' required>
+                        <option value="Начальное">Начальное</option>
+                        <option value="Среднее">Среднее</option>
+                        <option value="Среднее общее">Среднее общее</option>
+                        <option value="Высшее">Высшее</option>
+                    </select>
+                </div>
+                <div class="bblock">
+                    <label for="pr" >Должность</label>
+                    <select id='pr' class='form-control bblock' style="height: 40px" name='pr' onchange="enableDriverData()" required>
+                        <option value="Слесарь">Слесарь</option>
+                        <option value="Водитель">Водитель</option>
+                        <option value="Инженер-механик">Инженер-механик</option>
+                        <option value="Администратор">Администратор</option>
+                    </select>
+                </div>
+
+
+
+            </div>
+
+            <div class="wrap">
+
+                <div class="bblock">
+                    <label for="not" >Номер телефона(рабочий)</label>
+                    <input type='text' id='not' class='form-control bblock' style="height: 40px" name='not' required>
+
+                </div>
+
+                <div class="bblock">
+                    <label for="pw" >Пароль</label>
+                    <input type='password' id='pw' class='form-control bblock' style="height: 40px" name='psw' required>
+                </div>
+
+            </div>
+
+
+
+        </div>
+        <div class="tab-pane fade" id="characteristics" style="margin-left: 50px">
+            <div class="wrap">
+                <div class="bblock" >
+                    <label for="ln" >Номер лиценции</label>
+                    <input type='text' id='ln' class='form-control bblock' style="height: 40px" name='ln' required disabled>
+
+                </div>
+                <div class="bblock">
+                    <label for="ib" >Лицензия выдана</label>
+                    <input type='text' id='ib' class='form-control bblock' style="height: 40px;width: 320px" name='ib' required disabled>
+
+                </div>
+
+            </div>
+            <div ><h4>Категория прав</h4></div>
+            <div class="wrap">
+
+
+                <div class="bblock-main">
+                    <label for="cl1" >A</label>
+                    <!--<input type='checkbox' id='cl1'  name='lname' required>-->
+                    <input type='checkbox' id='cl1' name="a" value="A" class='form-control'>
+                </div>
+                <div class="bblock-main">
+                    <label for="cl2" >B</label>
+                    <!--<input type='checkbox' id='cl2' name='lname' required>-->
+                    <input type='checkbox' id='cl2' name="a" value="B" class='form-control' >
+                </div>
+                <div class="bblock-main">
+                    <label for="cl3" >C</label>
+                    <input type='checkbox' id='cl3' name="a" value="C" class='form-control bblock-main'>
+                    <!--<input type='checkbox' id='cl3'  name='lname' required>-->
+                </div>
+
+
+
+            </div>
+            <div class="wrap">
+                <div class="bblock" >
+                    <label for="lvu" >Лицензия действительна до</label>
+                    <input type='date' id='lvu' class='form-control bblock' style="height: 40px;width: 150px;text-align: center" name='lvu' required disabled>
+
+                </div>
+                <div class="bblock">
+                    <label for="mvu" >Медосмотр действителен до</label>
+                    <input type='date' id='mvu' class='form-control bblock' style="height: 40px;width: 150px;text-align: center" name='mvu' required disabled>
+
+                </div>
+
+            </div>
+
+            <div class="wrap">
+                <div class="bblock">
+                    <label for="asc" >Назначенный транспорт</label>
+                    <select id='asc' class='form-control bblock' style="height: 40px" name='asc' required>
+                        <option value=" ">Нет</option>
+                        {{#carData}}
+                            <option value="{{transportID}}">{{carBrand}}-{{carModel}}-{{vin}}</option>
+                        {{/carData}}
+                       <!-- <option value="Слесарь">Слесарь</option>
+                        <option value="Водитель">Водитель</option>
+                        <option value="Инженер-механик">Инженер-механик</option>
+                        <option value="Администратор">Администратор</option>-->
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div style="margin-left: 50px;margin-top: 30px">
+        <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;" type="submit" >Добавить</button>
+    </div>
+
+    <input name="isHaveDriverLicense" value="false" hidden>
+
+</form>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

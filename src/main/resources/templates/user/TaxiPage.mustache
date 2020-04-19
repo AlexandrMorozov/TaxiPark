@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyCityTaxi | Заказ такси</title>
+    <link rel='stylesheet' href='/css/bootstrap.min.css' type='text/css' media='all'>
+
+    <style>
+
+        .main-wrap
+        {
+            width: 1190px;
+            height: 630px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .wrap :last-child {
+            margin-right: 0px;
+        }
+
+        .page-header {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .page-header {
+            padding-bottom: 8.5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .catside li:hover
+        {
+            background: #0078BF; color: #fff;
+        }
+
+        ul.nav-sidebar li a
+        {
+            display: block;
+            padding: 11.5px 27.5px;
+            color: #4e555b;
+            text-decoration: none;
+            border-bottom: 1px solid #4e555b;
+            border-left: #4e555b;
+            border-right: #4e555b;
+        }
+
+        .nav > li > a {
+            padding: 11.5px 10px;
+        }
+
+
+        ul > li {
+            list-style-type: none;
+            line-height: 19px;
+        }
+
+        ul.nav-sidebar {
+            list-style: none;
+            list-style-type: none;
+            line-height: 1.38462;
+        }
+
+
+        #breadcrumbs li {
+            employeePosition: relative;
+            float: left;
+            min-height: 15px;
+            margin-right: 5px;
+        }
+
+
+        .service-detail {
+            padding: 5px 0 15px;
+            text-decoration: center;
+        }
+
+
+        .service-detail .service-detail__head-right {
+            padding-left: 30px;
+            padding-right: 40px;
+        }
+
+        .service-detail .service-detail__head-preview {
+            font-weight: 700;
+            padding: 20px 0;
+            padding-top: 20px;
+            padding-right: 0px;
+            padding-bottom: 20px;
+        }
+
+        .service-prop {
+            padding: 9px 0 15px;
+        }
+
+
+        .service-prop .service-prop__block-group {
+            display: inline-block;
+        }
+
+        .service-prop .service-prop__block {
+            margin-left: 20px;
+            text-align: left;
+            margin-top: -16px;
+            color:
+                    #777;
+        }
+
+        .service-prop .service-prop__block, .service-prop {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+
+        .service-prop .service-prop__value {
+            font-size: 22px;
+        }
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light" style="height: 80px;background-color: #007bff">
+    <a class="navbar-brand" href="/">MyCityTaxi</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Компания</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="/CategoriesMenu" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Услуги
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/CategoriesMenu">Категории услуг</a>
+                    <div class="dropdown-divider"></div>
+                    {{#categories}}
+                        <a class="dropdown-item" href="/SubcategoriesMenu?id={{serviceCategoryID}}">{{serviceCategoryName}}</a>
+                    {{/categories}}
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="/CategoriesMenu" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Перевозки
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {{#transportSubcategories}}
+                        <a class="dropdown-item" href="transportPage?id={{servicesID}}&name={{serviceName}}">{{serviceName}}</a>
+                    {{/transportSubcategories}}
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/MainTimetableMenu">Расписание</a>
+            </li>
+            <li class="nav-item" style="margin-left: 750px">
+                <a class="nav-link" href="{{authEntLink}}">{{authEntLinkName}}</a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+
+<div class="main-wrap" style="margin-top: 30px">
+
+    {{#service}}
+        <div style="margin-left: 330px">
+            <div class="row">
+                <div>
+                    <div>
+                        <div class="page-header"><h1>{{serviceName}}</h1></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <form class="form-signin" method="POST" action="/CreateTransportOrder">
+                <div class="service-detail" style="margin-left: 330px">
+                    <div class="service-detail__head">
+                        <div class="row">
+                            <div>
+                                <img alt="{{serviceName}}" title="{{serviceName}}" src="/img/{{foto}}" style="width: 416px;height: 390px">
+
+                                <div style="margin-top: 8px">
+                                    <button class="btn btn-lg btn-primary btn-block" type="submit" name="id" value="{{servicesID}}">Заказать услугу</button>
+                                </div>
+
+                            </div>
+
+                            <div class="col col-md-6 service-detail__head-right">
+                                <div class="service-detail__head-preview">
+                                    {{serviceDescription}}
+                                </div>
+
+                                <div class="service-prop">
+                                    <div class="service-prop__block-group">
+                                        <div class="service-prop__block">
+                                            <div class="service-prop__name">Стоимость:</div>
+                                            <div class="service-prop__value">
+                                                <span>{{calculatablePrice}}</span> руб./км.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="service-prop">
+                                    <div class="service-prop__block">
+                                        <div class="service-prop__name">Откуда</div>
+                                        <input type="text" name="fromPoint" class='form-control' required>
+                                    </div>
+                                </div>
+                                <div class="service-prop">
+                                    <div class="service-prop__block">
+                                        <div class="service-prop__name">Куда</div>
+                                        <input type="text" name="toPoint" class='form-control' required>
+                                    </div>
+                                </div>
+
+                                    {{#nonAuthorized}}
+                                        <div class="service-prop">
+                                            <div class="service-prop__block">
+                                                <div class="service-prop__name">Имя</div>
+                                                <input type="text" name="name" class='form-control' required>
+                                            </div>
+                                        </div>
+                                        <div class="service-prop">
+                                            <div class="service-prop__block">
+                                                <div class="service-prop__name">Телефон</div>
+                                                <input type="text" name="telephone" class='form-control' required>
+                                            </div>
+                                        </div>
+                                    {{/nonAuthorized}}
+
+                                    <div class="service-prop">
+                                        <div class="service-prop__block">
+                                            <div class="service-prop__name">Комментарий</div>
+                                            <textarea name="comment" maxlength="100" cols="35" rows="3"></textarea>
+                                        </div>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {{/service}}
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

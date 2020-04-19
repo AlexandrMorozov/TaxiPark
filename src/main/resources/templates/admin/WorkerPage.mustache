@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyCityTaxi | Добавить работника</title>
+    <link rel='stylesheet' href='/css/bootstrap.min.css' type='text/css' media='all'>
+    <!--<link href="signin.css" rel="stylesheet">-->
+
+    <style>
+
+        .bblock-main{
+            float: left;
+            width: 40px;
+            margin-right: 30px;
+
+        }
+
+        .wrap {
+            /*width: 1300px;*/
+            width: 800px;
+            height: 90px;
+
+        }
+
+        .bblock {
+            float: left;
+            width: 250px;
+            margin-right: 20px;
+        }
+        .wrap :last-child {
+            margin-right: 0px;
+        }
+    </style>
+
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light" style="height: 80px;background-color: #007bff">
+        <a class="navbar-brand" href="/adminportal">MyCityTaxi Admin</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/adminportal">Статистика</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/adminportal/personnel">Управление персоналом</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/adminportal/transport">Управление транспортом</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/adminportal">Управление услугами</a>
+                </li>
+                <li class="nav-item" style="margin-left: 450px">
+                    <a class="nav-link" href="/adminportal/signout">{{employeeName}}</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+</div>
+
+{{#personnel}}
+<h1 style="margin-left: 50px;margin-top: 20px;margin-bottom: 20px">Профиль сотрудника {{login}}</h1>
+{{/personnel}}
+
+    <ul class="nav nav-tabs" style="margin-left: 50px;margin-bottom: 20px;">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#description">Описание</a>
+        </li>
+        {{#isHaveDriverLicense}}
+        <li class="nav-item" id="driverData">
+            <a class="nav-link" data-toggle="tab" href="#characteristics">Характеристики</a>
+        </li>
+        {{/isHaveDriverLicense}}
+    </ul>
+
+
+    <div class="tab-content" style="width: 1000px; float: left;" >
+
+        <div class="tab-pane fade show active" id="description" style="margin-left: 50px">
+            <div class="wrap">
+                <div class="bblock">
+                    <label>Фамилия</label>
+                    <!--<input type='text' id='fm' class='form-control bblock' style="height: 40px" name='lname' required disabled>-->
+                    <div class='bblock' style="height: 40px;font-size: 30px">{{lname}}</div>
+                </div>
+                <div class="bblock">
+                    <label>Имя</label>
+                    <!--<input type='text' id='im' class='form-control bblock' style="height: 40px" name='name' required disabled>-->
+                    <div class='bblock' style="height: 40px;font-size: 30px">{{name}}</div>
+                </div>
+                <div class="bblock">
+                    <label >Отчество</label>
+                    <!--<input type='text' id='ot' class='form-control' style="height: 40px" name='mname' required disabled>-->
+                    <div class='bblock' style="height: 40px;font-size: 30px">{{mname}}</div>
+                </div>
+
+            </div>
+            {{#personnel}}
+            <div class="wrap">
+
+                <div class="bblock" style="width: 150px">
+                    <label>Дата рождения</label>
+                    <!--<input type='date' id='dob' class='form-control bblock' style="height: 40px;width: 150px;text-align: center" name='dob' required disabled>-->
+                    <div class='bblock' style="height: 40px;width: 150px;font-size: 30px">{{dateOfBirth}}</div>
+                </div>
+                <div class="bblock">
+                    <label >Место рождения</label>
+                    <!--<input type='text' id='pob' class='form-control bblock' style="height: 40px;width: 320px" name='pob' required disabled>-->
+                    <div class='bblock' style="height: 40px;width: 320px;font-size: 30px">{{placeOfBirth}}</div>
+                </div>
+
+
+            </div>
+            <div class="wrap">
+
+                <div class="bblock" style="width: 150px">
+
+                    <label>Номер пасспорта</label>
+                    <!-- <input type='text' id='pn' class='form-control bblock' style="height: 40px;width: 150px" name='pn' required disabled>-->
+                    <div class='bblock' style="height: 40px;width: 150px;font-size: 30px">{{passportID}}</div>
+
+                </div>
+                <div class="bblock">
+                    <label>Адрес проживания</label>
+                    <!--<input type='text' id='aor' class='form-control bblock' style="height: 40px;width: 320px" name='aor' required disabled>-->
+                    <div class='bblock' style="height: 40px;width: 320px;font-size: 30px">{{address}}</div>
+                </div>
+
+            </div>
+            <div class="wrap">
+                <div class="bblock">
+                    <label>Степень образования</label>
+                    <!--<select id='loe' class='form-control bblock' style="height: 40px" name='loe' required disabled>
+                        <option value="a"></option>
+                        <option value="b"></option>
+                    </select>-->
+                    <div class='bblock' style="height: 40px;font-size: 30px">{{educationDegree}}</div>
+                </div>
+                <div class="bblock">
+
+                    <label>Должность</label>
+                    <!--<select id='pr' class='form-control bblock' style="height: 40px" name='pr' required disabled>
+                        <option value="a"></option>
+                        <option value="b"></option>
+                    </select>-->
+                    <div class='bblock' style="height: 40px;font-size: 30px">{{employeePosition}}</div>
+                </div>
+
+
+            </div>
+                <div class="wrap">
+
+                    <div class="bblock">
+
+                        <label>Номер телефона(рабочий)</label>
+                        <!--<input type='text' id='not' class='form-control bblock' style="height: 40px" name='not' required disabled>-->
+                        <div class='bblock' style="height: 40px;font-size: 30px">{{phoneNumber}}</div>
+
+                    </div>
+
+                    <div class="bblock">
+                        <label>Пароль</label>
+                        <!--<input type='text' id='not' class='form-control bblock' style="height: 40px" name='not' required disabled>-->
+                        <div class='bblock' style="height: 40px;font-size: 30px">{{password}}</div>
+                    </div>
+                </div>
+
+            {{/personnel}}
+        </div>
+        {{#isHaveDriverLicense}}
+        <div class="tab-pane fade" id="characteristics" style="margin-left: 50px">
+            {{#driverData}}
+            <div class="wrap">
+                <div class="bblock" >
+                    <label>Номер лиценции</label>
+                    <!--<input type='text' id='ln' class='form-control bblock' style="height: 40px" name='ln' required disabled>-->
+                    <div class='bblock' style="height: 40px;font-size: 30px">{{licenseNum}}</div>
+                </div>
+                <div class="bblock">
+                    <label>Лицензия выдана</label>
+                    <!--<input type='text' id='ib' class='form-control bblock' style="height: 40px;width: 320px" name='ib' required disabled>-->
+                    <div class='bblock' style="height: 40px;width: 320px;font-size: 30px" >{{licenseIssuedBy}}</div>
+                </div>
+
+
+
+            </div>
+            <div ><h4>Категория прав</h4></div>
+            <div class="wrap">
+
+                <div class='bblock' style="height: 40px;width: 320px;font-size: 30px">{{licenseCategory}}</div>
+                <!--<div class="bblock-main">
+                    <label for="cl1" >A</label>
+                    <input type='checkbox' id='cl1' name="a" value="A" class='form-control' disabled >
+                </div>
+                <div class="bblock-main">
+                    <label for="cl2" >B</label>
+                    <input type='checkbox' id='cl2' name="a" value="B" class='form-control ' disabled>
+                </div>
+                <div class="bblock-main">
+                    <label for="cl3" >C</label>
+                    <input type='checkbox' id='cl3' name="a" value="C" class='form-control bblock-main' disabled>
+                </div>-->
+
+
+
+            </div>
+            <div class="wrap">
+                <div class="bblock">
+
+                    <label>Лицензия действительна до</label>
+                    <!-- <input type='date' id='lvu' class='form-control bblock' style="height: 40px;width: 150px;text-align: center" name='lvu' required disabled>-->
+                    <div class='bblock' style="height: 40px;width: 150px;font-size: 30px">{{licenseValidUntil}}</div>
+
+                </div>
+                <div class="bblock">
+
+                    <label>Медосмотр действителен до</label>
+                    <!--<input type='date' id='mvu' class='form-control bblock' style="height: 40px;width: 150px;text-align: center" name='mvu' required disabled>-->
+                    <div class='bblock' style="height: 40px;width: 150px;font-size: 30px">{{medExValidUntil}}</div>
+
+                </div>
+
+            </div>
+            {{/driverData}}
+
+            <div class="wrap">
+                <div class="bblock">
+                    <label>Назначенный транспорт</label>
+                    <!--<input type='date' id='mvu' class='form-control bblock' style="height: 40px;width: 150px;text-align: center" name='mvu' required disabled>-->
+                    <div class='bblock' style="height: 40px;width: 150px;font-size: 30px">{{carData}}</div>
+                </div>
+            </div>
+
+        </div>
+    {{/isHaveDriverLicense}}
+
+    </div>
+
+    <div style="margin-left: 150px;height: 370px;width: 200px;float: left;">
+        {{#personnel}}
+        <div style="margin-bottom: 20px">
+            <a href="/adminportal/personnel/modifyemployee?personnelID={{personnelID}}">
+                <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;">Изменить запись</button>
+            </a>
+
+        </div>
+        <div>
+            <a href="/adminportal/personnel/deleteemployee?personnelID={{personnelID}}">
+                <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;">Удалить запись</button>
+            </a>
+        </div>
+        {{/personnel}}
+    </div>
+    <!--<div style="background-color: #b21f2d;float: left;width: 50px;height: 100px">
+
+    </div>-->
+    <!--<div >
+        <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;" type="" >Добавить</button>
+    </div>-->
+
+    <!--<div style="margin-left: 50px;margin-top: 30px">
+        <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;" type="submit" >Добавить</button>
+    </div>-->
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
