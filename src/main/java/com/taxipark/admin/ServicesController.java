@@ -62,7 +62,7 @@ public class ServicesController
         Customer_Services_Data currentServicesData;
 
 
-        if(/*!*/currentService.getCustomerServicesDataID()!=null/*.equals(null)*/)
+     /*   if(currentService.getCustomerServicesDataID()!=null)
         {
             //System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
             currentServicesData=customerServicesDataRepo.findByCustomerServicesDataID(currentService.getCustomerServicesDataID());
@@ -70,7 +70,7 @@ public class ServicesController
             isServicesDataPresent=true;
             model.put("servicesData",currentServicesData);
 
-        }
+        }*/
 
         System.out.println(currentService.getCalculatablePrice());
         if(currentService.getCalculatablePrice()==null/*.equals(null)*/)
@@ -117,8 +117,8 @@ public class ServicesController
                                 int categoryID, Integer customerServicesDataID, HttpSession session, Map<String, Object> model)
     {
 
-        Services newService=new Services(serviceName,serviceDescription,foto,price,calculatablePrice,categoryID,customerServicesDataID);
-        servicesRepo.save(newService);
+       // Services newService=new Services(serviceName,serviceDescription,foto,price,calculatablePrice,categoryID,customerServicesDataID);
+        //servicesRepo.save(newService);
         return "";
     }
 
@@ -138,7 +138,7 @@ public class ServicesController
                 /*Customer_Services_Data customerData=customerServicesDataRepo.
                         findByCustomerServicesDataID(categoryServices.get(i).getCustomerServicesDataID());*/
 
-                customerServicesDataRepo.deleteById(categoryServices.get(i).getCustomerServicesDataID());
+                //customerServicesDataRepo.deleteById(categoryServices.get(i).getCustomerServicesDataID());
             }
         }
 
@@ -154,10 +154,10 @@ public class ServicesController
         Services currentService=servicesRepo.findByServicesID(serviceID);
 
         ///////////////////////////
-        if(currentService.getCustomerServicesDataID()!=null)
+       /* if(currentService.getCustomerServicesDataID()!=null)
         {
             customerServicesDataRepo.deleteById(currentService.getCustomerServicesDataID());
-        }
+        }*/
 
         servicesRepo.delete(currentService);
 
@@ -180,7 +180,7 @@ public class ServicesController
                                 int guaranteeTime, HttpSession session, Map<String, Object> model)
     {
         servicesRepo.updateService(serviceName,serviceDescription,foto,price,calculatablePrice,servicesID);
-        customerServicesDataRepo.updateCustomerServicesData(completionTime,guaranteeTime,servicesID);
+       // customerServicesDataRepo.updateCustomerServicesData(completionTime,guaranteeTime,servicesID);
         return "";
     }
 }

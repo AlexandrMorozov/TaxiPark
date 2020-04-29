@@ -19,8 +19,8 @@ public interface ServicesRepo extends CrudRepository<Services,Integer>
             " FROM Services sv WHERE sv.categoryID=:catID")
     List<Services> findAllServicesByCategoryID(@Param("catID") int categoryID);
 
-    @Query("SELECT new com.taxipark.dto.CompletionTimeDto(s.servicesID,c.completionTime) FROM Customer_Services_Data c " +
-            "INNER JOIN Services s ON s.customerServicesDataID=c.customerServicesDataID WHERE s.servicesID=:id")
+    @Query("SELECT new com.taxipark.dto.CompletionTimeDto(s.servicesID,c.completionTime) FROM Services s " +
+            "INNER JOIN Customer_Services_Data c ON s.servicesID=c.serviceID WHERE s.servicesID=:id")
     CompletionTimeDto findCompletionTime(@Param("id") int id);
 
     @Modifying

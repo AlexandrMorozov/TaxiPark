@@ -19,9 +19,10 @@ public class Customer_Services_Data
     @NotNull
     @Column(name="guaranteetime")
     private int guaranteeTime;
-    /*/////////////////////////////////////////////*/
-    @OneToMany(targetEntity = Services.class, mappedBy = "customerServicesDataID", orphanRemoval = false, fetch = FetchType.LAZY)
-    private Set<Services> services;
+    @NotNull
+    @Column(name = "serviceid")
+    private int serviceID;
+
 
     public Customer_Services_Data()
     {
@@ -41,6 +42,10 @@ public class Customer_Services_Data
         return guaranteeTime;
     }
 
+    public int getServiceID() {
+        return serviceID;
+    }
+
     public void setCustomerServicesDataID(int customerServicesDataID) {
         this.customerServicesDataID = customerServicesDataID;
     }
@@ -51,5 +56,9 @@ public class Customer_Services_Data
 
     public void setGuaranteeTime(int guaranteeTime) {
         this.guaranteeTime = guaranteeTime;
+    }
+
+    public void setServiceID(int serviceID) {
+        this.serviceID = serviceID;
     }
 }

@@ -60,8 +60,6 @@ public class ServicesOrderingController
         LocalDate currentDate=LocalDate.now();
         LocalTime currentTime=LocalTime.now();
 
-        Order_Route newOrderRoute=new Order_Route(fromPoint,toPoint);
-        order_routeRepo.save(newOrderRoute);
 
         if(login==null)
         {
@@ -74,10 +72,12 @@ public class ServicesOrderingController
         }
 
         ClientOrder newClientOrder=
-                new ClientOrder(clientID,serviceID,cost,"transport service",currentDate.toString(),currentTime.toString(),"active",comment,newOrderRoute.getRouteID());
+                new ClientOrder(clientID,serviceID,cost,"transport service",currentDate.toString(),currentTime.toString(),"active",comment/*,newOrderRoute.getRouteID()*/);
 
         clientOrderRepo.save(newClientOrder);
 
+        Order_Route newOrderRoute=new Order_Route(fromPoint,toPoint,newClientOrder.getOrderID());
+        order_routeRepo.save(newOrderRoute);
 
         return "user/MainMenu";
     }
@@ -98,8 +98,6 @@ public class ServicesOrderingController
         double cost=Math.round(0.1*weight+(2+Math.random()*28)*orderedService.getCalculatablePrice()+orderedService.getPrice());
         /*0.1*weight+(2+Math.random()*28)*orderedService.getCalculatablePrice()+orderedService.getPrice()*/;
 
-        Order_Route newOrderRoute=new Order_Route(fromPoint,toPoint);
-        order_routeRepo.save(newOrderRoute);
 
         String weightData=weight+" кг;";
         comment=weightData+comment;
@@ -115,9 +113,12 @@ public class ServicesOrderingController
         }
 
         ClientOrder newClientOrder=
-                new ClientOrder(clientID,serviceID,cost,"transport service",date,time+":00","active",comment,newOrderRoute.getRouteID());
+                new ClientOrder(clientID,serviceID,cost,"transport service",date,time+":00","active",comment/*,newOrderRoute.getRouteID()*/);
 
         clientOrderRepo.save(newClientOrder);
+
+        Order_Route newOrderRoute=new Order_Route(fromPoint,toPoint,newClientOrder.getOrderID());
+        order_routeRepo.save(newOrderRoute);
 
         return "user/MainMenu";
     }
@@ -144,7 +145,7 @@ public class ServicesOrderingController
         {
             Services currentService=servicesRepo.findByServicesID(serviceID);
             Customer_Services_Data additionalServiceData=
-                    customer_services_dataRepo.findByCustomerServicesDataID(currentService.getCustomerServicesDataID());
+                    customer_services_dataRepo.findByServiceID(currentService.getServicesID());
 
             response="user/DateTimeChoosingPage";
             model.put("service", currentService);
@@ -197,7 +198,7 @@ public class ServicesOrderingController
             clientID=currentRegisteredClient.getClientID();
         }
 
-        ClientOrder newClientOrder=new ClientOrder(clientID,serviceID,cost,"customer service",date,time,"active",comment,null);
+        ClientOrder newClientOrder=new ClientOrder(clientID,serviceID,cost,"customer service",date,time,"active",comment/*,null*/);
 
         clientOrderRepo.save(newClientOrder);
 

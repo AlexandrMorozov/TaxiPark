@@ -140,14 +140,7 @@ public class UserAccountController
             return "user/MainMenu";
         }
 
-        Integer routeID=deletedOrder.getRouteID();
-
         clientOrderRepo.deleteById(orderID);
-
-        if(deletedOrder.getRouteID()!=null)
-        {
-            order_routeRepo.deleteById(routeID);
-        }
 
         model.put("client",currentClient);
         loadUserAccountOrders(currentClient,model);

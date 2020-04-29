@@ -18,16 +18,20 @@ public class Order_Route
     @NotNull
     @Column(name="placeofarrival")
     private String placeOfArrival;
+    @NotNull
+    @Column(name = "orderid")
+    private int orderID;
 
     public Order_Route()
     {
 
     }
 
-    public Order_Route(String placeOfDeparture, String placeOfArrival)
+    public Order_Route(String placeOfDeparture, String placeOfArrival, int orderID)
     {
         this.placeOfDeparture=placeOfDeparture;
         this.placeOfArrival=placeOfArrival;
+        this.orderID=orderID;
     }
 
     public int getRouteID() {
@@ -42,6 +46,10 @@ public class Order_Route
         return placeOfArrival;
     }
 
+    public int getOrderID() {
+        return orderID;
+    }
+
     public void setRouteID(int routeID) {
         this.routeID = routeID;
     }
@@ -52,5 +60,9 @@ public class Order_Route
 
     public void setPlaceOfArrival(String placeOfArrival) {
         this.placeOfArrival = placeOfArrival;
+    }
+
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
     }
 }

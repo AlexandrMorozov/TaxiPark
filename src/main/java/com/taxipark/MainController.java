@@ -2,7 +2,6 @@ package com.taxipark;
 
 import com.taxipark.dbmodel.Customer_Services_Data;
 import com.taxipark.dbmodel.Services;
-//import dbmodel.*;
 import com.taxipark.logic.NavBarLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -87,7 +86,7 @@ public class MainController
 
         Services currentService=servicesRepo.findByServicesID(serviceID);
         Customer_Services_Data additionalServiceData=
-                customer_services_dataRepo.findByCustomerServicesDataID(currentService.getCustomerServicesDataID());
+                customer_services_dataRepo.findByServiceID(currentService.getServicesID());
 
         model.put("service", currentService);
         model.put("addServiceData", additionalServiceData);

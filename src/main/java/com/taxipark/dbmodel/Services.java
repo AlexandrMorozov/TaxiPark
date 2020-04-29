@@ -29,11 +29,12 @@ public class Services
     @NotNull
     @Column(name="categoryid")
     private int categoryID;
-    @Column(name="customerservicesdataid")
-    private Integer customerServicesDataID;
 
     @OneToMany(targetEntity = ClientOrder.class, mappedBy = "serviceID", orphanRemoval = false, fetch = FetchType.LAZY)
     private Set<Route_Points> orders;
+
+    @OneToMany(targetEntity = Customer_Services_Data.class, mappedBy = "serviceID", orphanRemoval = false, fetch = FetchType.LAZY)
+    private Set<Customer_Services_Data> serviceData;
 
 
     public Services()
@@ -42,7 +43,7 @@ public class Services
     }
 
     public Services(String serviceName,String serviceDescription,String foto,double price,
-                    Double calculatablePrice,int categoryID,Integer customerServicesDataID)
+                    Double calculatablePrice,int categoryID)
     {
         this.serviceName=serviceName;
         this.serviceDescription=serviceDescription;
@@ -50,7 +51,6 @@ public class Services
         this.price=price;
         this.calculatablePrice=calculatablePrice;
         this.categoryID=categoryID;
-        this.customerServicesDataID=customerServicesDataID;
     }
 
     public Services(int servicesID,String serviceName,double price, Double calculatablePrice)
@@ -77,9 +77,6 @@ public class Services
         return categoryID;
     }
 
-    public /*int*/Integer getCustomerServicesDataID() {
-        return customerServicesDataID;
-    }
 
     public String getFoto() {
         return foto;
@@ -115,10 +112,6 @@ public class Services
 
     public void setServiceDescription(String serviceDescription) {
         this.serviceDescription = serviceDescription;
-    }
-
-    public void setCustomerServicesDataID(/*int*/Integer customerServicesDataID) {
-        this.customerServicesDataID = customerServicesDataID;
     }
 
     public void setServiceName(String serviceName) {

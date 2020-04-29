@@ -33,8 +33,6 @@ public class ClientOrder
     private String status;
     @Column(name="addinfo")
     private String addInfo;
-    @Column(name="routeid")
-    private Integer routeID;
 
     public ClientOrder()
     {
@@ -54,7 +52,7 @@ public class ClientOrder
     }
 
     public ClientOrder(Integer clientID,int serviceID, double cost, String orderType, String dateOfOrder,
-                       String timeOfOrder, String status, String addInfo, Integer routeID)
+                       String timeOfOrder, String status, String addInfo)
 
     {
         this.clientID=clientID;
@@ -65,16 +63,6 @@ public class ClientOrder
         this.timeOfOrder=timeOfOrder;
         this.status=status;
         this.addInfo=addInfo;
-        this.routeID=routeID;
-    }
-
-
-    public Integer getRouteID() {
-        return routeID;
-    }
-
-    public void setRouteID(int routeID) {
-        this.routeID = routeID;
     }
 
     public Integer getClientID() {
