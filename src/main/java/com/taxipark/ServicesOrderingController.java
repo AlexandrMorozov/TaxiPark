@@ -2,15 +2,12 @@ package com.taxipark;
 
 import com.taxipark.dbmodel.*;
 import com.taxipark.repos.*;
-//import dbmodel.*;
 import com.taxipark.dto.CompletionTimeDto;
-import com.taxipark.logic.NavBarLoader;
 import com.taxipark.logic.PossibleTimeCalcuator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-//import repos.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
@@ -25,8 +22,6 @@ public class ServicesOrderingController
     @Autowired
     private ClientsRepo clientsRepo;
     @Autowired
-    private Services_CategoryRepo services_categoryRepo;
-    @Autowired
     private ServicesRepo servicesRepo;
     @Autowired
     private Customer_Services_DataRepo customer_services_dataRepo;
@@ -35,20 +30,14 @@ public class ServicesOrderingController
     @Autowired
     private Order_RouteRepo order_routeRepo;
 
-    private NavBarLoader navBarLoader=new NavBarLoader();
-
     private PossibleTimeCalcuator possibleTimeCalcuator=new PossibleTimeCalcuator();
 
     @PostMapping("/CreateTransportOrder")
     public String addTaxiOrder(@RequestParam(name = "id") int serviceID, @RequestParam(name = "fromPoint") String fromPoint, @RequestParam(name = "toPoint") String toPoint,
                                @RequestParam(name = "name", required = false) String userName, @RequestParam(name = "telephone", required = false) String userTelephone,
-                               @RequestParam(name = "comment") String comment, HttpSession session, Map<String,Object> model)
+                               @RequestParam(name = "comment") String comment, HttpSession session)
     {
         String login=(String) session.getAttribute("login");
-
-
-        navBarLoader.checkAuthorization(login,model);
-        navBarLoader.loadNavigationBarLinks(model,services_categoryRepo,servicesRepo);
 
         Services orderedService=servicesRepo.findByServicesID(serviceID);
 
@@ -72,26 +61,23 @@ public class ServicesOrderingController
         }
 
         ClientOrder newClientOrder=
-                new ClientOrder(clientID,serviceID,cost,"transport service",currentDate.toString(),currentTime.toString(),"active",comment/*,newOrderRoute.getRouteID()*/);
+                new ClientOrder(clientID,serviceID,cost,"transport service",currentDate.toString(),currentTime.toString(),"active",comment);
 
         clientOrderRepo.save(newClientOrder);
 
         Order_Route newOrderRoute=new Order_Route(fromPoint,toPoint,newClientOrder.getOrderID());
         order_routeRepo.save(newOrderRoute);
 
-        return "user/MainMenu";
+        return "redirect:/";
     }
 
     @PostMapping("/CreateCargoTransportOrder")
     public String addCargoTaxiOrder(@RequestParam(name = "id") int serviceID, @RequestParam(name = "fromPoint") String fromPoint, @RequestParam(name = "toPoint") String toPoint,
                                     @RequestParam(name = "date") String date, @RequestParam(name = "time") String time, @RequestParam(name = "name", required = false) String userName,
                                     @RequestParam(name = "telephone", required = false) String userTelephone, @RequestParam(name = "comment") String comment,
-                                    @RequestParam(name = "weight") int weight,HttpSession session, Map<String,Object> model)
+                                    @RequestParam(name = "weight") int weight,HttpSession session)
     {
         String login=(String) session.getAttribute("login");
-
-        navBarLoader.checkAuthorization(login,model);
-        navBarLoader.loadNavigationBarLinks(model,services_categoryRepo,servicesRepo);
 
         Services orderedService=servicesRepo.findByServicesID(serviceID);
         Integer clientID=null;
@@ -113,14 +99,14 @@ public class ServicesOrderingController
         }
 
         ClientOrder newClientOrder=
-                new ClientOrder(clientID,serviceID,cost,"transport service",date,time+":00","active",comment/*,newOrderRoute.getRouteID()*/);
+                new ClientOrder(clientID,serviceID,cost,"transport service",date,time+":00","active",comment);
 
         clientOrderRepo.save(newClientOrder);
 
         Order_Route newOrderRoute=new Order_Route(fromPoint,toPoint,newClientOrder.getOrderID());
         order_routeRepo.save(newOrderRoute);
 
-        return "user/MainMenu";
+        return "redirect:/";
     }
 
     @PostMapping("/CalculateOrderTime")
@@ -139,7 +125,7 @@ public class ServicesOrderingController
 
         if(listOfPossibleOrderTime==null)
         {
-            response="";
+            response="redirect:/";
         }
         else
         {
@@ -173,14 +159,10 @@ public class ServicesOrderingController
     public String addCustomerServiceOrder(@RequestParam(name = "id") int serviceID, @RequestParam(name = "ordDate") String date,
                                           @RequestParam(name = "orderTime") String time, @RequestParam(name = "name", required = false) String userName,
                                           @RequestParam(name = "telephone", required = false) String userTelephone, @RequestParam(name = "comment") String comment,
-                                          HttpSession session, Map<String,Object> model)
+                                          HttpSession session)
     {
 
         String login=(String) session.getAttribute("login");
-
-
-        navBarLoader.checkAuthorization(login,model);
-        navBarLoader.loadNavigationBarLinks(model,services_categoryRepo,servicesRepo);
 
         Services orderedService=servicesRepo.findByServicesID(serviceID);
 
@@ -198,12 +180,12 @@ public class ServicesOrderingController
             clientID=currentRegisteredClient.getClientID();
         }
 
-        ClientOrder newClientOrder=new ClientOrder(clientID,serviceID,cost,"customer service",date,time,"active",comment/*,null*/);
+        ClientOrder newClientOrder=new ClientOrder(clientID,serviceID,cost,"customer service",date,time,"active",comment);
 
         clientOrderRepo.save(newClientOrder);
 
 
-        return "user/MainMenu";
+        return "redirect:/";
     }
 
 }

@@ -30,7 +30,6 @@ public class MainController
     @GetMapping
     public String mainPage(HttpSession session, Map<String, Object> model)
     {
-        System.out.println("dsfdgf");
         String login=(String) session.getAttribute("login");
 
         navBarLoader.checkAuthorization(login,model);

@@ -30,6 +30,7 @@ public class TimeTableController
     private Services_CategoryRepo services_categoryRepo;
     @Autowired
     private ServicesRepo servicesRepo;
+
     private NavBarLoader navBarLoader=new NavBarLoader();
 
     @GetMapping("/MainTimetableMenu")

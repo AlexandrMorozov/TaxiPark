@@ -29,19 +29,6 @@ public class AdminController {
 
     private NavBarLoader navBarLoader=new NavBarLoader();
 
-   /* @GetMapping("/adminportal")
-    public String adminAuthorizationMenu(HttpSession session, Map<String, Object> model)
-    {
-        String login=(String) session.getAttribute("adminlogin");
-
-        if(navBarLoader.checkAuthorizationAdmin(login,model))
-        {
-            return "admin/main/MainMenuAdmin";
-        }
-
-        return "admin/main/AdminAuthorization";
-    }*/
-
     @PostMapping("/adminportal/signin")
     public String signInAdmin(@RequestParam String login, @RequestParam String password, HttpServletRequest request, Map<String,Object> model)
     {
@@ -53,7 +40,7 @@ public class AdminController {
         request.getSession().setAttribute("adminlogin", login);
         model.put("employeeName",login);
 
-        return "admin/main/MainMenuAdmin";
+        return /*"admin/main/MainMenuAdmin"*/"redirect:/adminportal";
     }
 
     @GetMapping("/adminportal/signout")
@@ -61,7 +48,7 @@ public class AdminController {
     {
         request.getSession().invalidate();
 
-        return "admin/main/AdminAuthorization";
+        return /*"admin/main/AdminAuthorization"*/"redirect:/adminportal/signin";
     }
 
     @GetMapping("/adminportal")

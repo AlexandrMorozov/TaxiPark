@@ -78,7 +78,7 @@ public class TransportController
         ////Проверка уникальности номера(номеров)
         transportRepo.save(newTransport);
 
-        return transportPage(newTransport.getTransportID(),session,model);
+        return /*transportPage(newTransport.getTransportID(),session,model)*/"redirect:/adminportal/transport/currenttransport?transportID="+newTransport.getTransportID();
     }
 
     @GetMapping("/adminportal/transport/modifytransport")
@@ -117,7 +117,7 @@ public class TransportController
 
         transportRepo.save(transport);
         
-        return transportPage(transportID,session,model);
+        return /*transportPage(transportID,session,model)*/"redirect:/adminportal/transport/currenttransport?transportID="+transportID;
     }
 
     @GetMapping("/adminportal/transport/deletetransport")
@@ -132,6 +132,6 @@ public class TransportController
 
         transportRepo.deleteById(transportID);
 
-        return mainTransportMenu(session,model);
+        return /*mainTransportMenu(session,model)*/"redirect:/adminportal/transport";
     }
 }
