@@ -7,17 +7,24 @@ import com.taxipark.repos.Customer_Services_DataRepo;
 import com.taxipark.repos.ServicesRepo;
 import com.taxipark.repos.Services_CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 public class ServicesController
 {
+    @Value("${upload.path}")
+    String uploadPath;
 
     @Autowired
     Customer_Services_DataRepo customerServicesDataRepo;
@@ -53,33 +60,25 @@ public class ServicesController
     public String servicePage(@RequestParam(name="servicesID") int servicesID, HttpSession session, Map<String, Object> model)
     {
         boolean isServicesDataPresent=false;
-        boolean isCustomerService=false;
         double price;
         String currency;
         String priceTitle;
 
         Services currentService=servicesRepo.findByServicesID(servicesID);
-        Customer_Services_Data currentServicesData;
+        Customer_Services_Data currentServicesData=customerServicesDataRepo.findByServiceID(servicesID);
 
 
-     /*   if(currentService.getCustomerServicesDataID()!=null)
+        if(currentServicesData!=null)
         {
-            //System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-            currentServicesData=customerServicesDataRepo.findByCustomerServicesDataID(currentService.getCustomerServicesDataID());
-
             isServicesDataPresent=true;
             model.put("servicesData",currentServicesData);
+        }
 
-        }*/
-
-        System.out.println(currentService.getCalculatablePrice());
-        if(currentService.getCalculatablePrice()==null/*.equals(null)*/)
+        if(currentService.getCalculatablePrice()==null)
         {
-            isCustomerService=true;
             priceTitle="Стоимость от";
             currency="руб.";
             price=currentService.getPrice();
-
         }
         else
         {
@@ -92,7 +91,6 @@ public class ServicesController
         model.put("priceTitle",priceTitle);
         model.put("currency",currency);
         model.put("servicePrice",price);
-        model.put("isCustomerService",isCustomerService);
         model.put("service",currentService);
         model.put("isServicesDataPresent",isServicesDataPresent);
 
@@ -103,84 +101,245 @@ public class ServicesController
 
 
     ////////////////////// Services Management /////////////////////////
-    @GetMapping("/adminportal/1")
-    public String createCategory(String serviceCategoryName, String serviceCategoryDescription, String serviceCategoryFoto,
-                                 String serviceCategoryType, HttpSession session, Map<String, Object> model)
+    @GetMapping("/adminportal/categories/category/createcategory")
+    public String categoryCreationMenu()
     {
-        Services_Category newCategory=new Services_Category(serviceCategoryName,serviceCategoryDescription,serviceCategoryFoto,serviceCategoryType);
+        return "admin/services/CategoriesCreation";
+    }
+
+    @PostMapping("/adminportal/categories/category/create")
+    public String createCategory(@RequestParam(name = "sn") String serviceCategoryName,@RequestParam(name = "desc") String serviceCategoryDescription,
+                                 @RequestParam(name = "fto") /*String*/MultipartFile serviceCategoryFoto,/*String serviceCategoryType,*/ HttpSession session, Map<String, Object> model)
+    {
+
+        String resultFilename= loadFoto(serviceCategoryFoto);
+
+        Services_Category newCategory=new Services_Category(serviceCategoryName,serviceCategoryDescription,/*serviceCategoryFoto*/resultFilename, /*serviceCategoryType*/"customer service");
+
         servicesCategoryRepo.save(newCategory);
-        return "";
+
+        return "redirect:/adminportal/categories/category?serviceCategoryID="+newCategory.getServiceCategoryID();
     }
 
-    @GetMapping("/adminportal/2")
-    public String createService(String serviceName, String serviceDescription, String foto, double price, Double calculatablePrice,
-                                int categoryID, Integer customerServicesDataID, HttpSession session, Map<String, Object> model)
+    @GetMapping("/adminportal/categories/category/service/createservice")
+    public String serviceCreationMenu(@RequestParam(name = "serviceCategoryID") int serviceCategoryID, Map<String,Object> model)
     {
+        model.put("category",serviceCategoryID);
 
-       // Services newService=new Services(serviceName,serviceDescription,foto,price,calculatablePrice,categoryID,customerServicesDataID);
-        //servicesRepo.save(newService);
-        return "";
+        return "admin/services/ServicesCreationPage";
     }
 
-
-
-    @GetMapping("/adminportal/3")
-    public String deleteCategory(@RequestParam(name="id") int categoryID, HttpSession session, Map<String, Object> model)
+    @PostMapping("/adminportal/categories/category/service/create")
+    public String createService(@RequestParam(name = "sn") String serviceName,@RequestParam(name = "desc") String serviceDescription,
+                                @RequestParam(name = "fto") /*String*/MultipartFile foto,@RequestParam(name = "prs") double price,/* Double calculatablePrice,*/
+                                @RequestParam(name = "categ") int categoryID,
+                                @RequestParam(name = "comt",required = false) Double completionTime,
+                                @RequestParam(name = "gur",required = false) Integer guaranteeTime,
+                                HttpSession session, Map<String, Object> model)
     {
 
-        ///////////////////////
-        if(servicesCategoryRepo.findByServiceCategoryID(categoryID).getServiceCategoryType().equals("customer service"))
+        Services newService;
+
+        String resultFilename= loadFoto(foto);
+
+
+        if(completionTime!=null)
         {
-            List<Services> categoryServices=servicesRepo.findAllByCategoryID(categoryID);
+            newService=new Services(serviceName,serviceDescription,/*foto*/resultFilename,price,null,categoryID);
 
-            for(int i=0;i<categoryServices.size();i++)
-            {
-                /*Customer_Services_Data customerData=customerServicesDataRepo.
-                        findByCustomerServicesDataID(categoryServices.get(i).getCustomerServicesDataID());*/
+            servicesRepo.save(newService);
 
-                //customerServicesDataRepo.deleteById(categoryServices.get(i).getCustomerServicesDataID());
-            }
+            Customer_Services_Data newCustomerServicesData=new Customer_Services_Data(completionTime,guaranteeTime,newService.getServicesID());
+
+            customerServicesDataRepo.save(newCustomerServicesData);
         }
 
-        servicesCategoryRepo.deleteById(categoryID);
+        else
+        {
+            newService=new Services(serviceName,serviceDescription,/*foto*/resultFilename,0,price,categoryID);
+
+            servicesRepo.save(newService);
+        }
 
 
-        return "";
+        return "redirect:/adminportal/categories/category/service?servicesID="+newService.getServicesID();
     }
 
-    @GetMapping("/adminportal/4")
-    public String deleteService(@RequestParam(name="id") int serviceID, HttpSession session, Map<String, Object> model)
+
+    @GetMapping("/adminportal/categories/category/deletecategory")
+    public String deleteCategory(@RequestParam(name="serviceCategoryID") int categoryID, HttpSession session, Map<String, Object> model)
+    {
+        String oldFotoName=servicesCategoryRepo.findByServiceCategoryID(categoryID).getServiceCategoryFoto();
+
+        ///////////////////////
+        servicesCategoryRepo.deleteById(categoryID);
+
+        deleteFoto(oldFotoName);
+
+        return "redirect:/adminportal/categories";
+    }
+
+    @GetMapping("/adminportal/categories/category/service/deleteservice")
+    public String deleteService(@RequestParam(name="servicesID") int serviceID, HttpSession session, Map<String, Object> model)
     {
         Services currentService=servicesRepo.findByServicesID(serviceID);
-
+        String oldFotoName=currentService.getFoto();
+        int categoryID=currentService.getCategoryID();
         ///////////////////////////
-       /* if(currentService.getCustomerServicesDataID()!=null)
-        {
-            customerServicesDataRepo.deleteById(currentService.getCustomerServicesDataID());
-        }*/
 
         servicesRepo.delete(currentService);
 
-        return "";
+        deleteFoto(oldFotoName);
+
+        return "redirect:/adminportal/categories/category?serviceCategoryID="+categoryID;
 
     }
 
-    @GetMapping("/adminportal/5")
-    public String updateCategory(String serviceCategoryName, String serviceCategoryDescription,
-                                 String serviceCategoryFoto, int serviceCategoryID,HttpSession session, Map<String, Object> model)
+    @GetMapping("/adminportal/categories/category/updatecategory")
+    public String updateCategoryMenu(@RequestParam(name = "serviceCategoryID") int categoryID, Map<String,Object> model)
     {
-        servicesCategoryRepo.updateServicesCategory(serviceCategoryName,serviceCategoryDescription, serviceCategoryFoto,serviceCategoryID);
+        model.put("category",servicesCategoryRepo.findByServiceCategoryID(categoryID));
 
-        return "";
+        return "admin/services/CategoriesModificationPage";
     }
 
-    @GetMapping("/adminportal/6")
-    public String updateService(String serviceName,String serviceDescription,String foto,
-                                double price, Double calculatablePrice,int servicesID,  double completionTime,
-                                int guaranteeTime, HttpSession session, Map<String, Object> model)
+    @PostMapping("/adminportal/categories/category/update")
+    public String updateCategory(@RequestParam(name = "sn") String serviceCategoryName, @RequestParam(name = "desc") String serviceCategoryDescription,
+                                 @RequestParam(name = "fto") MultipartFile /*String*/ serviceCategoryFoto, @RequestParam(name = "serviceCategoryID") int serviceCategoryID,
+                                 HttpSession session, Map<String, Object> model)
     {
-        servicesRepo.updateService(serviceName,serviceDescription,foto,price,calculatablePrice,servicesID);
-       // customerServicesDataRepo.updateCustomerServicesData(completionTime,guaranteeTime,servicesID);
-        return "";
+
+        Services_Category currentCategory=servicesCategoryRepo.findByServiceCategoryID(serviceCategoryID);
+
+        String fileName;
+
+        if(!serviceCategoryFoto.isEmpty())
+        {
+            fileName=loadFoto(serviceCategoryFoto);
+
+            deleteFoto(currentCategory.getServiceCategoryFoto());
+
+            currentCategory.setServiceCategoryFoto(fileName/*foto*/);
+        }
+
+        currentCategory.setServiceCategoryName(serviceCategoryName);
+        currentCategory.setServiceCategoryDescription(serviceCategoryDescription);
+
+        servicesCategoryRepo.save(currentCategory);
+
+
+        return "redirect:/adminportal/categories/category?serviceCategoryID="+serviceCategoryID;
+    }
+
+    @GetMapping("/adminportal/categories/category/service/updateservice")
+    public String updateServiceMenu(@RequestParam(name = "servicesID") int serviceID, Map<String,Object> model)
+    {
+        boolean isCustomerService=false;
+        Double price;
+
+        Services selectedService=servicesRepo.findByServicesID(serviceID);
+        Customer_Services_Data additionalServicesData=customerServicesDataRepo.findByServiceID(serviceID);
+
+        System.out.println(selectedService.getFoto());//
+
+        if(additionalServicesData!=null)
+        {
+            isCustomerService=true;
+            price=selectedService.getPrice();
+
+            model.put("customerServData",additionalServicesData);
+
+        }
+        else
+        {
+            price=selectedService.getCalculatablePrice();
+        }
+
+        model.put("service",selectedService);
+        model.put("isCustomerService",isCustomerService);
+        model.put("price",price);
+
+        return "admin/services/ServicesModificationPage";
+    }
+
+    @PostMapping("/adminportal/categories/category/service/update")
+    public String updateService(@RequestParam(name = "sn") String serviceName,@RequestParam(name = "desc") String serviceDescription,
+                                @RequestParam(name = "fto") /*String*/MultipartFile foto, @RequestParam(name = "prs") double price, /*Double calculatablePrice,*/
+                                @RequestParam(name = "servicesID") int servicesID,
+                                @RequestParam(name = "comt",required = false) Double completionTime,
+                                @RequestParam(name = "gur",required = false) Integer guaranteeTime,
+                                HttpSession session, Map<String, Object> model)
+    {
+
+        Services currentService=servicesRepo.findByServicesID(servicesID);
+        Customer_Services_Data currentCustomerServicesData=customerServicesDataRepo.findByServiceID(servicesID);
+
+        String fileName;
+
+        if(!foto.isEmpty())
+        {
+            fileName=loadFoto(foto);
+
+            deleteFoto(currentService.getFoto());
+
+            currentService.setFoto(fileName/*foto*/);
+        }
+
+
+        currentService.setServiceName(serviceName);
+        currentService.setServiceDescription(serviceDescription);
+
+        if(currentCustomerServicesData!=null)
+        {
+            currentService.setPrice(price);
+        }
+        else
+        {
+            currentService.setCalculatablePrice(price);
+        }
+
+
+        servicesRepo.save(currentService);
+
+
+        if(currentCustomerServicesData!=null)
+        {
+            currentCustomerServicesData.setCompletionTime(completionTime);
+            currentCustomerServicesData.setGuaranteeTime(guaranteeTime);
+
+            customerServicesDataRepo.save(currentCustomerServicesData);
+        }
+
+        return "redirect:/adminportal/categories/category/service?servicesID="+servicesID;
+    }
+
+
+    ////////////////////////////////
+
+
+    private String loadFoto(MultipartFile serviceCategoryFoto)
+    {
+
+        String uuidFile=UUID.randomUUID().toString();
+        String resultFilename=uuidFile+"."+serviceCategoryFoto.getOriginalFilename();
+
+        try
+        {
+            serviceCategoryFoto.transferTo(new File(uploadPath+"/"+resultFilename));
+        }
+        catch (IOException ex)
+        {
+            System.out.println(ex.toString());
+        }
+
+        return resultFilename;
+    }
+
+    private void deleteFoto(String fileName)
+    {
+        File oldFoto=new File(uploadPath+"/"+fileName);
+
+        oldFoto.delete();
+
     }
 }

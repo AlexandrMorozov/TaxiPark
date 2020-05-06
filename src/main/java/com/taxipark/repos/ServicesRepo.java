@@ -23,10 +23,10 @@ public interface ServicesRepo extends CrudRepository<Services,Integer>
             "INNER JOIN Customer_Services_Data c ON s.servicesID=c.serviceID WHERE s.servicesID=:id")
     CompletionTimeDto findCompletionTime(@Param("id") int id);
 
-    @Modifying
+    /*@Modifying
     @Query("UPDATE Services ss SET ss.serviceName=?1,ss.serviceDescription=?2," +
             "ss.foto=?3,ss.price=?4,ss.calculatablePrice=?5 WHERE ss.servicesID=?6")
     boolean updateService(String serviceName,String serviceDescription,String foto,
-                          double price, Double calculatablePrice,int servicesID);
+                          double price, Double calculatablePrice,int servicesID);*/
 
 }

@@ -53,15 +53,11 @@
     <h1 style="margin-left: 50px;margin-top: 20px;margin-bottom: 20px">{{serviceName}}</h1>
 {{/service}}
 
-
-
 <div style="margin-left: 50px;width: 840px; float: left;">
 
         <div class="wrap">
 
             <div class="bblock" >
-                <!--<label for="cnm" >Регистрационный номер</label>
-                <input type='text' id='cnm' class='form-control bblock' style="height: 40px;text-align: center" name='crnum' required>-->
                 <label>{{priceTitle}}</label>
                 <div class='bblock' style="height: 40px;font-size: 30px">{{servicePrice}} {{currency}}</div>
             </div>
@@ -73,15 +69,11 @@
         <div class="wrap">
 
             <div class="bblock" >
-                <!--<label for="cnm" >Регистрационный номер</label>
-                <input type='text' id='cnm' class='form-control bblock' style="height: 40px;text-align: center" name='crnum' required>-->
                 <label>Время выполнения</label>
                 <div class='bblock' style="height: 40px;font-size: 30px">{{completionTime}} чел./час</div>
             </div>
 
             <div class="bblock" >
-                <!--<label for="cnm" >Регистрационный номер</label>
-                <input type='text' id='cnm' class='form-control bblock' style="height: 40px;text-align: center" name='crnum' required>-->
                 <label>Гарантия</label>
                 <div class='bblock' style="height: 40px;font-size: 30px">{{guaranteeTime}} мес.</div>
             </div>
@@ -92,32 +84,15 @@
     {{/isServicesDataPresent}}
 
 {{#service}}
+
         <div class="wrap">
             <div class="bblock">
-                <!--<label for="cn" >Номер кузова</label>
-                <input type='text' id='cn' class='form-control bblock' style="height: 40px;" name='ccn' required>-->
                 <label>Описание</label>
                 <div class='bblock' style="width: 800px;height: 75px;font-size: 30px">{{serviceDescription}}</div>
-
             </div>
 
         </div>
 
-
-        <!--<div class="wrap">
-
-            <div class="bblock" style="width: 150px">
-                <label for="cn" >Номер кузова</label>
-                <input type='text' id='cn' class='form-control bblock' style="height: 40px;width: 150px" name='lname' required>
-
-            </div>
-            <div class="bblock">
-                <label for="en" >Номер двигателя</label>
-                <input type='text' id='en' class='form-control bblock' style="height: 40px;width: 320px" name='lname' required>
-
-            </div>
-
-        </div>-->
 {{/service}}
 
     </div>
@@ -126,25 +101,19 @@
 {{#service}}
 <div style="margin-left: 150px;height: 370px;width: 200px;float: left;">
     <div style="margin-bottom: 20px">
-        <a href="/adminportal/transport/modifytransport?servicesID={{servicesID}}">
+        <a href="/adminportal/categories/category/service/updateservice?servicesID={{servicesID}}">
         <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;">Изменить запись</button>
         </a>
 
     </div>
     <div>
-        <a href="/adminportal/transport/deletetransport?servicesID={{servicesID}}">
+        <a href="/adminportal/categories/category/service/deleteservice?servicesID={{servicesID}}">
         <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;">Удалить запись</button>
         </a>
     </div>
 </div>
 
 {{/service}}
-
-
-<!--<div style="margin-left: 50px;margin-top: 30px">
-    <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;" type="submit" >Добавить</button>
-</div>-->
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

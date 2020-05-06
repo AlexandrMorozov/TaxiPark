@@ -61,8 +61,6 @@
         <div class="wrap">
 
             <div class="bblock" >
-                <!--<label for="cnm" >Регистрационный номер</label>
-                <input type='text' id='cnm' class='form-control bblock' style="height: 40px;text-align: center" name='crnum' required>-->
                 <label>Тип</label>
                 <div class='bblock' style="height: 40px;font-size: 30px">{{serviceCategoryType}}</div>
             </div>
@@ -70,8 +68,6 @@
         </div>
         <div class="wrap">
             <div class="bblock">
-                <!--<label for="cn" >Номер кузова</label>
-                <input type='text' id='cn' class='form-control bblock' style="height: 40px;" name='ccn' required>-->
                 <label>Описание</label>
                 <div class='bblock' style="width: 800px;height: 75px;font-size: 30px">{{serviceCategoryDescription}}</div>
 
@@ -82,42 +78,26 @@
         <div class="wrap" style="margin-top: 200px">
             <div class="bblock">
                 <div style="margin-top: 30px">
-                    <a href="/adminportal/personnel/modifyemployee?serviceCategoryID={{serviceCategoryID}}">
+                    <a href="/adminportal/categories/category/service/createservice?serviceCategoryID={{serviceCategoryID}}">
                     <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;" type="submit" >Добавить услугу</button>
                     </a>
                 </div>
             </div>
             <div class="bblock">
                 <div style="margin-top: 30px">
-                    <a href="/adminportal/personnel/modifyemployee?serviceCategoryID={{serviceCategoryID}}">
+                    <a href="/adminportal/categories/category/updatecategory?serviceCategoryID={{serviceCategoryID}}">
                     <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;" type="submit" >Изменнить категорию</button>
                     </a>
                 </div>
             </div>
             <div class="bblock">
                 <div style="margin-top: 30px">
-                    <a href="/adminportal/personnel/modifyemployee?serviceCategoryID={{serviceCategoryID}}">
+                    <a href="/adminportal/categories/category/deletecategory?serviceCategoryID={{serviceCategoryID}}">
                     <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;" type="submit" >Удалить категорию</button>
                     </a>
                 </div>
             </div>
         </div>
-
-        <!--<div class="wrap">
-
-            <div class="bblock" style="width: 150px">
-                <label for="cn" >Номер кузова</label>
-                <input type='text' id='cn' class='form-control bblock' style="height: 40px;width: 150px" name='lname' required>
-
-            </div>
-            <div class="bblock">
-                <label for="en" >Номер двигателя</label>
-                <input type='text' id='en' class='form-control bblock' style="height: 40px;width: 320px" name='lname' required>
-
-            </div>
-
-        </div>-->
-
     </div>
 {{/category}}
 
@@ -127,7 +107,6 @@
             <tr>
                 <th>Название</th>
                 <th>Действия</th>
-                <!--<th>Отмена</th>-->
             </tr>
             </thead>
             <tbody class="scrollContent">
@@ -145,13 +124,6 @@
             </tbody>
         </table>
     </div>
-
-
-
-<!--<div style="margin-left: 50px;margin-top: 30px">
-    <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;" type="submit" >Добавить</button>
-</div>-->
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

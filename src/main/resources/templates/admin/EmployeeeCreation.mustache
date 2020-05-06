@@ -5,7 +5,6 @@
     <title>MyCityTaxi | Добавить работника</title>
     <link rel='stylesheet' href='/css/bootstrap.min.css' type='text/css' media='all'>
     <script src="/js/EmployeeCreationChecking.js"></script>
-    <!--<link href="signin.css" rel="stylesheet">-->
 
     <style>
 
@@ -149,7 +148,11 @@
                 <div class="bblock">
                     <label for="not" >Номер телефона(рабочий)</label>
                     <input type='text' id='not' class='form-control bblock' style="height: 40px" name='not' required>
+                </div>
 
+                <div class="bblock">
+                    <label for="pw" >Логин</label>
+                    <input type='text' id='lg' class='form-control bblock' style="height: 40px" name='lgn' required>
                 </div>
 
                 <div class="bblock">
@@ -182,18 +185,15 @@
 
                 <div class="bblock-main">
                     <label for="cl1" >A</label>
-                    <!--<input type='checkbox' id='cl1'  name='lname' required>-->
                     <input type='checkbox' id='cl1' name="a" value="A" class='form-control'>
                 </div>
                 <div class="bblock-main">
                     <label for="cl2" >B</label>
-                    <!--<input type='checkbox' id='cl2' name='lname' required>-->
                     <input type='checkbox' id='cl2' name="a" value="B" class='form-control' >
                 </div>
                 <div class="bblock-main">
                     <label for="cl3" >C</label>
                     <input type='checkbox' id='cl3' name="a" value="C" class='form-control bblock-main'>
-                    <!--<input type='checkbox' id='cl3'  name='lname' required>-->
                 </div>
 
 
@@ -221,10 +221,6 @@
                         {{#carData}}
                             <option value="{{transportID}}">{{carBrand}}-{{carModel}}-{{vin}}</option>
                         {{/carData}}
-                       <!-- <option value="Слесарь">Слесарь</option>
-                        <option value="Водитель">Водитель</option>
-                        <option value="Инженер-механик">Инженер-механик</option>
-                        <option value="Администратор">Администратор</option>-->
                     </select>
                 </div>
             </div>

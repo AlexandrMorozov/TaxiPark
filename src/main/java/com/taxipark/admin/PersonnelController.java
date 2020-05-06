@@ -269,8 +269,8 @@ public class PersonnelController
     @PostMapping("/adminportal/personnel/createemployee")
     public String createEmployee(@RequestParam(name="name") String fName,@RequestParam(name="mname") String mName,@RequestParam(name="lname") String lName, @RequestParam(name="aor") String address,
                                @RequestParam(name="dob")String dateOfBirth, @RequestParam(name="pob")String placeOfBirth, @RequestParam(name="pn")String passportID,
-                               @RequestParam(name="loe") String educationDegree,@RequestParam(name="not") String phoneNumber,@RequestParam(name = "pr") String employeePosition
-                               /*@RequestParam(name = "lg") String login*/,@RequestParam(name = "psw") String password,@RequestParam(name="asc",required = false) Integer transportID,
+                               @RequestParam(name="loe") String educationDegree,@RequestParam(name="not") String phoneNumber,@RequestParam(name = "pr") String employeePosition,
+                               @RequestParam(name = "lgn") String login,@RequestParam(name = "psw") String password,@RequestParam(name="asc",required = false) Integer transportID,
                                @RequestParam(name="ln",required = false) String licenseNum,@RequestParam(name="ib",required = false) String licenseIssuedBy,@RequestParam(name="a",required = false) String[] licenseCategory,
                                @RequestParam(name="lvu",required = false) String licenseValidUntil,@RequestParam(name="mvu",required = false) String medExValidUntil,
                                /*@RequestParam(name="asc",required = false) Str,*/
@@ -278,16 +278,11 @@ public class PersonnelController
     {
         String fullName=lName+" "+fName+" "+mName;
         ////Creation of login
-        ////
-        String login=lName+"_"+fName.charAt(0)+mName.charAt(0)+"_"+dateOfBirth.split("-")[0];
-
 
 
         Personnel newEmployee=new Personnel(fullName,dateOfBirth,placeOfBirth,passportID,address,
                 educationDegree,phoneNumber,transportID,employeePosition,login,password);
         personnelRepo.save(newEmployee);
-
-        System.out.println(licenseNum);
 
         if(licenseNum!=null)
         {

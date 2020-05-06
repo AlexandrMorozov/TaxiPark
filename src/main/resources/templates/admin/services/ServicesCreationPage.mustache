@@ -64,10 +64,9 @@
 Shapka!!!
 -->
 
-<h1 style="margin-left: 50px;margin-top: 20px;margin-bottom: 20px">Изменение информации о категории</h1>
+<h1 style="margin-left: 50px;margin-top: 20px;margin-bottom: 20px">Добавить услугу</h1>
 
-{{#category}}
-<form class="form-signin" method="POST" enctype="multipart/form-data" action="/adminportal/categories/category/update" >
+<form class="form-signin" method="POST" enctype="multipart/form-data" action="/adminportal/categories/category/service/create" >
 
     <ul class="nav nav-tabs" style="margin-left: 50px;margin-bottom: 20px">
         <li class="nav-item">
@@ -81,16 +80,37 @@ Shapka!!!
             <div class="wrap">
                 <div class="bblock">
                     <label for="sn" >Название</label>
-                    <input type='text' id='sn' class='form-control bblock' style="height: 40px" name='sn'  value="{{serviceCategoryName}}" required>
+                    <input type='text' id='sn' class='form-control bblock' style="height: 40px" name='sn' required>
                 </div>
             </div>
 
+            <div class="wrap">
+                <div class="bblock">
+                    <label for="prs" >Цена (общ./за км.)</label>
+                    <input type="number" name="prs" id="prs" min="1" step="0.5" class='form-control bblock' style="height: 40px" required>
+                </div>
+            </div>
+
+            <div class="wrap">
+                <div class="bblock" style="width: 160px">
+                    <label for="gur" >Гарантия (мес.)</label>
+                    <input type="number" name="gur" id="gur" min="6" max="60" value="6" class='form-control bblock' style="width: 140px;height: 40px" required>
+
+                </div>
+
+                <div class="bblock" >
+                    <label for="comt">Время выполнения (чел./час.)</label>
+                    <input type="number" name="comt" id="comt" min="0.5" max="3" step="0.5" value="0.5" class='form-control bblock' style="width: 200px;height: 40px" required>
+
+                </div>
+
+            </div>
 
             <div class="wrap" style="height: 150px">
 
                 <div class="bblock" style="width: 150px">
                     <label for="desc" >Описание</label>
-                    <textarea name="desc" id="desc" class='form-control bblock' style="width: 384px" maxlength="100" cols="35" rows="3" required>{{serviceCategoryDescription}}</textarea>
+                    <textarea name="desc" id="desc" class='form-control bblock' style="width: 384px" maxlength="100" cols="35" rows="3" required></textarea>
                 </div>
 
             </div>
@@ -99,7 +119,7 @@ Shapka!!!
 
 
             <div style="margin-top: 30px">
-                <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;" name="serviceCategoryID" value="{{serviceCategoryID}}" type="submit" >Добавить</button>
+                <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;" name="categ" value="{{category}}" type="submit" >Добавить</button>
             </div>
 
 
@@ -112,15 +132,15 @@ Shapka!!!
         <div style="margin-bottom: 20px">
             <div class="bblock" style="width: 150px">
                 <label for="fl" >Фото</label>
-                <input id="fl" name="fto" type="file" class='form-control bblock' onchange="fotoLoader()">
-                <img alt="Foto" src="/img/{{serviceCategoryFoto}}" id="foto" style="width: 416px;height: 390px;margin-top: 20px">
+                <input id="fl" name="fto" type="file" class='form-control bblock' onchange="fotoLoader()" required>
+                <img alt="Foto" src="" id="foto" style="width: 416px;height: 390px;margin-top: 20px">
             </div>
 
         </div>
     </div>
 
 </form>
-{{/category}}
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

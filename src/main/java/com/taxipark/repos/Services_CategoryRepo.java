@@ -26,9 +26,9 @@ public interface Services_CategoryRepo extends CrudRepository<Services_Category,
     Services_Category findByServiceCategoryID(int serviceCategoryID);
 
 
-    @Modifying
+    /*@Modifying
     @Query("UPDATE Services_Category sc SET sc.serviceCategoryName=?1," +
             "sc.serviceCategoryDescription=?2,sc.serviceCategoryFoto=?3 WHERE sc.serviceCategoryID=?4")
     boolean updateServicesCategory(String serviceCategoryName, String serviceCategoryDescription,
-                                   String serviceCategoryFoto,int serviceCategoryID);
+                                   String serviceCategoryFoto,int serviceCategoryID);*/
 }

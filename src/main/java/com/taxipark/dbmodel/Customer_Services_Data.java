@@ -29,6 +29,13 @@ public class Customer_Services_Data
 
     }
 
+    public Customer_Services_Data(double completionTime, int guaranteeTime, int serviceID)
+    {
+        this.completionTime=completionTime;
+        this.guaranteeTime=guaranteeTime;
+        this.serviceID=serviceID;
+    }
+
 
     public int getCustomerServicesDataID() {
         return customerServicesDataID;
