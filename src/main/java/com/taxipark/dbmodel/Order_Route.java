@@ -18,20 +18,29 @@ public class Order_Route
     @NotNull
     @Column(name="placeofarrival")
     private String placeOfArrival;
-    @NotNull
+    @Column(name = "cargoweight")
+    private Double cargoWeight;
+    /*@NotNull
     @Column(name = "orderid")
-    private int orderID;
+    private int orderID;*/
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orderid")
+    private ClientOrder clientOrder;
 
     public Order_Route()
     {
 
     }
 
-    public Order_Route(String placeOfDeparture, String placeOfArrival, int orderID)
+    public Order_Route(String placeOfDeparture, String placeOfArrival,Double cargoWeight, /*int orderID*/ClientOrder mainOrder)
     {
         this.placeOfDeparture=placeOfDeparture;
         this.placeOfArrival=placeOfArrival;
-        this.orderID=orderID;
+        this.cargoWeight=cargoWeight;
+       // this.orderID=orderID;
+        this.clientOrder=mainOrder;
     }
 
     public int getRouteID() {
@@ -46,8 +55,16 @@ public class Order_Route
         return placeOfArrival;
     }
 
-    public int getOrderID() {
+   /* public int getOrderID() {
         return orderID;
+    }*/
+
+    public ClientOrder getMainOrder() {
+        return clientOrder;
+    }
+
+    public Double getCargoWeight() {
+        return cargoWeight;
     }
 
     public void setRouteID(int routeID) {
@@ -62,7 +79,15 @@ public class Order_Route
         this.placeOfArrival = placeOfArrival;
     }
 
-    public void setOrderID(int orderID) {
+    /*public void setOrderID(int orderID) {
         this.orderID = orderID;
+    }*/
+
+    public void setMainOrder(ClientOrder mainOrder) {
+        this.clientOrder = mainOrder;
+    }
+
+    public void setCargoWeight(Double cargoWeight) {
+        this.cargoWeight = cargoWeight;
     }
 }

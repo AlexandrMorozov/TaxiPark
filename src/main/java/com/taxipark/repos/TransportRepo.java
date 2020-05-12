@@ -27,4 +27,5 @@ public interface TransportRepo extends CrudRepository<Transport,Integer> {
 
     @Query("SELECT new com.taxipark.dbmodel.Transport(d.transportID,d.carBrand,d.carModel,d.vin,d.licensePlate) FROM Transport d ")
     List<Transport> findAllTransport();
+
 }

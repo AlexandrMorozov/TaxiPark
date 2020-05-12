@@ -36,9 +36,31 @@
 </head>
 <body onload="fotoLoader()">
 
-<!--
-Shapka!!!
--->
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light" style="height: 80px;background-color: #007bff">
+        <a class="navbar-brand" href="/adminportal">MyCityTaxi Admin</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/adminportal">Статистика</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/adminportal/personnel">Управление персоналом</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/adminportal/transport">Управление транспортом</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/adminportal/categories">Управление услугами</a>
+                </li>
+                <li class="nav-item" style="margin-left: 450px">
+                    <a class="nav-link" href="/adminportal/signout">{{employeeName}}</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+</div>
 
 <h1 style="margin-left: 50px;margin-top: 20px;margin-bottom: 20px">Добавить категорию</h1>
 

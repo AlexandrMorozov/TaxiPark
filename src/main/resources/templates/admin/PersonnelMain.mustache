@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>MyCityTaxi | Добавить работника</title>
     <link rel='stylesheet' href='/css/bootstrap.min.css' type='text/css' media='all'>
-    <!--<link href="signin.css" rel="stylesheet">-->
 
     <style>
 
@@ -49,7 +48,7 @@
                     <a class="nav-link" href="/adminportal/transport">Управление транспортом</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/adminportal">Управление услугами</a>
+                    <a class="nav-link" href="/adminportal/categories">Управление услугами</a>
                 </li>
                 <li class="nav-item" style="margin-left: 450px">
                     <a class="nav-link" href="/adminportal/signout">{{employeeName}}</a>
@@ -79,7 +78,6 @@
                 <th>Полное имя</th>
                 <th>Должность</th>
                 <th>Действие</th>
-               <!-- <th>Отмена</th>-->
             </tr>
             </thead>
             <tbody class="scrollContent">
@@ -87,10 +85,10 @@
                 <tr>
                     <td>{{login}}</td>
                     <td>{{fullName}}</td>
-                    <td>{{employeePosition}}</td>
+                    <td>{{#personnelProfession}}{{positionName}}{{/personnelProfession}}</td>
                     <td>
                         <a href="/adminportal/personnel/worker?personnelID={{personnelID}}">
-                        <button class="btn btn-lg btn-primary btn-block" >Отмена</button>
+                        <button class="btn btn-lg btn-primary btn-block" >Перейти</button>
                         </a>
                     </td>
                 </tr>

@@ -68,17 +68,17 @@ public class TransportController
     }
 
     @PostMapping("/adminportal/transport/addtransport")
-    public String createTransport(@RequestParam(name = "cmark") String carBrand, @RequestParam(name = "cmodel") String carModel, @RequestParam(name = "ccolor") String carColor,
-                                  @RequestParam(name = "crnum") String licensePlate, @RequestParam(name = "cvin") String vin, @RequestParam(name = "cyom") String yearOfManufacture,
+    public String createTransport(@RequestParam(name = "cmark") String carBrand, @RequestParam(name = "cmodel") String carModel,
+                                  @RequestParam(name = "ccolor") String carColor, @RequestParam(name = "crnum") String licensePlate,
+                                  @RequestParam(name = "cvin") String vin, @RequestParam(name = "cyom") String yearOfManufacture,
                                   @RequestParam(name = "ccn") String carcassNum, @RequestParam(name = "cen")  String engineNum,
-                                  HttpSession session, Map<String, Object> model/*,@RequestParam(name = "id") String otherAttributes*/)
+                                  HttpSession session, Map<String, Object> model)
     {
         Transport newTransport=new Transport(carBrand,carModel,carColor,
-                licensePlate,vin,carcassNum, engineNum,yearOfManufacture,/*otherAttributes*/null);
-        ////Проверка уникальности номера(номеров)
+                licensePlate,vin,carcassNum, engineNum,yearOfManufacture,null);
         transportRepo.save(newTransport);
 
-        return /*transportPage(newTransport.getTransportID(),session,model)*/"redirect:/adminportal/transport/currenttransport?transportID="+newTransport.getTransportID();
+        return "redirect:/adminportal/transport/currenttransport?transportID="+newTransport.getTransportID();
     }
 
     @GetMapping("/adminportal/transport/modifytransport")
@@ -101,7 +101,7 @@ public class TransportController
     public String modifyTransport(@RequestParam(name="cmodel") String carModel,@RequestParam(name="ccolor") String carColor,
                                   @RequestParam(name="crnum") String licensePlate, @RequestParam(name="cvin") String vin,
                                   @RequestParam(name="ccn") String carcassNum, @RequestParam(name="cen") String engineNum,
-                                  /*, String otherAttributes,*/@RequestParam(name="transportID") int transportID,
+                                  @RequestParam(name="transportID") int transportID,
                                   HttpSession session, Map<String, Object> model)
     {
 
@@ -117,7 +117,7 @@ public class TransportController
 
         transportRepo.save(transport);
         
-        return /*transportPage(transportID,session,model)*/"redirect:/adminportal/transport/currenttransport?transportID="+transportID;
+        return "redirect:/adminportal/transport/currenttransport?transportID="+transportID;
     }
 
     @GetMapping("/adminportal/transport/deletetransport")
@@ -132,6 +132,6 @@ public class TransportController
 
         transportRepo.deleteById(transportID);
 
-        return /*mainTransportMenu(session,model)*/"redirect:/adminportal/transport";
+        return "redirect:/adminportal/transport";
     }
 }

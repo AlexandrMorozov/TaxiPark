@@ -2,10 +2,12 @@ package com.taxipark.admin;
 
 import com.taxipark.dbmodel.Driver_Data;
 import com.taxipark.dbmodel.Personnel;
+import com.taxipark.dbmodel.Positions;
 import com.taxipark.dbmodel.Transport;
 import com.taxipark.logic.NavBarLoader;
 import com.taxipark.repos.Driver_DataRepo;
 import com.taxipark.repos.PersonnelRepo;
+import com.taxipark.repos.PositionsRepo;
 import com.taxipark.repos.TransportRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +31,8 @@ public class PersonnelController
     Driver_DataRepo driverDataRepo;
     @Autowired
     TransportRepo transportRepo;
+    @Autowired
+    PositionsRepo positionsRepo;
 
     private NavBarLoader navBarLoader=new NavBarLoader();
 
@@ -40,18 +46,16 @@ public class PersonnelController
             return "admin/main/AdminAuthorization";
         }
 
-        List<Personnel> allPersonnel=personnelRepo.findAllPersonnel();
+        List<Personnel> allPersonnel=personnelRepo.findAll();
         model.put("personnelList",allPersonnel);
 
         return "admin/PersonnelMain";
     }
 
     @GetMapping("/adminportal/personnel/worker")
-    public String employeePage(@RequestParam(name="personnelID") int personnelID,
-            /*@RequestParam(name="position") int position,*/ HttpSession session, Map<String, Object> model)
+    public String employeePage(@RequestParam(name="personnelID") int personnelID, HttpSession session, Map<String, Object> model)
 
     {
-
         String login=(String) session.getAttribute("adminlogin");
 
         if(!navBarLoader.checkAuthorizationAdmin(login,model))
@@ -60,15 +64,13 @@ public class PersonnelController
         }
 
         boolean isHaveDriverLicense=false;
+
         Personnel worker=personnelRepo.findByPersonnelID(personnelID);
-        /////////////////////////////////////
-        if(worker.getEmployeePosition().equals("Водитель"))
+
+        if(worker.getDriverData()!=null && worker.getDriverData().size()!=0)
         {
             isHaveDriverLicense=true;
-            Driver_Data driverData=driverDataRepo.findByOwnerId(worker.getPersonnelID());
-            model.put("driverData",driverData);
 
-            //////////////////////////////
             if(worker.getTransportID()==null)
             {
                 model.put("carData","-");
@@ -82,7 +84,6 @@ public class PersonnelController
 
                 model.put("carData",assignedTransportData);
             }
-
         }
 
         String[] dividedName=worker.getFullName().split(" ");
@@ -130,38 +131,35 @@ public class PersonnelController
         boolean isHaveDriverLicense=false;
         Personnel worker=personnelRepo.findByPersonnelID(personnelID);
 
-        if(worker.getEmployeePosition().equals("Водитель"))
+        if(worker.getDriverData()!=null && worker.getDriverData().size()!=0)
         {
             isHaveDriverLicense=true;
-            Driver_Data driverData=driverDataRepo.findByOwnerId(worker.getPersonnelID());
-            model.put("driverData",driverData);
 
-            //////////////////////////
-            Iterable<Transport> unassignedTransports=transportRepo.findAllUnassignedCars();
+            if(worker.getTransportID()!=null)
+            {
+                model.put("assignedTransport",transportRepo.findByTransportID(worker.getTransportID()));
+            }
+
+            List<Transport> unassignedTransports=transportRepo.findAllUnassignedCars();
             model.put("carData",unassignedTransports);
 
-            /////////////////////////
-           // Transport currentTransport=transportRepo.findByTransportID(worker.getTransportID());
-            //model.put("carDataMain",currentTransport);
 
-            String[] dividedLicense=driverData.getLicenseCategory().split(" ");
+           // String[] dividedLicense=worker.getDriverData().get(0).getLicenseCategory().split(" ");
 
-            ////////////////////////////
+            String personnelLicenses=worker.getDriverData().get(0).getLicenseCategory();
+
+
             for(int i=0;i<licenseLevels.length;i++)
             {
-                for(int j=0;j<dividedLicense.length;j++)
+                if(personnelLicenses.contains(licenseLevels[i]))
                 {
-                    if(dividedLicense[j].equals(licenseLevels[i]))
-                    {
-                        model.put("ch"+i,"checked");
-                    }
-                    else
-                    {
-                        model.put("ch"+i,"");
-                    }
+                    model.put("ch"+i,"checked");
+                }
+                else
+                {
+                    model.put("ch"+i,"");
                 }
             }
-            ////////////////////////////////
         }
 
         String[] dividedName=worker.getFullName().split(" ");
@@ -183,7 +181,6 @@ public class PersonnelController
             }
         }
 
-
         model.put("personnel",worker);
         model.put("isHaveDriverLicense",isHaveDriverLicense);
 
@@ -191,11 +188,12 @@ public class PersonnelController
     }
 
     @PostMapping("/adminportal/personnel/modify")
-    public String modifyEmployee(@RequestParam(name="personnelID") int personnelID,@RequestParam(name="name") String fName,@RequestParam(name="mname") String mName,@RequestParam(name="lname") String lName,
-                                 @RequestParam(name="aor") String address, @RequestParam(name="pn")String passportID, @RequestParam(name="loe") String educationDegree,@RequestParam(name="not") String phoneNumber,@RequestParam(name="asc",required = false) Integer transportID,
-                                 /*@RequestParam(name = "pr") String employeePosition*//*@RequestParam(name = "lg") String login*/@RequestParam(name = "psw") String password,
-                                 @RequestParam(name="ln",required = false) String licenseNum,@RequestParam(name="ib",required = false) String licenseIssuedBy,@RequestParam(name="a",required = false) String[] licenseCategory, @RequestParam(name="lvu",required = false) String licenseValidUntil,
-                                 @RequestParam(name="mvu",required = false) String medExValidUntil,
+    public String modifyEmployee(@RequestParam(name="personnelID") int personnelID,@RequestParam(name="name") String fName,@RequestParam(name="mname") String mName,
+                                 @RequestParam(name="lname") String lName, @RequestParam(name="aor") String address, @RequestParam(name="pn")String passportID,
+                                 @RequestParam(name="loe") String educationDegree,@RequestParam(name="not") String phoneNumber,@RequestParam(name="asc",required = false) Integer transportID,
+                                 @RequestParam(name = "psw") String password, @RequestParam(name="ln",required = false) String licenseNum,
+                                 @RequestParam(name="ib",required = false) String licenseIssuedBy,@RequestParam(name="a",required = false) String[] licenseCategory,
+                                 @RequestParam(name="lvu",required = false) String licenseValidUntil, @RequestParam(name="mvu",required = false) String medExValidUntil,
                                  HttpSession session, Map<String, Object> model)
     {
         String fullName=lName+" "+fName+" "+mName;
@@ -207,7 +205,7 @@ public class PersonnelController
         worker.setPassportID(passportID);
         worker.setEducationDegree(educationDegree);
         worker.setPhoneNumber(phoneNumber);
-        //worker.setEmployeePosition(employeePosition);
+
         /////
         worker.setPassword(password);
 
@@ -216,34 +214,28 @@ public class PersonnelController
 
         personnelRepo.save(worker);
 
-
-        Driver_Data driverData=driverDataRepo.findByOwnerId(personnelID);
-
-        if(driverData!=null)
+        if(worker.getDriverData()!=null && worker.getDriverData().size()!=0)
         {
-            //////////////////////
             String categories=new String();
 
             for(int i=0;i<licenseCategory.length;i++)
             {
-                if(i==0)
+                switch (i)
                 {
-                    categories=licenseCategory[i];
-                }
-                else
-                {
-                    categories=categories+" "+licenseCategory[i];
+                    case 0: categories=licenseCategory[i];break;
+                    default: categories=categories+" "+licenseCategory[i];break;
                 }
 
             }
 
-            driverData.setLicenseNum(licenseNum);
-            driverData.setLicenseIssuedBy(licenseIssuedBy);
-            driverData.setLicenseCategory(categories);
-            driverData.setLicenseValidUntil(licenseValidUntil);
-            driverData.setMedExValidUntil(medExValidUntil);
+            worker.getDriverData().get(0).setLicenseNum(licenseNum);
+            worker.getDriverData().get(0).setLicenseIssuedBy(licenseIssuedBy);
+            worker.getDriverData().get(0).setLicenseCategory(categories);
+            worker.getDriverData().get(0).setLicenseValidUntil(licenseValidUntil);
+            worker.getDriverData().get(0).setMedExValidUntil(medExValidUntil);
 
-            driverDataRepo.save(driverData);
+            driverDataRepo.save(worker.getDriverData().get(0));
+
         }
 
         return employeePage(personnelID,session,model);
@@ -261,6 +253,7 @@ public class PersonnelController
 
         Iterable<Transport> unassignedTransports=transportRepo.findAllUnassignedCars();
         model.put("carData",unassignedTransports);
+        model.put("positionsData",positionsRepo.findAll());
 
         return "admin/EmployeeeCreation";
     }
@@ -273,15 +266,16 @@ public class PersonnelController
                                @RequestParam(name = "lgn") String login,@RequestParam(name = "psw") String password,@RequestParam(name="asc",required = false) Integer transportID,
                                @RequestParam(name="ln",required = false) String licenseNum,@RequestParam(name="ib",required = false) String licenseIssuedBy,@RequestParam(name="a",required = false) String[] licenseCategory,
                                @RequestParam(name="lvu",required = false) String licenseValidUntil,@RequestParam(name="mvu",required = false) String medExValidUntil,
-                               /*@RequestParam(name="asc",required = false) Str,*/
                                HttpSession session, Map<String, Object> model)
     {
         String fullName=lName+" "+fName+" "+mName;
         ////Creation of login
 
+        Positions expectedPosition=positionsRepo.findByPositionName(employeePosition);
 
         Personnel newEmployee=new Personnel(fullName,dateOfBirth,placeOfBirth,passportID,address,
-                educationDegree,phoneNumber,transportID,employeePosition,login,password);
+                educationDegree,phoneNumber,transportID,expectedPosition,login,password);
+
         personnelRepo.save(newEmployee);
 
         if(licenseNum!=null)
@@ -289,8 +283,12 @@ public class PersonnelController
             String categories=new String();
 
             /////
+            System.out.println(licenseCategory.length);
+
             for(int i=0;i<licenseCategory.length;i++)
             {
+                System.out.println(categories);
+
                 if(i==0)
                 {
                     categories=licenseCategory[i];
@@ -302,11 +300,21 @@ public class PersonnelController
 
             }
 
-            Driver_Data newDriverData=new Driver_Data(newEmployee.getPersonnelID(),licenseNum,licenseIssuedBy,categories,licenseValidUntil,medExValidUntil);
+            Driver_Data newDriverData=new Driver_Data(newEmployee,licenseNum,licenseIssuedBy,categories,licenseValidUntil,medExValidUntil);
+
+            ArrayList<Driver_Data> driverDataList=new ArrayList<>();
+            driverDataList.add(newDriverData);
+
+            newEmployee.setDriverData(driverDataList);
+
             driverDataRepo.save(newDriverData);
         }
 
         return employeePage(newEmployee.getPersonnelID(),session,model);
     }
+
+
+
+    ////////////////
 
 }

@@ -1,8 +1,8 @@
 package com.taxipark;
 
+import com.taxipark.config.OrderMessageHandler;
 import com.taxipark.dbmodel.*;
 import com.taxipark.repos.*;
-import com.taxipark.dto.CompletionTimeDto;
 import com.taxipark.logic.PossibleTimeCalcuator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +29,14 @@ public class ServicesOrderingController
     private ClientOrderRepo clientOrderRepo;
     @Autowired
     private Order_RouteRepo order_routeRepo;
+    @Autowired
+    private PersonnelRepo personnelRepo;
+
+
+    /////////////
+    //@Autowired
+    //private OrderMessageHandler test;
+    ////////////
 
     private PossibleTimeCalcuator possibleTimeCalcuator=new PossibleTimeCalcuator();
 
@@ -37,6 +45,7 @@ public class ServicesOrderingController
                                @RequestParam(name = "name", required = false) String userName, @RequestParam(name = "telephone", required = false) String userTelephone,
                                @RequestParam(name = "comment") String comment, HttpSession session)
     {
+
         String login=(String) session.getAttribute("login");
 
         Services orderedService=servicesRepo.findByServicesID(serviceID);
@@ -61,11 +70,11 @@ public class ServicesOrderingController
         }
 
         ClientOrder newClientOrder=
-                new ClientOrder(clientID,serviceID,cost,"transport service",currentDate.toString(),currentTime.toString(),"active",comment);
+                new ClientOrder(clientID,/*serviceID*/servicesRepo.findByServicesID(serviceID),/*45*/null,cost,"transport service",currentDate.toString(),currentTime.toString(),"active",comment);
 
         clientOrderRepo.save(newClientOrder);
 
-        Order_Route newOrderRoute=new Order_Route(fromPoint,toPoint,newClientOrder.getOrderID());
+        Order_Route newOrderRoute=new Order_Route(fromPoint,toPoint,null,newClientOrder/*.getOrderID()*/);
         order_routeRepo.save(newOrderRoute);
 
         return "redirect:/";
@@ -99,11 +108,11 @@ public class ServicesOrderingController
         }
 
         ClientOrder newClientOrder=
-                new ClientOrder(clientID,serviceID,cost,"transport service",date,time+":00","active",comment);
+                new ClientOrder(clientID,/*serviceID*/servicesRepo.findByServicesID(serviceID),/*45*/null,cost,"transport service",date,time+":00","active",comment);
 
         clientOrderRepo.save(newClientOrder);
 
-        Order_Route newOrderRoute=new Order_Route(fromPoint,toPoint,newClientOrder.getOrderID());
+        Order_Route newOrderRoute=new Order_Route(fromPoint,toPoint,(double)weight,newClientOrder/*.getOrderID()*/);
         order_routeRepo.save(newOrderRoute);
 
         return "redirect:/";
@@ -119,9 +128,10 @@ public class ServicesOrderingController
 
         String login=(String) session.getAttribute("login");
         List<ClientOrder> listOfSelectedDateClientOrders = clientOrderRepo.findTimesOfAllActiveOrdersByDay(date,"customer service","active");
-        CompletionTimeDto orderedServiceDuration=servicesRepo.findCompletionTime(serviceID);
+        /*CompletionTimeDto*/Services orderedServiceDuration=servicesRepo./*findCompletionTime*/findByServicesID(serviceID);
         Iterable<ClientOrder> listOfPossibleOrderTime=
-                possibleTimeCalcuator.countTimeGaps(listOfSelectedDateClientOrders, orderedServiceDuration.getCompletionTime(),servicesRepo);
+                possibleTimeCalcuator.countTimeGaps(listOfSelectedDateClientOrders, orderedServiceDuration.getServiceData().get(0).getCompletionTime()
+                        /*getCompletionTime()*/,servicesRepo);
 
         if(listOfPossibleOrderTime==null)
         {
@@ -131,7 +141,7 @@ public class ServicesOrderingController
         {
             Services currentService=servicesRepo.findByServicesID(serviceID);
             Customer_Services_Data additionalServiceData=
-                    customer_services_dataRepo.findByServiceID(currentService.getServicesID());
+                    customer_services_dataRepo.findByMainServiceData(currentService)/*findByServiceID(currentService.getServicesID())*/;
 
             response="user/DateTimeChoosingPage";
             model.put("service", currentService);
@@ -180,12 +190,20 @@ public class ServicesOrderingController
             clientID=currentRegisteredClient.getClientID();
         }
 
-        ClientOrder newClientOrder=new ClientOrder(clientID,serviceID,cost,"customer service",date,time,"active",comment);
+        /////
+        ClientOrder newClientOrder=new ClientOrder(clientID,/*serviceID*/servicesRepo.findByServicesID(serviceID),/*45*/null,cost,"customer service",date,time,"active",comment);
 
         clientOrderRepo.save(newClientOrder);
 
 
         return "redirect:/";
     }
+
+    /*private void findAvailableCargoCar()
+    {
+        personnelRepo.
+    }*/
+
+
 
 }

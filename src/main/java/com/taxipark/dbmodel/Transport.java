@@ -2,6 +2,7 @@ package com.taxipark.dbmodel;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 public class Transport
@@ -38,6 +39,9 @@ public class Transport
     @NotNull
     @Column(name="otherattributes")
     private String otherAttributes;
+
+   /* @OneToMany(fetch = FetchType.LAZY,mappedBy = "attachedTransport")
+    private List<Personnel> attachedPersonnel;*/
 
     public Transport()
     {
@@ -115,6 +119,10 @@ public class Transport
         this.yearOfManufacture = yearOfManufacture;
     }
 
+   /* public void setAttachedPersonnel(List<Personnel> attachedPersonnel) {
+        this.attachedPersonnel = attachedPersonnel;
+    }*/
+
     public int getTransportID() {
         return transportID;
     }
@@ -154,4 +162,8 @@ public class Transport
     public String getYearOfManufacture() {
         return yearOfManufacture;
     }
+
+   /* public List<Personnel> getAttachedPersonnel() {
+        return attachedPersonnel;
+    }*/
 }

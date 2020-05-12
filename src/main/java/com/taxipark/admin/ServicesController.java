@@ -3,6 +3,7 @@ package com.taxipark.admin;
 import com.taxipark.dbmodel.Customer_Services_Data;
 import com.taxipark.dbmodel.Services;
 import com.taxipark.dbmodel.Services_Category;
+import com.taxipark.logic.NavBarLoader;
 import com.taxipark.repos.Customer_Services_DataRepo;
 import com.taxipark.repos.ServicesRepo;
 import com.taxipark.repos.Services_CategoryRepo;
@@ -33,10 +34,19 @@ public class ServicesController
     @Autowired
     Services_CategoryRepo servicesCategoryRepo;
 
+    private NavBarLoader navBarLoader=new NavBarLoader();
+
 
     @GetMapping("/adminportal/categories")
     public String mainCategoriesMenu(HttpSession session, Map<String, Object> model)
     {
+        String login=(String) session.getAttribute("adminlogin");
+
+        if(!navBarLoader.checkAuthorizationAdmin(login,model))
+        {
+            return "admin/main/AdminAuthorization";
+        }
+
         Iterable<Services_Category> allCategories=servicesCategoryRepo.findAllCategories();
         model.put("categoriesList",allCategories);
 
@@ -46,6 +56,12 @@ public class ServicesController
     @GetMapping("/adminportal/categories/category")
     public String categoryPage(@RequestParam(name="serviceCategoryID") int serviceCategoryID, HttpSession session, Map<String, Object> model)
     {
+        String login=(String) session.getAttribute("adminlogin");
+
+        if(!navBarLoader.checkAuthorizationAdmin(login,model))
+        {
+            return "admin/main/AdminAuthorization";
+        }
 
         Services_Category currentCategory=servicesCategoryRepo.findByServiceCategoryID(serviceCategoryID);
         Iterable<Services> currentCategoryServices=servicesRepo.findAllServicesByCategoryID(serviceCategoryID);
@@ -59,13 +75,20 @@ public class ServicesController
     @GetMapping("/adminportal/categories/category/service")
     public String servicePage(@RequestParam(name="servicesID") int servicesID, HttpSession session, Map<String, Object> model)
     {
+        String login=(String) session.getAttribute("adminlogin");
+
+        if(!navBarLoader.checkAuthorizationAdmin(login,model))
+        {
+            return "admin/main/AdminAuthorization";
+        }
+
         boolean isServicesDataPresent=false;
         double price;
         String currency;
         String priceTitle;
 
         Services currentService=servicesRepo.findByServicesID(servicesID);
-        Customer_Services_Data currentServicesData=customerServicesDataRepo.findByServiceID(servicesID);
+        Customer_Services_Data currentServicesData=customerServicesDataRepo.findByMainServiceData(currentService)/*findByServiceID(servicesID)*/;
 
 
         if(currentServicesData!=null)
@@ -102,8 +125,15 @@ public class ServicesController
 
     ////////////////////// Services Management /////////////////////////
     @GetMapping("/adminportal/categories/category/createcategory")
-    public String categoryCreationMenu()
+    public String categoryCreationMenu(HttpSession session, Map<String, Object> model)
     {
+        String login=(String) session.getAttribute("adminlogin");
+
+        if(!navBarLoader.checkAuthorizationAdmin(login,model))
+        {
+            return "admin/main/AdminAuthorization";
+        }
+
         return "admin/services/CategoriesCreation";
     }
 
@@ -122,8 +152,15 @@ public class ServicesController
     }
 
     @GetMapping("/adminportal/categories/category/service/createservice")
-    public String serviceCreationMenu(@RequestParam(name = "serviceCategoryID") int serviceCategoryID, Map<String,Object> model)
+    public String serviceCreationMenu(@RequestParam(name = "serviceCategoryID") int serviceCategoryID, Map<String,Object> model,HttpSession session)
     {
+        String login=(String) session.getAttribute("adminlogin");
+
+        if(!navBarLoader.checkAuthorizationAdmin(login,model))
+        {
+            return "admin/main/AdminAuthorization";
+        }
+
         model.put("category",serviceCategoryID);
 
         return "admin/services/ServicesCreationPage";
@@ -149,7 +186,7 @@ public class ServicesController
 
             servicesRepo.save(newService);
 
-            Customer_Services_Data newCustomerServicesData=new Customer_Services_Data(completionTime,guaranteeTime,newService.getServicesID());
+            Customer_Services_Data newCustomerServicesData=new Customer_Services_Data(completionTime,guaranteeTime,newService/*.getServicesID()*/);
 
             customerServicesDataRepo.save(newCustomerServicesData);
         }
@@ -169,6 +206,13 @@ public class ServicesController
     @GetMapping("/adminportal/categories/category/deletecategory")
     public String deleteCategory(@RequestParam(name="serviceCategoryID") int categoryID, HttpSession session, Map<String, Object> model)
     {
+        String login=(String) session.getAttribute("adminlogin");
+
+        if(!navBarLoader.checkAuthorizationAdmin(login,model))
+        {
+            return "admin/main/AdminAuthorization";
+        }
+
         String oldFotoName=servicesCategoryRepo.findByServiceCategoryID(categoryID).getServiceCategoryFoto();
 
         ///////////////////////
@@ -182,6 +226,13 @@ public class ServicesController
     @GetMapping("/adminportal/categories/category/service/deleteservice")
     public String deleteService(@RequestParam(name="servicesID") int serviceID, HttpSession session, Map<String, Object> model)
     {
+        String login=(String) session.getAttribute("adminlogin");
+
+        if(!navBarLoader.checkAuthorizationAdmin(login,model))
+        {
+            return "admin/main/AdminAuthorization";
+        }
+
         Services currentService=servicesRepo.findByServicesID(serviceID);
         String oldFotoName=currentService.getFoto();
         int categoryID=currentService.getCategoryID();
@@ -196,8 +247,15 @@ public class ServicesController
     }
 
     @GetMapping("/adminportal/categories/category/updatecategory")
-    public String updateCategoryMenu(@RequestParam(name = "serviceCategoryID") int categoryID, Map<String,Object> model)
+    public String updateCategoryMenu(@RequestParam(name = "serviceCategoryID") int categoryID, Map<String,Object> model,HttpSession session)
     {
+        String login=(String) session.getAttribute("adminlogin");
+
+        if(!navBarLoader.checkAuthorizationAdmin(login,model))
+        {
+            return "admin/main/AdminAuthorization";
+        }
+
         model.put("category",servicesCategoryRepo.findByServiceCategoryID(categoryID));
 
         return "admin/services/CategoriesModificationPage";
@@ -232,13 +290,20 @@ public class ServicesController
     }
 
     @GetMapping("/adminportal/categories/category/service/updateservice")
-    public String updateServiceMenu(@RequestParam(name = "servicesID") int serviceID, Map<String,Object> model)
+    public String updateServiceMenu(@RequestParam(name = "servicesID") int serviceID, Map<String,Object> model,HttpSession session)
     {
+        String login=(String) session.getAttribute("adminlogin");
+
+        if(!navBarLoader.checkAuthorizationAdmin(login,model))
+        {
+            return "admin/main/AdminAuthorization";
+        }
+
         boolean isCustomerService=false;
         Double price;
 
         Services selectedService=servicesRepo.findByServicesID(serviceID);
-        Customer_Services_Data additionalServicesData=customerServicesDataRepo.findByServiceID(serviceID);
+        Customer_Services_Data additionalServicesData=customerServicesDataRepo.findByMainServiceData(selectedService)/*findByServiceID(serviceID)*/;
 
         System.out.println(selectedService.getFoto());//
 
@@ -272,7 +337,7 @@ public class ServicesController
     {
 
         Services currentService=servicesRepo.findByServicesID(servicesID);
-        Customer_Services_Data currentCustomerServicesData=customerServicesDataRepo.findByServiceID(servicesID);
+        Customer_Services_Data currentCustomerServicesData=customerServicesDataRepo.findByMainServiceData(currentService)/*findByServiceID(servicesID)*/;
 
         String fileName;
 

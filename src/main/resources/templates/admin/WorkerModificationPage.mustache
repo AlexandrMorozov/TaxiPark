@@ -49,7 +49,7 @@
                     <a class="nav-link" href="/adminportal/transport">Управление транспортом</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/adminportal">Управление услугами</a>
+                    <a class="nav-link" href="/adminportal/categories">Управление услугами</a>
                 </li>
                 <li class="nav-item" style="margin-left: 450px">
                     <a class="nav-link" href="/adminportal/signout">{{employeeName}}</a>
@@ -122,18 +122,6 @@
                         <option value="Высшее" {{ed3}}>Высшее</option>
                     </select>
                 </div>
-                <!--<div class="bblock">
-                    <label for="pr" >Должность</label>
-                    <select id='pr' class='form-control bblock' style="height: 40px" name='pr' value="" required>
-
-                        <option value="Водитель">Водитель</option>
-                        <option value="Инженер-механик" >Инженер-механик</option>
-                        <option value="Слесарь">Слесарь</option>
-                        <option value="Администратор" >Администратор</option>
-                    </select>
-                </div>-->
-
-
             </div>
             {{#personnel}}
 
@@ -156,7 +144,8 @@
         </div>
 {{#isHaveDriverLicense}}
         <div class="tab-pane fade" id="characteristics" style="margin-left: 50px">
-            {{#driverData}}
+            {{#personnel}}
+                {{#driverData}}
             <div class="wrap">
                 <div class="bblock" >
                     <label for="ln" >Номер лиценции</label>
@@ -170,29 +159,28 @@
                 </div>
 
             </div>
-            {{/driverData}}
+                {{/driverData}}
+            {{/personnel}}
             <div ><h4>Категория прав</h4></div>
             <div class="wrap">
 
 
                 <div class="bblock-main">
                     <label for="cl1" >A</label>
-                    <!--<input type='checkbox' id='cl1'  name='lname' required>-->
                     <input type='checkbox' id='cl1' name="a" value="A" class='form-control' {{ch0}}>
                 </div>
                 <div class="bblock-main">
                     <label for="cl2" >B</label>
-                    <!--<input type='checkbox' id='cl2' name='lname' required>-->
                     <input type='checkbox' id='cl2' name="a" value="B" class='form-control' {{ch1}}>
                 </div>
                 <div class="bblock-main">
                     <label for="cl3" >C</label>
                     <input type='checkbox' id='cl3' name="a" value="C" class='form-control bblock-main' {{ch2}}>
-                    <!--<input type='checkbox' id='cl3'  name='lname' required>-->
                 </div>
 
             </div>
-        {{#driverData}}
+            {{#personnel}}
+                {{#driverData}}
             <div class="wrap">
                 <div class="bblock" >
                     <label for="lvu" >Лицензия действительна до</label>
@@ -206,12 +194,16 @@
                 </div>
 
             </div>
-        {{/driverData}}
+                {{/driverData}}
+            {{/personnel}}
 
             <div class="wrap">
                 <div class="bblock">
                     <label for="asc" >Назначенный транспорт</label>
                     <select id='asc' class='form-control bblock' style="height: 40px" name='asc' required>
+                        {{#assignedTransport}}
+                            <option value="{{transportID}}">{{carBrand}}-{{carModel}}-{{vin}}</option>
+                        {{/assignedTransport}}
                         <option value=" ">Нет</option>
                         {{#carData}}
                         <option value="{{transportID}}">{{carBrand}}-{{carModel}}-{{vin}}</option>

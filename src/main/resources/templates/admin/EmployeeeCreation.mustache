@@ -50,7 +50,7 @@
                     <a class="nav-link" href="/adminportal/transport">Управление транспортом</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/adminportal">Управление услугами</a>
+                    <a class="nav-link" href="/adminportal/categories">Управление услугами</a>
                 </li>
                 <li class="nav-item" style="margin-left: 450px">
                     <a class="nav-link" href="/adminportal/signout">{{employeeName}}</a>
@@ -132,10 +132,13 @@
                 <div class="bblock">
                     <label for="pr" >Должность</label>
                     <select id='pr' class='form-control bblock' style="height: 40px" name='pr' onchange="enableDriverData()" required>
-                        <option value="Слесарь">Слесарь</option>
+                        {{#positionsData}}
+                            <option value="{{positionName}}">{{positionName}}</option>
+                        {{/positionsData}}
+                        <!--<option value="Слесарь">Слесарь</option>
                         <option value="Водитель">Водитель</option>
                         <option value="Инженер-механик">Инженер-механик</option>
-                        <option value="Администратор">Администратор</option>
+                        <option value="Администратор">Администратор</option>-->
                     </select>
                 </div>
 

@@ -265,10 +265,10 @@
                <tbody class="scrollContent">
                {{#orders}}
                <tr>
-                   <td>{{orderName}}</td>
-                   <td>{{orderDate}}</td>
-                   <td>{{orderTime}}</td>
-                   <td>{{orderCost}}</td>
+                   <td>{{#orderedService}}{{serviceName}}{{/orderedService}}</td>
+                   <td>{{dateOfOrder}}</td>
+                   <td>{{timeOfOrder}}</td>
+                   <td>{{cost}}</td>
                    <td><a href="/DeleteOrder?orderID={{orderID}}"><button class="btn btn-lg btn-primary btn-block" name="">Отмена</button></td>
                </tr>
                {{/orders}}

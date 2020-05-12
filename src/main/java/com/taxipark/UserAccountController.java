@@ -3,7 +3,6 @@ package com.taxipark;
 import com.taxipark.repos.*;
 import com.taxipark.dbmodel.ClientOrder;
 import com.taxipark.dbmodel.Clients;
-import com.taxipark.dto.FullOrderInfoDto;
 import com.taxipark.logic.NavBarLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -83,7 +82,8 @@ public class UserAccountController
         Clients currentClient=clientsRepo.findByClientLogin(login);
         model.put("client",currentClient);
 
-        Iterable<FullOrderInfoDto> allCurrentClientOrders=clientOrderRepo.findFullOrderInfo(currentClient.getClientID(),"active");
+        //Iterable<FullOrderInfoDto> allCurrentClientOrders=clientOrderRepo.findFullOrderInfo(currentClient.getClientID(),"active");
+        Iterable<ClientOrder> allCurrentClientOrders=clientOrderRepo.findByClientIDAndStatus(currentClient.getClientID(),"active");
         model.put("orders",allCurrentClientOrders);
 
         return "user/UserAccount";

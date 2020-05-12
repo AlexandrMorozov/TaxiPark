@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+
+    <p id="q" hidden>5,2,0,2,0</p>
+
+    <script>
+
+        function f()
+        {
+            var aa=document.getElementById("q").innerText;
+
+            var d=aa.split(",");
+            //alert(aa.innerText);
+
+            var data = {
+                // Массив меток, который содержит любые значения
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                // Наш массив может содержать серию объектов или серии массивов с данными
+                series: [
+                    //[5, 2, 4, 2, 0]
+                    d
+                ]
+            };
+
+            // Создаем объект линейного графика с первым параметров - селектором.
+            // Второй параметр - объект с данными
+            new Chartist.Line('.ct-chart', data);
+        }
+
+
+
+    </script>
+
+
+</head>
+<body onload="f()">
+
+<div class="ct-chart ct-perfect-fourth"></div>
+
+
+
+</body>
+</html>

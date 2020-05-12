@@ -85,7 +85,7 @@ public class MainController
 
         Services currentService=servicesRepo.findByServicesID(serviceID);
         Customer_Services_Data additionalServiceData=
-                customer_services_dataRepo.findByServiceID(currentService.getServicesID());
+                customer_services_dataRepo.findByMainServiceData(currentService)/*.findByServiceID(currentService.getServicesID())*/;
 
         model.put("service", currentService);
         model.put("addServiceData", additionalServiceData);

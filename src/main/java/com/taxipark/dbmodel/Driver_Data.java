@@ -11,9 +11,9 @@ public class Driver_Data
     @NotNull
     @Column(name="driverlicenseid")
     private int driverLicenseId;
-    @NotNull
+    /*@NotNull
     @Column(name="ownerid")
-    private int ownerId;
+    private int ownerId;*/
     @NotNull
     @Column(name="licensenum")
     private String licenseNum;
@@ -30,16 +30,22 @@ public class Driver_Data
     @Column(name="medexvaliduntil")
     private String medExValidUntil;
 
+    @NotNull
+    @ManyToOne(targetEntity = Personnel.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ownerid")
+    private Personnel driver;
+
 
     public Driver_Data()
     {
 
     }
 
-    public Driver_Data(int ownerId,String licenseNum, String licenseIssuedBy,
+    public Driver_Data(/*int ownerId*/Personnel driver,String licenseNum, String licenseIssuedBy,
                      String licenseCategory,String licenseValidUntil,String medExValidUntil)
     {
-        this.ownerId=ownerId;
+        this.driver=driver;
+        /*this.ownerId=ownerId;*/
         this.licenseNum=licenseNum;
         this.licenseIssuedBy=licenseIssuedBy;
         this.licenseCategory=licenseCategory;
@@ -51,8 +57,12 @@ public class Driver_Data
         return driverLicenseId;
     }
 
-    public int getOwnerId() {
+   /* public int getOwnerId() {
         return ownerId;
+    }*/
+
+    public Personnel getDriver() {
+        return driver;
     }
 
     public String getLicenseCategory() {
@@ -95,8 +105,12 @@ public class Driver_Data
         this.licenseValidUntil = licenseValidUntil;
     }
 
-    public void setOwnerId(int ownerId) {
+   /* public void setOwnerId(int ownerId) {
         this.ownerId = ownerId;
+    }*/
+
+    public void setDriver(Personnel driver) {
+        this.driver = driver;
     }
 
     public void setMedExValidUntil(String medExValidUntil) {

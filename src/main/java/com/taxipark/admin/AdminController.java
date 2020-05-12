@@ -40,7 +40,7 @@ public class AdminController {
         request.getSession().setAttribute("adminlogin", login);
         model.put("employeeName",login);
 
-        return /*"admin/main/MainMenuAdmin"*/"redirect:/adminportal";
+        return "redirect:/adminportal";
     }
 
     @GetMapping("/adminportal/signout")
@@ -48,7 +48,7 @@ public class AdminController {
     {
         request.getSession().invalidate();
 
-        return /*"admin/main/AdminAuthorization"*/"redirect:/adminportal/signin";
+        return "redirect:/adminportal/signin";
     }
 
     @GetMapping("/adminportal")

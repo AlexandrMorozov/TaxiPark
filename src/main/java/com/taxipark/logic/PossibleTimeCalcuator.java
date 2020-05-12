@@ -1,8 +1,8 @@
 package com.taxipark.logic;
 
+import com.taxipark.dbmodel.Services;
 import com.taxipark.repos.ServicesRepo;
 import com.taxipark.dbmodel.ClientOrder;
-import com.taxipark.dto.CompletionTimeDto;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -37,8 +37,11 @@ public class PossibleTimeCalcuator
 
             for(int i=0;i<listOfCurrentDateTimestamps.size();i++)
             {
-                CompletionTimeDto completionTimeDto=servicesRepo.findCompletionTime(listOfOrders.get(i).getServiceID());
-                int orderDuration=(int)(completionTimeDto.getCompletionTime()*60);
+                Services completionTime=servicesRepo./*findCompletionTime*/findByServicesID(listOfOrders.get(i).getOrderedService().getServicesID());
+
+                //CompletionTimeDto completionTimeDto=servicesRepo.findCompletionTime(listOfOrders.get(i).getOrderedService().getServicesID()/*getServiceID()*/);
+
+                int orderDuration=(int)(/*completionTimeDto.getCompletionTime()*/completionTime.getServiceData().get(0).getCompletionTime()*60);
                 LocalTime currentOrderTime=listOfCurrentDateTimestamps.get(i).plusMinutes(orderDuration);
 
                 if(i!=(listOfCurrentDateTimestamps.size()-1))

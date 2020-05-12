@@ -19,9 +19,14 @@ public class Customer_Services_Data
     @NotNull
     @Column(name="guaranteetime")
     private int guaranteeTime;
-    @NotNull
+   /* @NotNull
     @Column(name = "serviceid")
-    private int serviceID;
+    private int serviceID;*/
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "serviceid")
+    private Services mainServiceData;
 
 
     public Customer_Services_Data()
@@ -29,11 +34,12 @@ public class Customer_Services_Data
 
     }
 
-    public Customer_Services_Data(double completionTime, int guaranteeTime, int serviceID)
+    public Customer_Services_Data(double completionTime, int guaranteeTime, /*int serviceID*/Services mainServiceData)
     {
         this.completionTime=completionTime;
         this.guaranteeTime=guaranteeTime;
-        this.serviceID=serviceID;
+        //this.serviceID=serviceID;
+        this.mainServiceData=mainServiceData;
     }
 
 
@@ -49,8 +55,12 @@ public class Customer_Services_Data
         return guaranteeTime;
     }
 
-    public int getServiceID() {
+    /*public int getServiceID() {
         return serviceID;
+    }*/
+
+    public Services getMainServiceData() {
+        return mainServiceData;
     }
 
     public void setCustomerServicesDataID(int customerServicesDataID) {
@@ -65,7 +75,11 @@ public class Customer_Services_Data
         this.guaranteeTime = guaranteeTime;
     }
 
-    public void setServiceID(int serviceID) {
+   /* public void setServiceID(int serviceID) {
         this.serviceID = serviceID;
+    }*/
+
+    public void setMainServiceData(Services mainServiceData) {
+        this.mainServiceData = mainServiceData;
     }
 }

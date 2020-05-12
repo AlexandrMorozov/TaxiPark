@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>MyCityTaxi | Добавить работника</title>
     <link rel='stylesheet' href='/css/bootstrap.min.css' type='text/css' media='all'>
-    <!--<link href="signin.css" rel="stylesheet">-->
 
     <style>
 
@@ -49,7 +48,7 @@
                     <a class="nav-link" href="/adminportal/transport">Управление транспортом</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/adminportal">Управление услугами</a>
+                    <a class="nav-link" href="/adminportal/categories">Управление услугами</a>
                 </li>
                 <li class="nav-item" style="margin-left: 450px">
                     <a class="nav-link" href="/adminportal/signout">{{employeeName}}</a>
@@ -82,17 +81,14 @@
             <div class="wrap">
                 <div class="bblock">
                     <label>Фамилия</label>
-                    <!--<input type='text' id='fm' class='form-control bblock' style="height: 40px" name='lname' required disabled>-->
                     <div class='bblock' style="height: 40px;font-size: 30px">{{lname}}</div>
                 </div>
                 <div class="bblock">
                     <label>Имя</label>
-                    <!--<input type='text' id='im' class='form-control bblock' style="height: 40px" name='name' required disabled>-->
                     <div class='bblock' style="height: 40px;font-size: 30px">{{name}}</div>
                 </div>
                 <div class="bblock">
                     <label >Отчество</label>
-                    <!--<input type='text' id='ot' class='form-control' style="height: 40px" name='mname' required disabled>-->
                     <div class='bblock' style="height: 40px;font-size: 30px">{{mname}}</div>
                 </div>
 
@@ -102,13 +98,11 @@
 
                 <div class="bblock" style="width: 150px">
                     <label>Дата рождения</label>
-                    <!--<input type='date' id='dob' class='form-control bblock' style="height: 40px;width: 150px;text-align: center" name='dob' required disabled>-->
                     <div class='bblock' style="height: 40px;width: 150px;font-size: 30px">{{dateOfBirth}}</div>
                 </div>
                 <div class="bblock">
                     <label >Место рождения</label>
-                    <!--<input type='text' id='pob' class='form-control bblock' style="height: 40px;width: 320px" name='pob' required disabled>-->
-                    <div class='bblock' style="height: 40px;width: 320px;font-size: 30px">{{placeOfBirth}}</div>
+                    <div class='bblock' style="height: 40px;width: 700px;font-size: 30px">{{placeOfBirth}}</div>
                 </div>
 
 
@@ -118,34 +112,24 @@
                 <div class="bblock" style="width: 150px">
 
                     <label>Номер пасспорта</label>
-                    <!-- <input type='text' id='pn' class='form-control bblock' style="height: 40px;width: 150px" name='pn' required disabled>-->
                     <div class='bblock' style="height: 40px;width: 150px;font-size: 30px">{{passportID}}</div>
 
                 </div>
                 <div class="bblock">
                     <label>Адрес проживания</label>
-                    <!--<input type='text' id='aor' class='form-control bblock' style="height: 40px;width: 320px" name='aor' required disabled>-->
-                    <div class='bblock' style="height: 40px;width: 320px;font-size: 30px">{{address}}</div>
+                    <div class='bblock' style="height: 40px;width: 700px;font-size: 30px">{{address}}</div>
                 </div>
 
             </div>
             <div class="wrap">
                 <div class="bblock">
                     <label>Степень образования</label>
-                    <!--<select id='loe' class='form-control bblock' style="height: 40px" name='loe' required disabled>
-                        <option value="a"></option>
-                        <option value="b"></option>
-                    </select>-->
                     <div class='bblock' style="height: 40px;font-size: 30px">{{educationDegree}}</div>
                 </div>
                 <div class="bblock">
 
                     <label>Должность</label>
-                    <!--<select id='pr' class='form-control bblock' style="height: 40px" name='pr' required disabled>
-                        <option value="a"></option>
-                        <option value="b"></option>
-                    </select>-->
-                    <div class='bblock' style="height: 40px;font-size: 30px">{{employeePosition}}</div>
+                    <div class='bblock' style="height: 40px;font-size: 30px">{{#personnelProfession}}{{positionName}}{{/personnelProfession}}</div>
                 </div>
 
 
@@ -155,14 +139,12 @@
                     <div class="bblock">
 
                         <label>Номер телефона(рабочий)</label>
-                        <!--<input type='text' id='not' class='form-control bblock' style="height: 40px" name='not' required disabled>-->
                         <div class='bblock' style="height: 40px;font-size: 30px">{{phoneNumber}}</div>
 
                     </div>
 
                     <div class="bblock">
                         <label>Пароль</label>
-                        <!--<input type='text' id='not' class='form-control bblock' style="height: 40px" name='not' required disabled>-->
                         <div class='bblock' style="height: 40px;font-size: 30px">{{password}}</div>
                     </div>
                 </div>
@@ -171,16 +153,15 @@
         </div>
         {{#isHaveDriverLicense}}
         <div class="tab-pane fade" id="characteristics" style="margin-left: 50px">
-            {{#driverData}}
+            {{#personnel}}
+                {{#driverData}}
             <div class="wrap">
                 <div class="bblock" >
                     <label>Номер лиценции</label>
-                    <!--<input type='text' id='ln' class='form-control bblock' style="height: 40px" name='ln' required disabled>-->
                     <div class='bblock' style="height: 40px;font-size: 30px">{{licenseNum}}</div>
                 </div>
                 <div class="bblock">
                     <label>Лицензия выдана</label>
-                    <!--<input type='text' id='ib' class='form-control bblock' style="height: 40px;width: 320px" name='ib' required disabled>-->
                     <div class='bblock' style="height: 40px;width: 320px;font-size: 30px" >{{licenseIssuedBy}}</div>
                 </div>
 
@@ -191,45 +172,29 @@
             <div class="wrap">
 
                 <div class='bblock' style="height: 40px;width: 320px;font-size: 30px">{{licenseCategory}}</div>
-                <!--<div class="bblock-main">
-                    <label for="cl1" >A</label>
-                    <input type='checkbox' id='cl1' name="a" value="A" class='form-control' disabled >
-                </div>
-                <div class="bblock-main">
-                    <label for="cl2" >B</label>
-                    <input type='checkbox' id='cl2' name="a" value="B" class='form-control ' disabled>
-                </div>
-                <div class="bblock-main">
-                    <label for="cl3" >C</label>
-                    <input type='checkbox' id='cl3' name="a" value="C" class='form-control bblock-main' disabled>
-                </div>-->
-
-
 
             </div>
             <div class="wrap">
                 <div class="bblock">
 
                     <label>Лицензия действительна до</label>
-                    <!-- <input type='date' id='lvu' class='form-control bblock' style="height: 40px;width: 150px;text-align: center" name='lvu' required disabled>-->
                     <div class='bblock' style="height: 40px;width: 150px;font-size: 30px">{{licenseValidUntil}}</div>
 
                 </div>
                 <div class="bblock">
 
                     <label>Медосмотр действителен до</label>
-                    <!--<input type='date' id='mvu' class='form-control bblock' style="height: 40px;width: 150px;text-align: center" name='mvu' required disabled>-->
                     <div class='bblock' style="height: 40px;width: 150px;font-size: 30px">{{medExValidUntil}}</div>
 
                 </div>
 
             </div>
-            {{/driverData}}
+                {{/driverData}}
+            {{/personnel}}
 
             <div class="wrap">
                 <div class="bblock">
                     <label>Назначенный транспорт</label>
-                    <!--<input type='date' id='mvu' class='form-control bblock' style="height: 40px;width: 150px;text-align: center" name='mvu' required disabled>-->
                     <div class='bblock' style="height: 40px;width: 150px;font-size: 30px">{{carData}}</div>
                 </div>
             </div>
@@ -254,17 +219,6 @@
         </div>
         {{/personnel}}
     </div>
-    <!--<div style="background-color: #b21f2d;float: left;width: 50px;height: 100px">
-
-    </div>-->
-    <!--<div >
-        <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;" type="" >Добавить</button>
-    </div>-->
-
-    <!--<div style="margin-left: 50px;margin-top: 30px">
-        <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;" type="submit" >Добавить</button>
-    </div>-->
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

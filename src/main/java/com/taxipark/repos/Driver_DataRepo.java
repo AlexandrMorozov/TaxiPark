@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface Driver_DataRepo extends CrudRepository<Driver_Data,Integer>
 {
-    Driver_Data findByOwnerId(int ownerID);
+   // Driver_Data findByOwnerId(int ownerID);
 
    /* @Modifying
     @Query("UPDATE Driver_Data dd SET dd.licenseNum=?1,dd.licenseIssuedBy=?2," +

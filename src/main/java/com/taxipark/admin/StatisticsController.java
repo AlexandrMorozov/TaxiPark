@@ -49,20 +49,24 @@ public class StatisticsController
     @GetMapping("/ffff")
     public String loadOrdersStatistics()
     {
-        clientOrderRepo.getNumberOfServiceOrdersPerDate("Компьютерная диагностика автоэлектрики");
-
+       /* clientOrderRepo.getNumberOfServiceOrdersPerDate("Компьютерная диагностика автоэлектрики");
+*/
         return "";
     }
 
     @GetMapping("/fff1")
     public String loadPaymentsStatistics(Map<String,Object> model)
     {
-        List<StatisticsDto> statistics=clientOrderRepo.getValueOfServiceOrdersPerDate("Компьютерная диагностика автоэлектрики");
+        /*List<StatisticsDto> statistics=clientOrderRepo.getValueOfServiceOrdersPerDate("Компьютерная диагностика автоэлектрики");
 
         String[] coordinates=calculateStatistics(statistics,"12");
 
         model.put("xAxis",coordinates[0]);
         model.put("yAxis",coordinates[1]);
+
+
+        */
+
 
         /*for(int i=0;i<statistics.size();i++)
         {
@@ -74,7 +78,7 @@ public class StatisticsController
 
 
 
-        return "admin/Test";
+        return "";
     }
 
     private String[] calculateStatistics(List<StatisticsDto> statistics, String month)
