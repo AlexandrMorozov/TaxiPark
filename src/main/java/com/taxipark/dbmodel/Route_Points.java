@@ -1,8 +1,5 @@
 package com.taxipark.dbmodel;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -31,11 +28,6 @@ public class Route_Points
     {
 
     }
-
-    /*public int getStopIDA()
-    {
-        return busStopID.getStopID();
-    }*/
 
     public int getRouteID()
     {
@@ -78,12 +70,4 @@ public class Route_Points
         this.stopNumber = stopNumber;
     }
 
-/////////////////////////////////////////////////////////
-    /*public void setBusStopID(Bus_Stop busStopID) {
-        this.busStopID = busStopID;
-    }*/
-
-    /*public Bus_Stop getBusStopID() {
-        return busStopID;
-    }*/
 }

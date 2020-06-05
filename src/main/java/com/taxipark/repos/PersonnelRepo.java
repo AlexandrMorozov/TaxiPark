@@ -16,6 +16,8 @@ public interface PersonnelRepo extends CrudRepository<Personnel,Integer>
 {
     Personnel findByPersonnelID(int personnelID);
 
+    Personnel findByLogin(String login);
+
    // Personnel findAllByPassportID(String passportID);
 
     //int personnelID, String fullName,String employeePosition,String login

@@ -2,7 +2,6 @@ package com.taxipark.dbmodel;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 @Entity
 public class Order_Route
@@ -20,9 +19,6 @@ public class Order_Route
     private String placeOfArrival;
     @Column(name = "cargoweight")
     private Double cargoWeight;
-    /*@NotNull
-    @Column(name = "orderid")
-    private int orderID;*/
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,12 +30,11 @@ public class Order_Route
 
     }
 
-    public Order_Route(String placeOfDeparture, String placeOfArrival,Double cargoWeight, /*int orderID*/ClientOrder mainOrder)
+    public Order_Route(String placeOfDeparture, String placeOfArrival,Double cargoWeight, ClientOrder mainOrder)
     {
         this.placeOfDeparture=placeOfDeparture;
         this.placeOfArrival=placeOfArrival;
         this.cargoWeight=cargoWeight;
-       // this.orderID=orderID;
         this.clientOrder=mainOrder;
     }
 
@@ -54,10 +49,6 @@ public class Order_Route
     public String getPlaceOfArrival() {
         return placeOfArrival;
     }
-
-   /* public int getOrderID() {
-        return orderID;
-    }*/
 
     public ClientOrder getMainOrder() {
         return clientOrder;
@@ -78,10 +69,6 @@ public class Order_Route
     public void setPlaceOfArrival(String placeOfArrival) {
         this.placeOfArrival = placeOfArrival;
     }
-
-    /*public void setOrderID(int orderID) {
-        this.orderID = orderID;
-    }*/
 
     public void setMainOrder(ClientOrder mainOrder) {
         this.clientOrder = mainOrder;

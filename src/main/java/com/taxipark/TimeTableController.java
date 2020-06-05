@@ -6,7 +6,7 @@ import com.taxipark.dbmodel.Route;
 import com.taxipark.dto.ArrivalHourDisplayDto;
 import com.taxipark.dto.ArrivalMinuteDisplayDto;
 import com.taxipark.dto.RpBsDto;
-import com.taxipark.logic.NavBarLoader;
+import com.taxipark.services.NavBarLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

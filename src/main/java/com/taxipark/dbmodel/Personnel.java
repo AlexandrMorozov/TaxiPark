@@ -36,12 +36,6 @@ public class Personnel
     @NotNull
     @Column(name="transportID")
     private Integer transportID;
-    /*@NotNull
-    @Column(name="position")
-    private String employeePosition;*/
-    /*@NotNull
-    @Column(name = "position")
-    private int position;*/
     @NotNull
     @Column(name="login")
     private String login;
@@ -49,16 +43,10 @@ public class Personnel
     @Column(name="password")
     private String password;
 
-    /////////////////
     @NotNull
     @ManyToOne(targetEntity = Positions.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "position")
     private Positions personnelProfession;
-
-    /*@NotNull
-    @ManyToOne(targetEntity = Transport.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "transportID")
-    private Transport attachedTransport;*/
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "assignedEmployee")
     private List<ClientOrder> relatedOrders;
@@ -66,18 +54,16 @@ public class Personnel
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "driver")
     private List<Driver_Data> driverData;
 
-    public Personnel(int personnelID, String fullName/*,String personnelProfession*//*int position*/,String login)
+    public Personnel(int personnelID, String fullName,String login)
     {
         this.personnelID=personnelID;
         this.fullName=fullName;
-       /* this.personnelProfession=personnelProfession;*/
-        /*this.position=position;*/
         this.login=login;
     }
 
     public Personnel(String fullName,String dateOfBirth,String placeOfBirth, String passportID,
-                     String address,String educationDegree,String phoneNumber, Integer transportID/*Transport attachedTransport*/,
-                     /*String employeePosition*//*int position*/Positions personnelProfession,String login, String password)
+                     String address,String educationDegree,String phoneNumber, Integer transportID,
+                     Positions personnelProfession,String login, String password)
     {
         this.fullName=fullName;
         this.dateOfBirth=dateOfBirth;
@@ -86,10 +72,7 @@ public class Personnel
         this.address=address;
         this.educationDegree=educationDegree;
         this.phoneNumber=phoneNumber;
-        /*this.attachedTransport=attachedTransport;*/
         this.transportID=transportID;
-        //this.employeePosition=employeePosition;
-       // this.position=position;
         this.personnelProfession=personnelProfession;
         this.login=login;
         this.password=password;
@@ -100,13 +83,6 @@ public class Personnel
 
     }
 
-    /*public Personnel(int personnelID,String login,String fullName)
-    {
-        this.personnelID=personnelID;
-        this.fullName=fullName;
-        this.login=login;
-    }
-*/
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
@@ -118,10 +94,6 @@ public class Personnel
     public void setTransportID(Integer transportID) {
         this.transportID = transportID;
     }
-
-   /* public void setAttachedTransport(Transport attachedTransport) {
-        this.attachedTransport = attachedTransport;
-    }*/
 
     public void setRelatedOrders(List<ClientOrder> relatedOrders) {
         this.relatedOrders = relatedOrders;
@@ -150,14 +122,6 @@ public class Personnel
     public void setPlaceOfBirth(String placeOfBirth) {
         this.placeOfBirth = placeOfBirth;
     }
-
-    /*public void setEmployeePosition(String employeePosition) {
-        this.employeePosition = employeePosition;
-    }*/
-
-   /* public void setPosition(int position) {
-        this.position = position;
-    }*/
 
     public void setLogin(String login) {
         this.login = login;
@@ -207,21 +171,9 @@ public class Personnel
         return transportID;
     }
 
-   /* public Transport getAttachedTransport() {
-        return attachedTransport;
-    }*/
-
     public List<ClientOrder> getRelatedOrders() {
         return relatedOrders;
     }
-
-    /*public String getEmployeePosition() {
-        return employeePosition;
-    }*/
-
-    /*public int getPosition() {
-        return position;
-    }*/
 
     public String getLogin() {
         return login;
@@ -230,10 +182,6 @@ public class Personnel
     public String getPassword() {
         return password;
     }
-
-
-    /////////////
-
 
     public Positions getPersonnelProfession() {
         return personnelProfession;

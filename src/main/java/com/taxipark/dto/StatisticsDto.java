@@ -1,53 +1,35 @@
 package com.taxipark.dto;
 
-
 public class StatisticsDto
 {
-    private String dateOfOrder;
-    private String serviceName;
-    private /*long*/double value;
+    private String date;
+    private double value;
 
-    public StatisticsDto(String dateOfOrder, String serviceName, long value)
+    public StatisticsDto(String date,double value)
     {
-        this.dateOfOrder = dateOfOrder;
-        this.serviceName=serviceName;
-        this.value=value;
-    }
-
-    public StatisticsDto(String dateOfOrder, String serviceName, double value)
-    {
-        this.dateOfOrder = dateOfOrder;
-        this.serviceName=serviceName;
-        this.value=value;
-    }
-
-    public StatisticsDto(String dateOfOrder, String serviceName)
-    {
-        this.dateOfOrder = dateOfOrder;
-        this.serviceName=serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
-    public void setValue(int value) {
+        this.date=date;
         this.value = value;
     }
 
-    public void setDateOfOrder(String dateOfOrder) {
-        this.dateOfOrder = dateOfOrder;
+    public StatisticsDto(String date,long paymentNumber)
+    {
+        this.date=date;
+        this.value =paymentNumber;
     }
 
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public /*long*/double getValue() {
+    public double getValue() {
         return value;
     }
 
-    public String getDateOfOrder() {
-        return dateOfOrder;
+    public String getDate() {
+        return date;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

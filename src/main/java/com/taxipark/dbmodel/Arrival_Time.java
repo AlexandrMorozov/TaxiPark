@@ -2,7 +2,6 @@ package com.taxipark.dbmodel;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Time;
 
 @Entity
 public class Arrival_Time
@@ -17,7 +16,6 @@ public class Arrival_Time
     private String typeOfDay;
     @NotNull
     @Column(name="time")
-    /*private Time time;*/
     private String time;
     @NotNull
     @Column(name="busstopid")
@@ -28,11 +26,6 @@ public class Arrival_Time
     @NotNull
     @Column(name="direction")
     private String direction;
-
-    /*public Arrival_Time(int arrivalTimeID, String typeOfDay, Time time, int busStopID, int routeID, String direction)
-    {
-        this.time=time;
-    }*/
 
     public Arrival_Time()
     {
@@ -59,10 +52,6 @@ public class Arrival_Time
         return typeOfDay;
     }
 
-   /* public Time getTime() {
-        return time;
-    }*/
-
     public void setDirection(String direction) {
         this.direction = direction;
     }
@@ -79,16 +68,9 @@ public class Arrival_Time
         this.routeID = routeID;
     }
 
-    /*public void setTime(Time time) {
-        this.time = time;
-    }*/
-
     public void setTypeOfDay(String typeOfDay) {
         this.typeOfDay = typeOfDay;
     }
-
-    /////////////////////////////////////////////////////////
-
 
     public void setTime(String time) {
         this.time = time;

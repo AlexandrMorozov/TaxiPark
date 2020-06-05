@@ -4,7 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Services
@@ -38,7 +37,6 @@ public class Services
     @OneToMany(targetEntity = Customer_Services_Data.class, mappedBy = "mainServiceData", orphanRemoval = false, fetch = FetchType.LAZY)
     private List<Customer_Services_Data> serviceData;
 
-
     public Services()
     {
 
@@ -69,7 +67,7 @@ public class Services
         this.serviceData=(List<Customer_Services_Data>)serviceData;
     }
 
-    public /*double*/Double getCalculatablePrice() {
+    public Double getCalculatablePrice() {
         return calculatablePrice;
     }
 

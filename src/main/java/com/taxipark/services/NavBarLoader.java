@@ -1,14 +1,16 @@
-package com.taxipark.logic;
+package com.taxipark.services;
 
 import com.taxipark.repos.ServicesRepo;
 import com.taxipark.repos.Services_CategoryRepo;
 import com.taxipark.dbmodel.Services;
 import com.taxipark.dbmodel.Services_Category;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class NavBarLoader
 {
     public void checkAuthorization(String login, Map<String,Object> model)

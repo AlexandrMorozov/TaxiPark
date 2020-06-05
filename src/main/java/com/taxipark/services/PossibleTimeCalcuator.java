@@ -1,13 +1,15 @@
-package com.taxipark.logic;
+package com.taxipark.services;
 
 import com.taxipark.dbmodel.Services;
 import com.taxipark.repos.ServicesRepo;
 import com.taxipark.dbmodel.ClientOrder;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class PossibleTimeCalcuator
 {
     public List<ClientOrder> countTimeGaps(List<ClientOrder> listOfOrders, double userOrderCompletionTime, ServicesRepo servicesRepo)

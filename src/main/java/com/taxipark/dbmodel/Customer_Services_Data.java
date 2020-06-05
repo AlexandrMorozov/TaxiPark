@@ -1,9 +1,7 @@
 package com.taxipark.dbmodel;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 @Entity
 public class Customer_Services_Data
@@ -19,9 +17,6 @@ public class Customer_Services_Data
     @NotNull
     @Column(name="guaranteetime")
     private int guaranteeTime;
-   /* @NotNull
-    @Column(name = "serviceid")
-    private int serviceID;*/
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,11 +29,10 @@ public class Customer_Services_Data
 
     }
 
-    public Customer_Services_Data(double completionTime, int guaranteeTime, /*int serviceID*/Services mainServiceData)
+    public Customer_Services_Data(double completionTime, int guaranteeTime, Services mainServiceData)
     {
         this.completionTime=completionTime;
         this.guaranteeTime=guaranteeTime;
-        //this.serviceID=serviceID;
         this.mainServiceData=mainServiceData;
     }
 
@@ -55,10 +49,6 @@ public class Customer_Services_Data
         return guaranteeTime;
     }
 
-    /*public int getServiceID() {
-        return serviceID;
-    }*/
-
     public Services getMainServiceData() {
         return mainServiceData;
     }
@@ -74,10 +64,6 @@ public class Customer_Services_Data
     public void setGuaranteeTime(int guaranteeTime) {
         this.guaranteeTime = guaranteeTime;
     }
-
-   /* public void setServiceID(int serviceID) {
-        this.serviceID = serviceID;
-    }*/
 
     public void setMainServiceData(Services mainServiceData) {
         this.mainServiceData = mainServiceData;

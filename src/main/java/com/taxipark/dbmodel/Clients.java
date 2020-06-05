@@ -2,7 +2,6 @@ package com.taxipark.dbmodel;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
 
 @Entity
 public class Clients

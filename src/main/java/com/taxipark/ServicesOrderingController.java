@@ -1,9 +1,9 @@
 package com.taxipark;
 
-import com.taxipark.config.OrderMessageHandler;
 import com.taxipark.dbmodel.*;
 import com.taxipark.repos.*;
-import com.taxipark.logic.PossibleTimeCalcuator;
+import com.taxipark.services.PossibleTimeCalcuator;
+import com.taxipark.services.OrderLimitationChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,8 +31,8 @@ public class ServicesOrderingController
     private Order_RouteRepo order_routeRepo;
     @Autowired
     private PersonnelRepo personnelRepo;
-
-
+    @Autowired
+    private OrderLimitationChecker orderLimitationChecker;
     /////////////
     //@Autowired
     //private OrderMessageHandler test;
@@ -41,16 +41,40 @@ public class ServicesOrderingController
     private PossibleTimeCalcuator possibleTimeCalcuator=new PossibleTimeCalcuator();
 
     @PostMapping("/CreateTransportOrder")
-    public String addTaxiOrder(@RequestParam(name = "id") int serviceID, @RequestParam(name = "fromPoint") String fromPoint, @RequestParam(name = "toPoint") String toPoint,
-                               @RequestParam(name = "name", required = false) String userName, @RequestParam(name = "telephone", required = false) String userTelephone,
-                               @RequestParam(name = "comment") String comment, HttpSession session)
+    public String addTaxiOrder(@RequestParam(name = "id") int serviceID,
+                               @RequestParam(name = "fromPoint") String fromPoint,
+                               @RequestParam(name = "toPoint") String toPoint,
+                               @RequestParam(name = "telephone", required = false) String userTelephone,
+                               HttpSession session)
     {
 
         String login=(String) session.getAttribute("login");
 
+        Integer clientID=null;
+        String unauthorizedClientContactInfo=null;
+        boolean isOrderLimitReached;
+
+        if(login==null)
+        {
+            unauthorizedClientContactInfo=userTelephone;
+            isOrderLimitReached=orderLimitationChecker.checkInstantOrderLimit(userTelephone,"transport service");
+        }
+        else
+        {
+            Clients currentRegisteredClient=clientsRepo.findByClientLogin(login);
+            clientID=currentRegisteredClient.getClientID();
+            isOrderLimitReached=orderLimitationChecker.checkInstantOrderLimit(clientID,"transport service");
+        }
+
+        //OrderMessageHandler.getInstanse().test();
+
+        if(isOrderLimitReached)
+        {
+            return "";
+        }
+
         Services orderedService=servicesRepo.findByServicesID(serviceID);
 
-        Integer clientID=null;
 
         double cost=Math.round(orderedService.getCalculatablePrice()*(2+Math.random()*13));
         /*orderedService.getCalculatablePrice()*(2+Math.random()*13)*/
@@ -58,61 +82,83 @@ public class ServicesOrderingController
         LocalDate currentDate=LocalDate.now();
         LocalTime currentTime=LocalTime.now();
 
+       /* System.out.println("redy");
+        WebSocketHandler.getInstance().assignTaxiOrder(login);*/
 
-        if(login==null)
+
+       /* if(login==null)
         {
-            comment=userName+"; "+userTelephone+"\n"+comment;
+            unauthorizedClientContactInfo=userTelephone;
         }
         else
         {
             Clients currentRegisteredClient=clientsRepo.findByClientLogin(login);
             clientID=currentRegisteredClient.getClientID();
-        }
+        }*/
 
         ClientOrder newClientOrder=
-                new ClientOrder(clientID,/*serviceID*/servicesRepo.findByServicesID(serviceID),/*45*/null,cost,"transport service",currentDate.toString(),currentTime.toString(),"active",comment);
+                new ClientOrder(clientID,orderedService,null,cost,"transport service",
+                        currentDate.toString(),currentTime.toString(),"active",/*comment*/null,unauthorizedClientContactInfo);
 
         clientOrderRepo.save(newClientOrder);
 
-        Order_Route newOrderRoute=new Order_Route(fromPoint,toPoint,null,newClientOrder/*.getOrderID()*/);
+        Order_Route newOrderRoute=new Order_Route(fromPoint,toPoint,null,newClientOrder);
         order_routeRepo.save(newOrderRoute);
 
         return "redirect:/";
     }
 
     @PostMapping("/CreateCargoTransportOrder")
-    public String addCargoTaxiOrder(@RequestParam(name = "id") int serviceID, @RequestParam(name = "fromPoint") String fromPoint, @RequestParam(name = "toPoint") String toPoint,
-                                    @RequestParam(name = "date") String date, @RequestParam(name = "time") String time, @RequestParam(name = "name", required = false) String userName,
-                                    @RequestParam(name = "telephone", required = false) String userTelephone, @RequestParam(name = "comment") String comment,
-                                    @RequestParam(name = "weight") int weight,HttpSession session)
+    public String addCargoTaxiOrder(@RequestParam(name = "id") int serviceID, @RequestParam(name = "fromPoint") String fromPoint,
+                                    @RequestParam(name = "toPoint") String toPoint, @RequestParam(name = "date") String date,
+                                    @RequestParam(name = "time") String time, @RequestParam(name = "telephone", required = false) String userTelephone,
+                                    @RequestParam(name = "comment") String comment, @RequestParam(name = "weight") int weight,HttpSession session)
     {
         String login=(String) session.getAttribute("login");
 
-        Services orderedService=servicesRepo.findByServicesID(serviceID);
         Integer clientID=null;
-        double cost=Math.round(0.1*weight+(2+Math.random()*28)*orderedService.getCalculatablePrice()+orderedService.getPrice());
-        /*0.1*weight+(2+Math.random()*28)*orderedService.getCalculatablePrice()+orderedService.getPrice()*/;
-
-
-        String weightData=weight+" кг;";
-        comment=weightData+comment;
+        String unauthorizedClientContactInfo=null;
+        boolean isOrderLimitReached;
 
         if(login==null)
         {
-            comment=userName+"; "+userTelephone+"\n"+comment;
+            unauthorizedClientContactInfo=userTelephone;
+            isOrderLimitReached=orderLimitationChecker.checkPreOrderLimit(date,userTelephone,"transport service");
         }
         else
         {
             Clients currentRegisteredClient=clientsRepo.findByClientLogin(login);
             clientID=currentRegisteredClient.getClientID();
+            isOrderLimitReached=orderLimitationChecker.checkPreOrderLimit(date,clientID,"transport service");
         }
 
+        if(isOrderLimitReached)
+        {
+            return "";
+        }
+
+        Services orderedService=servicesRepo.findByServicesID(serviceID);
+
+        double cost=Math.round(0.1*weight+(2+Math.random()*28)*orderedService.getCalculatablePrice()+orderedService.getPrice());
+        /*0.1*weight+(2+Math.random()*28)*orderedService.getCalculatablePrice()+orderedService.getPrice()*/;
+
+       /* if(login==null)
+        {
+            unauthorizedClientContactInfo=userTelephone;
+        }
+        else
+        {
+            Clients currentRegisteredClient=clientsRepo.findByClientLogin(login);
+            clientID=currentRegisteredClient.getClientID();
+        }*/
+
         ClientOrder newClientOrder=
-                new ClientOrder(clientID,/*serviceID*/servicesRepo.findByServicesID(serviceID),/*45*/null,cost,"transport service",date,time+":00","active",comment);
+                new ClientOrder(clientID,servicesRepo.findByServicesID(serviceID),null,cost,"transport service",
+                        date,time+":00","active",comment,unauthorizedClientContactInfo);
 
         clientOrderRepo.save(newClientOrder);
 
-        Order_Route newOrderRoute=new Order_Route(fromPoint,toPoint,(double)weight,newClientOrder/*.getOrderID()*/);
+        Order_Route newOrderRoute=new Order_Route(fromPoint,toPoint,(double)weight,newClientOrder);
         order_routeRepo.save(newOrderRoute);
 
         return "redirect:/";
@@ -120,7 +166,6 @@ public class ServicesOrderingController
 
     @PostMapping("/CalculateOrderTime")
     public String getTimeSelectionMenu(@RequestParam(name = "id") int serviceID, @RequestParam(name = "date") String date,
-                                       @RequestParam(name = "name", required = false) String userName,
                                        @RequestParam(name = "telephone", required = false) String userTelephone,
                                        @RequestParam(name = "comment") String comment, HttpSession session, Map<String,Object> model)
     {
@@ -128,20 +173,19 @@ public class ServicesOrderingController
 
         String login=(String) session.getAttribute("login");
         List<ClientOrder> listOfSelectedDateClientOrders = clientOrderRepo.findTimesOfAllActiveOrdersByDay(date,"customer service","active");
-        /*CompletionTimeDto*/Services orderedServiceDuration=servicesRepo./*findCompletionTime*/findByServicesID(serviceID);
+        Services orderedServiceDuration=servicesRepo.findByServicesID(serviceID);
         Iterable<ClientOrder> listOfPossibleOrderTime=
-                possibleTimeCalcuator.countTimeGaps(listOfSelectedDateClientOrders, orderedServiceDuration.getServiceData().get(0).getCompletionTime()
-                        /*getCompletionTime()*/,servicesRepo);
+                possibleTimeCalcuator.countTimeGaps(listOfSelectedDateClientOrders, orderedServiceDuration.getServiceData().get(0).getCompletionTime(),servicesRepo);
 
         if(listOfPossibleOrderTime==null)
         {
-            response="redirect:/";
+            response="redirect:/ServicesPage?id="+serviceID;
         }
         else
         {
             Services currentService=servicesRepo.findByServicesID(serviceID);
             Customer_Services_Data additionalServiceData=
-                    customer_services_dataRepo.findByMainServiceData(currentService)/*findByServiceID(currentService.getServicesID())*/;
+                    customer_services_dataRepo.findByMainServiceData(currentService);
 
             response="user/DateTimeChoosingPage";
             model.put("service", currentService);
@@ -153,7 +197,6 @@ public class ServicesOrderingController
             if(login==null)
             {
                 model.put("nonAuthorized",true);
-                model.put("clientName",userName);
                 model.put("telephone",userTelephone);
             }
             else
@@ -162,48 +205,61 @@ public class ServicesOrderingController
             }
         }
 
+        //response="redirect:/ServicesPage?id="+serviceID;
+
         return response;
     }
 
     @PostMapping("/CreateOrder")
     public String addCustomerServiceOrder(@RequestParam(name = "id") int serviceID, @RequestParam(name = "ordDate") String date,
-                                          @RequestParam(name = "orderTime") String time, @RequestParam(name = "name", required = false) String userName,
-                                          @RequestParam(name = "telephone", required = false) String userTelephone, @RequestParam(name = "comment") String comment,
-                                          HttpSession session)
+                                          @RequestParam(name = "orderTime") String time, @RequestParam(name = "telephone", required = false) String userTelephone,
+                                          @RequestParam(name = "comment") String comment, HttpSession session)
     {
 
         String login=(String) session.getAttribute("login");
 
-        Services orderedService=servicesRepo.findByServicesID(serviceID);
-
         Integer clientID=null;
-        double cost=orderedService.getPrice();
-        time=time+":00";
+        String unauthorizedClientContactInfo=null;
+        boolean isOrderLimitReached;
 
         if(login==null)
         {
-            comment=userName+"; "+userTelephone+"\n"+comment;
+            unauthorizedClientContactInfo=userTelephone;
+            isOrderLimitReached=orderLimitationChecker.checkPreOrderLimit(date,userTelephone,"transport service");
         }
         else
         {
             Clients currentRegisteredClient=clientsRepo.findByClientLogin(login);
             clientID=currentRegisteredClient.getClientID();
+            isOrderLimitReached=orderLimitationChecker.checkPreOrderLimit(date,clientID,"transport service");
         }
 
-        /////
-        ClientOrder newClientOrder=new ClientOrder(clientID,/*serviceID*/servicesRepo.findByServicesID(serviceID),/*45*/null,cost,"customer service",date,time,"active",comment);
+        if(isOrderLimitReached)
+        {
+            return "";
+        }
+
+        Services orderedService=servicesRepo.findByServicesID(serviceID);
+
+        double cost=orderedService.getPrice();
+
+        /*if(login==null)
+        {
+            unauthorizedClientContactInfo=userTelephone;
+        }
+        else
+        {
+            Clients currentRegisteredClient=clientsRepo.findByClientLogin(login);
+            clientID=currentRegisteredClient.getClientID();
+        }*/
+
+        ClientOrder newClientOrder=new ClientOrder(clientID,orderedService,null,cost,
+                "customer service",date,time+":00","active",comment,unauthorizedClientContactInfo);
 
         clientOrderRepo.save(newClientOrder);
 
 
         return "redirect:/";
     }
-
-    /*private void findAvailableCargoCar()
-    {
-        personnelRepo.
-    }*/
-
-
 
 }

@@ -2,7 +2,7 @@ package com.taxipark;
 
 import com.taxipark.dbmodel.Customer_Services_Data;
 import com.taxipark.dbmodel.Services;
-import com.taxipark.logic.NavBarLoader;
+import com.taxipark.services.NavBarLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +31,8 @@ public class MainController
     public String mainPage(HttpSession session, Map<String, Object> model)
     {
         String login=(String) session.getAttribute("login");
+
+        System.out.println(session.getId());
 
         navBarLoader.checkAuthorization(login,model);
         navBarLoader.loadNavigationBarLinks(model,services_categoryRepo,servicesRepo);

@@ -28,7 +28,6 @@ public class Positions
 
     }
 
-
     public boolean isPositionCoefficient() {
         return positionCoefficient;
     }

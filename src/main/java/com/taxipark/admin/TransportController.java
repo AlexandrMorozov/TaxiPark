@@ -1,7 +1,7 @@
 package com.taxipark.admin;
 
 import com.taxipark.dbmodel.Transport;
-import com.taxipark.logic.NavBarLoader;
+import com.taxipark.services.NavBarLoader;
 import com.taxipark.repos.TransportRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

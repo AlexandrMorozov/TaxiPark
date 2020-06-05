@@ -3,7 +3,7 @@ package com.taxipark;
 import com.taxipark.repos.*;
 import com.taxipark.dbmodel.ClientOrder;
 import com.taxipark.dbmodel.Clients;
-import com.taxipark.logic.NavBarLoader;
+import com.taxipark.services.NavBarLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 

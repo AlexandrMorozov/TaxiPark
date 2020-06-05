@@ -1,34 +1,40 @@
 package com.taxipark.config;
 
+import com.taxipark.StatisticsSocketHandler;
+import com.taxipark.repos.Payments_ListRepo;
+import com.taxipark.repos.Services_CategoryRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 @Configuration
-@EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer
+/*@EnableWebSocket*/
+public class WebSocketConfig
 {
-    @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
-        webSocketHandlerRegistry.addHandler(new OrderMessageHandler(),"/order")
-                .setAllowedOrigins("*");
+    @Autowired
+    Payments_ListRepo paymentsListRepo;
+    @Autowired
+    Services_CategoryRepo servicesCategoryRepo;
 
+    @Bean
+    public StatisticsSocketHandler statisticsSocketHandler()
+    {
+        System.out.println(paymentsListRepo);
+        return new StatisticsSocketHandler(paymentsListRepo,servicesCategoryRepo);
     }
 
     @Bean
-    public TaskScheduler taskScheduler()
+    public ServerEndpointExporter serverEndpointExporter()
     {
-        TaskScheduler scheduler = new ThreadPoolTaskScheduler();
-
-        //scheduler.
-        //scheduler.setPoolSize(2);
-       // scheduler.setThreadNamePrefix("scheduled-task-");
-        //scheduler.setDaemon(true);
-
-        return scheduler;
+        System.out.println("serverEndPointExporter");
+        return new ServerEndpointExporter();
     }
+
+    @Bean
+    public SpringConfig customSpringConfigurator()
+    {
+        return new SpringConfig();
+    }
+
 }

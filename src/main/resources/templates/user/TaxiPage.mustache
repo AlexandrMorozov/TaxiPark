@@ -5,6 +5,7 @@
     <title>MyCityTaxi | Заказ такси</title>
     <link rel='stylesheet' href='/css/bootstrap.min.css' type='text/css' media='all'>
     <link rel="stylesheet" href="/css/orderpagecss.css" type='text/css'>
+    <script src="/js/OrderMenuWebsocket.js"></script>
 
 </head>
 <body>
@@ -87,7 +88,17 @@
                                         <div class="service-prop__block">
                                             <div class="service-prop__name">Стоимость:</div>
                                             <div class="service-prop__value">
-                                                <span>{{calculatablePrice}}</span> руб./км.
+                                                <span id="unitcost">{{calculatablePrice}}</span> руб./км.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="service-prop">
+                                    <div class="service-prop__block-group">
+                                        <div class="service-prop__block">
+                                            <div class="service-prop__name">Стоимость:</div>
+                                            <div class="service-prop__value">
+                                                <span id="finalcost"></span> руб.
                                             </div>
                                         </div>
                                     </div>
@@ -96,7 +107,7 @@
                                 <div class="service-prop">
                                     <div class="service-prop__block">
                                         <div class="service-prop__name">Откуда</div>
-                                        <input type="text" name="fromPoint" class='form-control' required>
+                                        <input type="text" name="fromPoint" class='form-control' onchange="sendPriceRequest()" required>
                                     </div>
                                 </div>
                                 <div class="service-prop">
@@ -107,12 +118,12 @@
                                 </div>
 
                                     {{#nonAuthorized}}
-                                        <div class="service-prop">
+                                        <!--<div class="service-prop">
                                             <div class="service-prop__block">
                                                 <div class="service-prop__name">Имя</div>
                                                 <input type="text" name="name" class='form-control' required>
                                             </div>
-                                        </div>
+                                        </div>-->
                                         <div class="service-prop">
                                             <div class="service-prop__block">
                                                 <div class="service-prop__name">Телефон</div>
@@ -121,12 +132,12 @@
                                         </div>
                                     {{/nonAuthorized}}
 
-                                    <div class="service-prop">
+                                    <!--<div class="service-prop">
                                         <div class="service-prop__block">
                                             <div class="service-prop__name">Комментарий</div>
                                             <textarea name="comment" maxlength="100" cols="35" rows="3"></textarea>
                                         </div>
-                                    </div>
+                                    </div>-->
 
                             </div>
                         </div>

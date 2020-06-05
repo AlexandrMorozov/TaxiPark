@@ -7,4 +7,5 @@ public interface ClientsRepo extends CrudRepository<Clients,Integer>
 {
     Clients findByClientLogin(String clientLogin);
     Clients findByClientLoginAndClientPassword(String login, String password);
+    Clients findByTelephoneNumber(String telephoneNumber);
 }

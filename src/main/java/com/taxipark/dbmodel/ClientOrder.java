@@ -36,6 +36,8 @@ public class ClientOrder
     private String status;
     @Column(name="addinfo")
     private String addInfo;
+    @Column(name="unauthcontactinfo")
+    private String unauthContactInfo;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "clientOrder")
     private List<Order_Route> orderRoute;
@@ -54,9 +56,8 @@ public class ClientOrder
 
     }
 
-    public ClientOrder(/*int serviceID*/Services orderedService,String dateOfOrder, String timeOfOrder)
+    public ClientOrder(Services orderedService,String dateOfOrder, String timeOfOrder)
     {
-        /*this.serviceID=serviceID;*/
         this.orderedService=orderedService;
         this.dateOfOrder=dateOfOrder;
         this.timeOfOrder=timeOfOrder;
@@ -67,14 +68,13 @@ public class ClientOrder
         this.timeOfOrder=timeOfOrder;
     }
 
-    public ClientOrder(Integer clientID,/*int serviceID*/Services orderedService,/*Integer personnelID*/Personnel assignedEmployee, double cost, String orderType, String dateOfOrder,
-                       String timeOfOrder, String status, String addInfo)
+    public ClientOrder(Integer clientID,Services orderedService,Personnel assignedEmployee, double cost,
+                       String orderType, String dateOfOrder, String timeOfOrder, String status, String addInfo,
+                       String unauthContactInfo)
 
     {
         this.clientID=clientID;
-       /* this.serviceID=serviceID;*/
         this.orderedService=orderedService;
-        /*this.personnelID=personnelID;*/
         this.assignedEmployee=assignedEmployee;
         this.cost=cost;
         this.orderType=orderType;
@@ -82,6 +82,7 @@ public class ClientOrder
         this.timeOfOrder=timeOfOrder;
         this.status=status;
         this.addInfo=addInfo;
+        this.unauthContactInfo=unauthContactInfo;
     }
 
     public Integer getClientID() {
@@ -95,10 +96,6 @@ public class ClientOrder
     public int getOrderID() {
         return orderID;
     }
-
-  /*  public Integer getServiceID() {
-        return serviceID;
-    }*/
 
     public String getAddInfo() {
         return addInfo;
@@ -120,15 +117,9 @@ public class ClientOrder
         return orderType;
     }
 
-   /* public Integer getPersonnelID() {
-        return personnelID;
-    }*/
-
     public Personnel getAssignedEmployee() {
         return assignedEmployee;
     }
-
-    /////////////////////
 
     public List<Order_Route> getOrderRoute() {
         return orderRoute;
@@ -136,6 +127,10 @@ public class ClientOrder
 
     public Services getOrderedService() {
         return orderedService;
+    }
+
+    public String getUnauthContactInfo() {
+        return unauthContactInfo;
     }
 
     public void setClientID(Integer clientID) {
@@ -158,10 +153,6 @@ public class ClientOrder
         this.orderID = orderID;
     }
 
-   /* public void setServiceID(Integer serviceID) {
-        this.serviceID = serviceID;
-    }*/
-
     public void setStatus(String status) {
         this.status = status;
     }
@@ -174,16 +165,9 @@ public class ClientOrder
         this.orderType = orderType;
     }
 
-    /*public void setPersonnelID(Integer personnelID) {
-        this.personnelID = personnelID;
-    }*/
-
     public void setAssignedEmployee(Personnel assignedEmployee) {
         this.assignedEmployee = assignedEmployee;
     }
-
-    ///////////////////
-
 
     public void setOrderRoute(List<Order_Route> orderRoute) {
         this.orderRoute = orderRoute;
@@ -191,5 +175,9 @@ public class ClientOrder
 
     public void setOrderedService(Services orderedService) {
         this.orderedService = orderedService;
+    }
+
+    public void setUnauthContactInfo(String unauthContactInfo) {
+        this.unauthContactInfo = unauthContactInfo;
     }
 }

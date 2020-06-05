@@ -3,7 +3,7 @@ package com.taxipark.admin;
 import com.taxipark.dbmodel.Customer_Services_Data;
 import com.taxipark.dbmodel.Services;
 import com.taxipark.dbmodel.Services_Category;
-import com.taxipark.logic.NavBarLoader;
+import com.taxipark.services.NavBarLoader;
 import com.taxipark.repos.Customer_Services_DataRepo;
 import com.taxipark.repos.ServicesRepo;
 import com.taxipark.repos.Services_CategoryRepo;

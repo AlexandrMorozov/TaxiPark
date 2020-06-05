@@ -4,7 +4,7 @@ import com.taxipark.dbmodel.Driver_Data;
 import com.taxipark.dbmodel.Personnel;
 import com.taxipark.dbmodel.Positions;
 import com.taxipark.dbmodel.Transport;
-import com.taxipark.logic.NavBarLoader;
+import com.taxipark.services.NavBarLoader;
 import com.taxipark.repos.Driver_DataRepo;
 import com.taxipark.repos.PersonnelRepo;
 import com.taxipark.repos.PositionsRepo;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -268,6 +267,7 @@ public class PersonnelController
                                @RequestParam(name="lvu",required = false) String licenseValidUntil,@RequestParam(name="mvu",required = false) String medExValidUntil,
                                HttpSession session, Map<String, Object> model)
     {
+
         String fullName=lName+" "+fName+" "+mName;
         ////Creation of login
 

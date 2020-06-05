@@ -1,6 +1,6 @@
 package com.taxipark.admin;
 
-import com.taxipark.logic.NavBarLoader;
+import com.taxipark.services.NavBarLoader;
 import com.taxipark.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
