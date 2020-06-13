@@ -14,11 +14,6 @@ public class ClientOrder
     private int orderID;
     @Column(name="clientid")
     private Integer clientID;
-    //@NotNull
-    /*@Column(name="serviceid")
-    private Integer serviceID;*/
-   /* @Column(name = "presonnelid")
-    private Integer personnelID;*/
     @NotNull
     @Column(name="cost")
     private double cost;
@@ -51,10 +46,7 @@ public class ClientOrder
     private Personnel assignedEmployee;
 
 
-    public ClientOrder()
-    {
-
-    }
+    public ClientOrder() {}
 
     public ClientOrder(Services orderedService,String dateOfOrder, String timeOfOrder)
     {

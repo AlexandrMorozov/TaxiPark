@@ -47,8 +47,21 @@ public class Payments_List
     public Payments_List(int paymentYear)
     {
         this.paymentYear=paymentYear;
-
     }
+
+    public Payments_List(String paymentDate, int paymentYear, String paymentMonth, double paymentSum,
+                         Integer personnelID, Integer serviceID, Integer serviceCategoryID, String paymentType)
+    {
+        this.paymentDate=paymentDate;
+        this.paymentYear=paymentYear;
+        this.paymentMonth=paymentMonth;
+        this.paymentSum=paymentSum;
+        this.personnelID=personnelID;
+        this.serviceID=serviceID;
+        this.serviceCategoryID=serviceCategoryID;
+        this.paymentType=paymentType;
+    }
+
     public void setPaymentType(String paymentType) {
         this.paymentType = paymentType;
     }

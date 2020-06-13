@@ -28,9 +28,6 @@ public class StatisticsSocketHandler {
         this.paymentsListRepo = paymentsListRepo;
         this.servicesCategoryRepo=servicesCategoryRepo;
 
-        System.out.println(paymentsListRepo);
-        System.out.println(servicesCategoryRepo);
-
     }
 
     public StatisticsSocketHandler()
@@ -41,8 +38,6 @@ public class StatisticsSocketHandler {
     @OnOpen
     public void openStatisticsConnection(Session session)
     {
-
-        System.out.println("open");
     }
 
     @OnClose
@@ -60,8 +55,6 @@ public class StatisticsSocketHandler {
     @OnMessage
     public void handleStatisticsConnectionMessage(String message, Session session) throws IOException
     {
-        System.out.println("fdfd");
-        System.out.println(message);
         try (JsonReader reader = Json.createReader(new StringReader(message)))
             {
 
@@ -185,8 +178,6 @@ public class StatisticsSocketHandler {
                 }
 
             }
-
-            System.out.println("eee");
 
 
            /* else if("orders_by_service".equals(jsonMessage.getString("action")))

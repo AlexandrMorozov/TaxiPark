@@ -78,6 +78,24 @@ public class Personnel
         this.password=password;
     }
 
+    public Personnel( int personnelID,String fullName,String dateOfBirth,String placeOfBirth, String passportID,
+                     String address,String educationDegree,String phoneNumber, Integer transportID,
+                     Positions personnelProfession,String login, String password)
+    {
+        this.personnelID=personnelID;
+        this.fullName=fullName;
+        this.dateOfBirth=dateOfBirth;
+        this.placeOfBirth=placeOfBirth;
+        this.passportID=passportID;
+        this.address=address;
+        this.educationDegree=educationDegree;
+        this.phoneNumber=phoneNumber;
+        this.transportID=transportID;
+        this.personnelProfession=personnelProfession;
+        this.login=login;
+        this.password=password;
+    }
+
     public Personnel()
     {
 

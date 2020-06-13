@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MyCityTaxi | Добавить работника</title>
+    <title>MyCityTaxi | Информация о транспортном средстве </title>
     <link rel='stylesheet' href='/css/bootstrap.min.css' type='text/css' media='all'>
     <style>
 
@@ -37,18 +37,25 @@
         <a class="navbar-brand" href="/adminportal">MyCityTaxi Admin</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/adminportal/statistics">Статистика</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/adminportal/personnel">Управление персоналом</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/adminportal/transport">Управление транспортом</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/adminportal/categories">Управление услугами</a>
-                </li>
+                {{#isAdmin}}<!--/adminportal/statistics /adminportal/personnel /adminportal/transport /adminportal/categories-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{statLink}}">Статистика</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{perLink}}">Управление персоналом</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{tranLink}}">Управление транспортом</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{catLink}}">Управление услугами</a>
+                    </li>
+                {{/isAdmin}}
+                {{#isntAdmin}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{cabLink}}">Управление заказами</a>
+                    </li>
+                {{/isntAdmin}}
                 <li class="nav-item" style="margin-left: 450px">
                     <a class="nav-link" href="/adminportal/signout">{{employeeName}}</a>
                 </li>
@@ -76,6 +83,10 @@
                 <label>Цвет</label>
                 <div class='bblock' style="height: 40px;font-size: 30px">{{carColor}}</div>
             </div>
+            <div class="bblock">
+                <label>Тип</label>
+                <div class='bblock' style="height: 40px;font-size: 30px">{{type}}</div>
+            </div>
 
         </div>
         <div class="wrap">
@@ -89,7 +100,7 @@
                 <div class='bblock' style="height: 40px;font-size: 30px">{{vin}}</div>
             </div>
             <div class="bblock">
-                <label>Год производства</label>
+                <label>Дата производства</label>
                 <div class='bblock' style="height: 40px;width: 150px;font-size: 30px">{{yearOfManufacture}}</div>
             </div>
 

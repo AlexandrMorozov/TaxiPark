@@ -31,7 +31,8 @@ public class TimeTableController
     @Autowired
     private ServicesRepo servicesRepo;
 
-    private NavBarLoader navBarLoader=new NavBarLoader();
+    @Autowired
+    private NavBarLoader navBarLoader/*=new NavBarLoader()*/;
 
     @GetMapping("/MainTimetableMenu")
     public String busTimetable(HttpSession session, Map<String, Object> model)

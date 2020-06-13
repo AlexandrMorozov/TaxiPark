@@ -2,11 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MyCityTaxi | Список категорий услуг </title>
+    <title>MyCityTaxi | Список транспортных средств </title>
     <link rel='stylesheet' href='/css/bootstrap.min.css' type='text/css' media='all'>
-    <link rel="stylesheet" href="/css/admincss.css" type='text/css'>
 
     <style>
+
+        .bblock-main{
+            float: left;
+            width: 40px;
+            margin-right: 30px;
+
+        }
+
+        .wrap {
+            width: 1300px;
+            height: 90px;
+
+        }
+
+        .bblock {
+            float: left;
+            width: 250px;
+            margin-right: 20px;
+        }
+        .wrap :last-child {
+            margin-right: 0px;
+        }
+
+
 
         .main-wrap
         {
@@ -127,15 +150,15 @@
         }
 
         html>body thead.fixedHeader th {
-            width: /*150px*/200px;
+            width: /*150px*/170px;
         }
 
         html>body thead.fixedHeader th + th {
-            width: /*100px*/300px;
+            width: /*100px*/150px;
         }
 
         html>body thead.fixedHeader th + th + th {
-            width: /*100px*/200px;
+            width: /*100px*/210px;
         }
 
         html>body thead.fixedHeader th + th + th + th {
@@ -152,15 +175,15 @@
 
 
         html>body tbody.scrollContent td {
-            width: /*150px*/200px;
+            width: /*150px*/170px;
         }
 
         html>body tbody.scrollContent td + td {
-            width: /*100px*/300px;
+            width: /*100px*/150px;
         }
 
         html>body tbody.scrollContent td + td + td {
-            width: /*100px*/200px;
+            width: /*100px*/210px;
         }
 
         html>body tbody.scrollContent td + td + td + td {
@@ -174,10 +197,18 @@
         html>body tbody.scrollContent td + td + td + td + td /*+ td*/ {
             width: /*100px*/200px;
         }
+
+
+
+
+
+
+
     </style>
 
 </head>
 <body>
+
 
 <div>
     <nav class="navbar navbar-expand-lg navbar-light" style="height: 80px;background-color: #007bff">
@@ -212,43 +243,50 @@
     </nav>
 </div>
 
-<h1 style="margin-left: 50px;margin-top: 20px;margin-bottom: 20px">Список категорий услуг</h1>
+
+<h1 style="margin-left: 50px;margin-top: 20px;margin-bottom: 20px">Список транспортных средств</h1>
 
 <div class="wrap" style="margin-top: 30px">
+
     <div class="bblock">
         <div style="margin-left: 50px;">
-            <a href="/adminportal/categories/category/createcategory">
-                <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;">Добавить категорию</button>
+            <a href="/adminportal/transport/createtransport">
+            <button class="btn btn-lg btn-primary btn-block" style="width: 230px;height:80px;">Добавить транспорт</button>
             </a>
         </div>
     </div>
 
     <div style="margin-left: 100px;height: 400px;width: 700px;float: left">
+
         <table width="100%" class="scrollTable table table-sm ">
             <thead class="fixedHeader thead-light">
             <tr>
-                <th>Название</th>
-                <th>Тип</th>
+                <th>Марка</th>
+                <th>Модель</th>
+                <th>Регистрационный номер</th>
                 <th>Действие</th>
             </tr>
             </thead>
             <tbody class="scrollContent">
-            {{#categoriesList}}
+            {{#transportList}}
                 <tr>
-                    <td>{{serviceCategoryName}}</td>
-                    <td>{{serviceCategoryType}}</td>
+                    <td>{{carBrand}}</td>
+                    <td>{{carModel}}</td>
+                    <td>{{licensePlate}}</td>
                     <td>
-                        <a href="/adminportal/categories/category?serviceCategoryID={{serviceCategoryID}}">
+                        <a href="/adminportal/transport/currenttransport?transportID={{transportID}}">
                         <button class="btn btn-lg btn-primary btn-block" >Перейти</button>
                         </a>
                     </td>
                 </tr>
-            {{/categoriesList}}
+            {{/transportList}}
 
             </tbody>
         </table>
     </div>
+
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

@@ -33,7 +33,8 @@ public class PersonnelController
     @Autowired
     PositionsRepo positionsRepo;
 
-    private NavBarLoader navBarLoader=new NavBarLoader();
+    @Autowired
+    private NavBarLoader navBarLoader/*=new NavBarLoader()*/;
 
     @GetMapping("/adminportal/personnel")
     public String mainPersonnelMenu(HttpSession session, Map<String, Object> model)
@@ -45,10 +46,15 @@ public class PersonnelController
             return "admin/main/AdminAuthorization";
         }
 
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
+        }
+
         List<Personnel> allPersonnel=personnelRepo.findAll();
         model.put("personnelList",allPersonnel);
 
-        return "admin/PersonnelMain";
+        return "admin/employee/PersonnelMain";
     }
 
     @GetMapping("/adminportal/personnel/worker")
@@ -60,6 +66,11 @@ public class PersonnelController
         if(!navBarLoader.checkAuthorizationAdmin(login,model))
         {
             return "admin/main/AdminAuthorization";
+        }
+
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
         }
 
         boolean isHaveDriverLicense=false;
@@ -96,7 +107,7 @@ public class PersonnelController
 
 
 
-        return "admin/WorkerPage";
+        return "admin/employee/WorkerPage";
     }
 
     @GetMapping("/adminportal/personnel/deleteemployee")
@@ -107,6 +118,11 @@ public class PersonnelController
         if(!navBarLoader.checkAuthorizationAdmin(login,model))
         {
             return "admin/main/AdminAuthorization";
+        }
+
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
         }
 
         personnelRepo.deleteById(personnelID);
@@ -122,6 +138,11 @@ public class PersonnelController
         if(!navBarLoader.checkAuthorizationAdmin(login,model))
         {
             return "admin/main/AdminAuthorization";
+        }
+
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
         }
 
         String[] educationLevels={"Начальное","Среднее","Среднее общее","Высшее"};
@@ -183,7 +204,7 @@ public class PersonnelController
         model.put("personnel",worker);
         model.put("isHaveDriverLicense",isHaveDriverLicense);
 
-        return "admin/WorkerModificationPage";
+        return "admin/employee/WorkerModificationPage";
     }
 
     @PostMapping("/adminportal/personnel/modify")
@@ -250,11 +271,16 @@ public class PersonnelController
             return "admin/main/AdminAuthorization";
         }
 
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
+        }
+
         Iterable<Transport> unassignedTransports=transportRepo.findAllUnassignedCars();
         model.put("carData",unassignedTransports);
         model.put("positionsData",positionsRepo.findAll());
 
-        return "admin/EmployeeeCreation";
+        return "admin/employee/EmployeeeCreation";
     }
 
 

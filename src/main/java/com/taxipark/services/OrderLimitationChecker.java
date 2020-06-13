@@ -17,7 +17,8 @@ public class OrderLimitationChecker
         String[] weekMarginDays= calculateWeekMarginDays(date);
 
         int numberOfOrderedServices=clientOrderRepo.
-                findNumOfClientOrdersPerWeek(clientID, type,weekMarginDays[0],weekMarginDays[1]);
+                findNumOfClientOrdersPerWeek(clientID, type,
+                        weekMarginDays[0],weekMarginDays[1]);
 
         if(numberOfOrderedServices>3)
         {
@@ -33,7 +34,8 @@ public class OrderLimitationChecker
         String[] weekMarginDays= calculateWeekMarginDays(date);
 
         int numberOfOrderedServices=clientOrderRepo.
-                findNumOfClientOrdersPerWeek(phone, type,weekMarginDays[0],weekMarginDays[1]);
+                findNumOfClientOrdersPerWeek(phone, type,
+                        weekMarginDays[0],weekMarginDays[1]);
 
         if(numberOfOrderedServices>3)
         {
@@ -48,19 +50,25 @@ public class OrderLimitationChecker
         String[] parsedDate=date.split("-");
 
         LocalDate currentDay=LocalDate.of(Integer.parseInt(parsedDate[0]),
-                Integer.parseInt(parsedDate[1]),Integer.parseInt(parsedDate[2]));
+                                          Integer.parseInt(parsedDate[1]),
+                                          Integer.parseInt(parsedDate[2]));
+
         int currentWeekDayNumber=currentDay.getDayOfWeek().getValue();
 
-        LocalDate firstDayOfTheWeek=currentDay.minusDays(currentWeekDayNumber-1);
-        LocalDate lastDayOfTheWeek=currentDay.plusDays(7-currentWeekDayNumber);
+        LocalDate firstDayOfTheWeek=currentDay.
+                minusDays(currentWeekDayNumber-1);
+        LocalDate lastDayOfTheWeek=currentDay.
+                plusDays(7-currentWeekDayNumber);
 
-        return new String[]{firstDayOfTheWeek.toString(),lastDayOfTheWeek.toString()};
+        return new String[]{firstDayOfTheWeek.toString(),
+                lastDayOfTheWeek.toString()};
     }
 
 
     public boolean checkInstantOrderLimit(int clientID, String type)
     {
-        int numberOfOrderedServices=clientOrderRepo.findNumOfActiveClientOrders(clientID,type,"active");
+        int numberOfOrderedServices=clientOrderRepo.
+                findNumOfActiveClientOrders(clientID,type,"active");
 
         if(numberOfOrderedServices>0)
         {
@@ -73,7 +81,8 @@ public class OrderLimitationChecker
     //Similar to 1st method but with the phone number
     public boolean checkInstantOrderLimit(String phone, String type)
     {
-        int numberOfOrderedServices=clientOrderRepo.findNumOfActiveClientOrders(phone,type,"active");
+        int numberOfOrderedServices=clientOrderRepo.
+                findNumOfActiveClientOrders(phone,type,"active");
 
         if(numberOfOrderedServices>0)
         {

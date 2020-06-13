@@ -3,6 +3,7 @@ package com.taxipark.admin;
 import com.taxipark.dbmodel.Customer_Services_Data;
 import com.taxipark.dbmodel.Services;
 import com.taxipark.dbmodel.Services_Category;
+import com.taxipark.repos.PersonnelRepo;
 import com.taxipark.services.NavBarLoader;
 import com.taxipark.repos.Customer_Services_DataRepo;
 import com.taxipark.repos.ServicesRepo;
@@ -33,8 +34,11 @@ public class ServicesController
     ServicesRepo servicesRepo;
     @Autowired
     Services_CategoryRepo servicesCategoryRepo;
+    @Autowired
+    PersonnelRepo personnelRepo;
 
-    private NavBarLoader navBarLoader=new NavBarLoader();
+    @Autowired
+    private NavBarLoader navBarLoader/*=new NavBarLoader()*/;
 
 
     @GetMapping("/adminportal/categories")
@@ -45,6 +49,11 @@ public class ServicesController
         if(!navBarLoader.checkAuthorizationAdmin(login,model))
         {
             return "admin/main/AdminAuthorization";
+        }
+
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
         }
 
         Iterable<Services_Category> allCategories=servicesCategoryRepo.findAllCategories();
@@ -61,6 +70,11 @@ public class ServicesController
         if(!navBarLoader.checkAuthorizationAdmin(login,model))
         {
             return "admin/main/AdminAuthorization";
+        }
+
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
         }
 
         Services_Category currentCategory=servicesCategoryRepo.findByServiceCategoryID(serviceCategoryID);
@@ -80,6 +94,11 @@ public class ServicesController
         if(!navBarLoader.checkAuthorizationAdmin(login,model))
         {
             return "admin/main/AdminAuthorization";
+        }
+
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
         }
 
         boolean isServicesDataPresent=false;
@@ -134,6 +153,11 @@ public class ServicesController
             return "admin/main/AdminAuthorization";
         }
 
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
+        }
+
         return "admin/services/CategoriesCreation";
     }
 
@@ -159,6 +183,11 @@ public class ServicesController
         if(!navBarLoader.checkAuthorizationAdmin(login,model))
         {
             return "admin/main/AdminAuthorization";
+        }
+
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
         }
 
         model.put("category",serviceCategoryID);
@@ -213,6 +242,11 @@ public class ServicesController
             return "admin/main/AdminAuthorization";
         }
 
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
+        }
+
         String oldFotoName=servicesCategoryRepo.findByServiceCategoryID(categoryID).getServiceCategoryFoto();
 
         ///////////////////////
@@ -231,6 +265,11 @@ public class ServicesController
         if(!navBarLoader.checkAuthorizationAdmin(login,model))
         {
             return "admin/main/AdminAuthorization";
+        }
+
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
         }
 
         Services currentService=servicesRepo.findByServicesID(serviceID);
@@ -254,6 +293,11 @@ public class ServicesController
         if(!navBarLoader.checkAuthorizationAdmin(login,model))
         {
             return "admin/main/AdminAuthorization";
+        }
+
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
         }
 
         model.put("category",servicesCategoryRepo.findByServiceCategoryID(categoryID));
@@ -297,6 +341,11 @@ public class ServicesController
         if(!navBarLoader.checkAuthorizationAdmin(login,model))
         {
             return "admin/main/AdminAuthorization";
+        }
+
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
         }
 
         boolean isCustomerService=false;

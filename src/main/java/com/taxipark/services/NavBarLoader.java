@@ -1,5 +1,6 @@
 package com.taxipark.services;
 
+import com.taxipark.repos.PersonnelRepo;
 import com.taxipark.repos.ServicesRepo;
 import com.taxipark.repos.Services_CategoryRepo;
 import com.taxipark.dbmodel.Services;
@@ -43,6 +44,35 @@ public class NavBarLoader
         }
 
         return isAuthorized;
+    }
+
+    public boolean checkRoleAdmin(Map<String,Object> model, PersonnelRepo personnelRepo,String login)
+    {
+        boolean isAdmin;
+
+        if(!personnelRepo.findByLogin(login).getPersonnelProfession().getPositionName().equals("Администратор"))
+        {
+            model.put("isAdmin",false);
+            model.put("isntAdmin",true);
+            model.put("cabLink","/adminportal/employeepage?log="+login);
+            //return "admin/adminuser/EmployeeAccount?log="+login;
+
+            isAdmin=false;
+            /*return true;*/
+        }
+        else
+        {
+            model.put("isAdmin",true);
+            model.put("isntAdmin",false);
+            model.put("statLink","/adminportal/statistics");
+            model.put("perLink","/adminportal/personnel");
+            model.put("tranLink","/adminportal/transport");
+            model.put("catLink","/adminportal/categories");
+
+            isAdmin=true;
+        }
+
+        return isAdmin;
     }
 
     public void loadNavigationBarLinks(Map<String, Object> model, Services_CategoryRepo services_categoryRepo, ServicesRepo servicesRepo)

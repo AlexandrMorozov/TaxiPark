@@ -25,7 +25,8 @@ public class MainController
     @Autowired
     private Customer_Services_DataRepo customer_services_dataRepo;
 
-    private NavBarLoader navBarLoader=new NavBarLoader();
+    @Autowired
+    private NavBarLoader navBarLoader/*=new NavBarLoader()*/;
 
     @GetMapping
     public String mainPage(HttpSession session, Map<String, Object> model)

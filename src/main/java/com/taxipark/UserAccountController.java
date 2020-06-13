@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -29,7 +30,8 @@ public class UserAccountController
     @Autowired
     private Order_RouteRepo order_routeRepo;
 
-    private NavBarLoader navBarLoader=new NavBarLoader();
+    @Autowired
+    private NavBarLoader navBarLoader/*=new NavBarLoader()*/;
 
     @GetMapping("/Registration.mustache")
     public String registrationPage()
@@ -82,9 +84,14 @@ public class UserAccountController
         Clients currentClient=clientsRepo.findByClientLogin(login);
         model.put("client",currentClient);
 
-        //Iterable<FullOrderInfoDto> allCurrentClientOrders=clientOrderRepo.findFullOrderInfo(currentClient.getClientID(),"active");
-        Iterable<ClientOrder> allCurrentClientOrders=clientOrderRepo.findByClientIDAndStatus(currentClient.getClientID(),"active");
-        model.put("orders",allCurrentClientOrders);
+        List<ClientOrder> allCurrentTransportOrders= clientOrderRepo.
+                findByClientIDAndOrderTypeAndStatusOrderByDateOfOrderAsc(currentClient.getClientID(),"transport service","active");
+
+        List<ClientOrder> allCurrentCustomerOrder=clientOrderRepo.
+                findByClientIDAndOrderTypeAndStatusOrderByDateOfOrderAsc(currentClient.getClientID(),"customer service","active");
+
+        model.put("transportOrders",allCurrentTransportOrders);
+        model.put("customerOrders",allCurrentCustomerOrder);
 
         return "user/UserAccount";
 

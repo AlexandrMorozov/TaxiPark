@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyCityTaxi | Личный кабинет работника </title>
+
+    <link rel='stylesheet' href='/css/bootstrap.min.css' type='text/css' media='all'>
+    <script src="/js/EmployeeMenuWebsocket.js"></script>
+
+    <style>
+        .bblock {
+            float: left;
+            width: 180px;
+            margin-right: 10px;
+        }
+        .wrap :last-child {
+            margin-right: 0px;
+        }
+
+        .catside li:hover
+        {
+            background: #0078BF; color: #fff;
+        }
+
+        .test
+        {
+            height: 480px;
+            width: 330px;
+        }
+        ul.nav-sidebar li a
+        {
+            display: block;
+            padding: 11.5px 27.5px;
+            color: #4e555b;
+            text-decoration: none;
+            border-bottom: 1px solid #4e555b;
+            border-left: #4e555b;
+            border-right: #4e555b;
+        }
+
+        .nav > li > a {
+            padding: 11.5px 10px;
+        }
+
+
+        ul > li {
+            list-style-type: none;
+            line-height: 19px;
+        }
+
+        ul.nav-sidebar {
+            list-style: none;
+            list-style-type: none;
+            line-height: 1.38462;
+        }
+
+        .nav-sidebar
+        {
+            margin-right: 40px;
+        }
+
+        #breadcrumbs li {
+            employeePosition: relative;
+            float: left;
+            min-height: 15px;
+            margin-right: 5px;
+        }
+
+
+        .service-detail .service-detail__head-right {
+            padding-left: 30px;
+            padding-right: 40px;
+        }
+
+        .service-detail .service-detail__head-preview {
+            font-weight: 700;
+            padding: 20px 0;
+            padding-top: 20px;
+            padding-right: 0px;
+            padding-bottom: 20px;
+        }
+
+
+        .service-prop .service-prop__block-group {
+            display: inline-block;
+        }
+
+        .service-prop .service-prop__block {
+            margin-left: 20px;
+            text-align: left;
+            margin-top: -16px;
+            color:
+                    #777;
+        }
+
+        .service-prop .service-prop__block, .service-prop {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+
+        .service-prop .service-prop__value {
+            font-size: 22px;
+        }
+
+
+        html>body thead.fixedHeader tr
+        {
+            display: block
+        }
+
+        html>body tbody.scrollContent
+        {
+            display: block;
+            height: 400px;
+            overflow: auto;
+            width: 100%
+        }
+
+        html>body thead.fixedHeader th {
+            width: 200px;
+        }
+
+        html>body thead.fixedHeader th + th {
+            width: 100px;
+        }
+
+        html>body thead.fixedHeader th + th + th {
+            width: 100px;
+        }
+
+        html>body thead.fixedHeader th + th + th + th {
+            width: 100px;
+        }
+
+        html>body thead.fixedHeader th + th + th + th + th  {
+            width: 200px;
+        }
+
+        html>body thead.fixedHeader th + th + th + th + th + th {
+            width: 100px;
+        }
+
+        html>body thead.fixedHeader th + th + th + th + th + th + th {
+            width: 200px;
+        }
+
+
+        html>body tbody.scrollContent td {
+            width: 200px;
+        }
+
+        html>body tbody.scrollContent td + td {
+            width: 100px;
+        }
+
+        html>body tbody.scrollContent td + td + td {
+            width: 100px;
+        }
+
+        html>body tbody.scrollContent td + td + td + td {
+            width: 100px;
+        }
+
+        html>body tbody.scrollContent td + td + td + td + td {
+            width: 200px;
+        }
+        html>body tbody.scrollContent td + td + td + td + td + td {
+            width: 100px;
+        }
+        html>body tbody.scrollContent td + td + td + td + td + td + td {
+            width: 200px;
+        }
+    </style>
+
+</head>
+<body onload="enableEmployeeConnection()">
+<div id="taxi" hidden>{{isTaxi}}</div>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light" style="height: 80px;background-color: #007bff">
+        <a class="navbar-brand" href="/adminportal">MyCityTaxi Admin</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                {{#isAdmin}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{statLink}}">Статистика</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{perLink}}">Управление персоналом</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{tranLink}}">Управление транспортом</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{catLink}}">Управление услугами</a>
+                    </li>
+                {{/isAdmin}}
+                {{#isntAdmin}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{cabLink}}">Управление заказами</a>
+                    </li>
+                {{/isntAdmin}}
+                <li class="nav-item" style="margin-left: 900px">
+                    <a class="nav-link" href="/adminportal/signout" id="sender">{{employeeName}}</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div style="margin-left: 200px;height: 400px;width: 1200px;margin-top: 50px">
+
+    <h2>Список заказов</h2>
+    <div>
+        <table width="100%" class="scrollTable table table-sm" style="margin-top: 20px" id="tbll">
+            <thead class="fixedHeader thead-light">
+            <tr>
+                <th>Название</th>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Цена</th>
+                 {{#isAllowed}}<th>Маршрут</th>{{/isAllowed}}
+                 {{#isAllowed1}}<th>Груз</th>{{/isAllowed1}}
+                 {{#isAllowed2}}<th>Комментарий</th>{{/isAllowed2}}
+                <th></th>
+            </tr>
+            </thead>
+            <tbody class="scrollContent" id="tbl">
+            {{#allOrders}}
+            <tr id="{{orderID}}">
+                <td>{{#orderedService}}{{serviceName}}{{/orderedService}}</td>
+                <td>{{dateOfOrder}}</td>
+                <td>{{timeOfOrder}}</td>
+                <td>{{cost}} руб.</td>
+            {{#isAllowed}}<td>{{#orderRoute}}{{placeOfDeparture}} - {{placeOfArrival}} {{/orderRoute}}</td>{{/isAllowed}}
+            {{#isAllowed1}}<td>{{#orderRoute}}{{cargoWeight}} {{/orderRoute}} кг</td>{{/isAllowed1}}
+            {{#isAllowed2}}<td>{{addInfo}}</td>{{/isAllowed2}}
+                <td>
+                    <a href="/adminportal/completeorder?orderID={{orderID}}"><button class="btn btn-lg btn-primary btn-block" name="">Завершить</button></a>
+                </td>
+            </tr>
+            {{/allOrders}}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script></body>
+</html>

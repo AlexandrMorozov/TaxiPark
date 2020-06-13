@@ -1,6 +1,7 @@
 package com.taxipark.admin;
 
 import com.taxipark.dbmodel.Transport;
+import com.taxipark.repos.PersonnelRepo;
 import com.taxipark.services.NavBarLoader;
 import com.taxipark.repos.TransportRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class TransportController
 {
     @Autowired
     TransportRepo transportRepo;
+    @Autowired
+    PersonnelRepo personnelRepo;
 
     private NavBarLoader navBarLoader=new NavBarLoader();
 
@@ -30,10 +33,15 @@ public class TransportController
             return "admin/main/AdminAuthorization";
         }
 
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
+        }
+
         Iterable<Transport> allTransport=transportRepo.findAllTransport();
         model.put("transportList",allTransport);
 
-        return "admin/TransportMain";
+        return "admin/transport/TransportMain";
     }
 
     @GetMapping("/adminportal/transport/currenttransport")
@@ -46,10 +54,15 @@ public class TransportController
             return "admin/main/AdminAuthorization";
         }
 
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
+        }
+
         Transport transport=transportRepo.findByTransportID(transportID);
         model.put("transport",transport);
 
-        return "admin/TransportPage";
+        return "admin/transport/TransportPage";
     }
 
 
@@ -64,7 +77,12 @@ public class TransportController
             return "admin/main/AdminAuthorization";
         }
 
-        return "admin/TransportCreation";
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
+        }
+
+        return "admin/transport/TransportCreation";
     }
 
     @PostMapping("/adminportal/transport/addtransport")
@@ -72,10 +90,11 @@ public class TransportController
                                   @RequestParam(name = "ccolor") String carColor, @RequestParam(name = "crnum") String licensePlate,
                                   @RequestParam(name = "cvin") String vin, @RequestParam(name = "cyom") String yearOfManufacture,
                                   @RequestParam(name = "ccn") String carcassNum, @RequestParam(name = "cen")  String engineNum,
+                                  @RequestParam(name="ctp") String carType,
                                   HttpSession session, Map<String, Object> model)
     {
         Transport newTransport=new Transport(carBrand,carModel,carColor,
-                licensePlate,vin,carcassNum, engineNum,yearOfManufacture,null);
+                licensePlate,vin,carcassNum, engineNum,yearOfManufacture,carType);
         transportRepo.save(newTransport);
 
         return "redirect:/adminportal/transport/currenttransport?transportID="+newTransport.getTransportID();
@@ -91,10 +110,15 @@ public class TransportController
             return "admin/main/AdminAuthorization";
         }
 
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
+        }
+
         Transport transport=transportRepo.findByTransportID(transportID);
         model.put("transport",transport);
 
-        return "admin/TransportModificationPage";
+        return "admin/transport/TransportModificationPage";
     }
 
     @PostMapping("/adminportal/transport/modify")
@@ -113,7 +137,7 @@ public class TransportController
         transport.setVin(vin);
         transport.setCarcassNum(carcassNum);
         transport.setEngineNum(engineNum);
-        transport.setOtherAttributes(null);
+        transport./*setOtherAttributes*/setType(null);
 
         transportRepo.save(transport);
         
@@ -128,6 +152,11 @@ public class TransportController
         if(!navBarLoader.checkAuthorizationAdmin(login,model))
         {
             return "admin/main/AdminAuthorization";
+        }
+
+        if(!navBarLoader.checkRoleAdmin(model,personnelRepo,login))
+        {
+            return "redirect:/adminportal";
         }
 
         transportRepo.deleteById(transportID);

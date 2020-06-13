@@ -39,11 +39,9 @@ public class PossibleTimeCalcuator
 
             for(int i=0;i<listOfCurrentDateTimestamps.size();i++)
             {
-                Services completionTime=servicesRepo./*findCompletionTime*/findByServicesID(listOfOrders.get(i).getOrderedService().getServicesID());
+                Services completionTime=servicesRepo.findByServicesID(listOfOrders.get(i).getOrderedService().getServicesID());
 
-                //CompletionTimeDto completionTimeDto=servicesRepo.findCompletionTime(listOfOrders.get(i).getOrderedService().getServicesID()/*getServiceID()*/);
-
-                int orderDuration=(int)(/*completionTimeDto.getCompletionTime()*/completionTime.getServiceData().get(0).getCompletionTime()*60);
+                int orderDuration=(int)(completionTime.getServiceData().get(0).getCompletionTime()*60);
                 LocalTime currentOrderTime=listOfCurrentDateTimestamps.get(i).plusMinutes(orderDuration);
 
                 if(i!=(listOfCurrentDateTimestamps.size()-1))

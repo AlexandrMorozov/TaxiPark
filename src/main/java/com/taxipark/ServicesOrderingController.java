@@ -2,6 +2,7 @@ package com.taxipark;
 
 import com.taxipark.dbmodel.*;
 import com.taxipark.repos.*;
+import com.taxipark.services.ClientOrderAssigner;
 import com.taxipark.services.PossibleTimeCalcuator;
 import com.taxipark.services.OrderLimitationChecker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +31,11 @@ public class ServicesOrderingController
     @Autowired
     private Order_RouteRepo order_routeRepo;
     @Autowired
-    private PersonnelRepo personnelRepo;
-    @Autowired
     private OrderLimitationChecker orderLimitationChecker;
-    /////////////
-    //@Autowired
-    //private OrderMessageHandler test;
-    ////////////
-
-    private PossibleTimeCalcuator possibleTimeCalcuator=new PossibleTimeCalcuator();
+    @Autowired
+    private PossibleTimeCalcuator possibleTimeCalcuator;
+    @Autowired
+    private ClientOrderAssigner clientOrderAssigner;
 
     @PostMapping("/CreateTransportOrder")
     public String addTaxiOrder(@RequestParam(name = "id") int serviceID,
@@ -152,8 +149,10 @@ public class ServicesOrderingController
             clientID=currentRegisteredClient.getClientID();
         }*/
 
+        Personnel assignedPersonnel=clientOrderAssigner.selectCargoTaxiOrderReceiver();
+
         ClientOrder newClientOrder=
-                new ClientOrder(clientID,servicesRepo.findByServicesID(serviceID),null,cost,"transport service",
+                new ClientOrder(clientID,servicesRepo.findByServicesID(serviceID),assignedPersonnel,cost,"transport service",
                         date,time+":00","active",comment,unauthorizedClientContactInfo);
 
         clientOrderRepo.save(newClientOrder);
@@ -253,7 +252,9 @@ public class ServicesOrderingController
             clientID=currentRegisteredClient.getClientID();
         }*/
 
-        ClientOrder newClientOrder=new ClientOrder(clientID,orderedService,null,cost,
+        Personnel assignedPersonnel=clientOrderAssigner.selectCustomerOrderReceiver();
+
+        ClientOrder newClientOrder=new ClientOrder(clientID,orderedService,assignedPersonnel,cost,
                 "customer service",date,time+":00","active",comment,unauthorizedClientContactInfo);
 
         clientOrderRepo.save(newClientOrder);

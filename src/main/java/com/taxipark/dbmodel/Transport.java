@@ -2,7 +2,6 @@ package com.taxipark.dbmodel;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Entity
 public class Transport
@@ -11,7 +10,7 @@ public class Transport
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @NotNull
     @Column(name="transportid")
-    private int transportID;
+    private Integer transportID;
     @NotNull
     @Column(name="carbrand")
     private String carBrand;
@@ -36,9 +35,12 @@ public class Transport
     @NotNull
     @Column(name="yearofmanufacture")
     private String yearOfManufacture;
-    @NotNull
+    /*@NotNull
     @Column(name="otherattributes")
-    private String otherAttributes;
+    private String otherAttributes;*/
+    @NotNull
+    @Column(name="type")
+    private String type;
 
    /* @OneToMany(fetch = FetchType.LAZY,mappedBy = "attachedTransport")
     private List<Personnel> attachedPersonnel;*/
@@ -66,7 +68,7 @@ public class Transport
     }
 
     public Transport(String carBrand,String carModel,String carColor, String licensePlate,
-                     String vin,String carcassNum,String engineNum, String yearOfManufacture, String otherAttributes)
+                     String vin,String carcassNum,String engineNum, String yearOfManufacture, /*String otherAttributes*/String type)
     {
         this.carBrand=carBrand;
         this.carModel=carModel;
@@ -76,7 +78,8 @@ public class Transport
         this.carcassNum=carcassNum;
         this.engineNum=engineNum;
         this.yearOfManufacture=yearOfManufacture;
-        this.otherAttributes=otherAttributes;
+        //this.otherAttributes=otherAttributes;
+        this.type=type;
     }
 
     public void setCarBrand(String carBrand) {
@@ -103,11 +106,15 @@ public class Transport
         this.licensePlate = licensePlate;
     }
 
-    public void setOtherAttributes(String otherAttributes) {
+    /*public void setOtherAttributes(String otherAttributes) {
         this.otherAttributes = otherAttributes;
+    }*/
+
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setTransportID(int transportID) {
+    public void setTransportID(Integer transportID) {
         this.transportID = transportID;
     }
 
@@ -123,7 +130,7 @@ public class Transport
         this.attachedPersonnel = attachedPersonnel;
     }*/
 
-    public int getTransportID() {
+    public Integer getTransportID() {
         return transportID;
     }
 
@@ -155,8 +162,12 @@ public class Transport
         return vin;
     }
 
-    public String getOtherAttributes() {
+   /* public String getOtherAttributes() {
         return otherAttributes;
+    }*/
+
+    public String getType() {
+        return type;
     }
 
     public String getYearOfManufacture() {
