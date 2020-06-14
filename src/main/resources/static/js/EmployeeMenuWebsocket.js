@@ -3,7 +3,7 @@ var orderSocket;
 
 function enableEmployeeConnection()
 {
-    console.log(document.getElementById("taxi").innerText);
+    //console.log(document.getElementById("taxi").innerText);
     orderSocket=new WebSocket('ws://localhost:8080/order/'+document.getElementById("sender").innerText+'/employee');
     orderSocket.onmessage=onMessage;
 }
@@ -19,7 +19,7 @@ function onMessage(event)
 
         assignOrder(order,device.orderID);
     }
-    /* if(device.action==="new_order_cargo")
+     if(device.action==="new_order_cargo")
      {
          let order=[device.serviceName,device.date,device.time,device.price,device.pod+'-'+device.poa,device.wgt];
          assignOrder(order,device.orderID);
@@ -28,7 +28,7 @@ function onMessage(event)
      {
          let order=[device.serviceName,device.date,device.time,device.price,device.comment];
          assignOrder(order,device.orderID);
-     }*/
+     }
     /*if(device.action==="order_denial")
     {
         removeOrder(device.orderID);

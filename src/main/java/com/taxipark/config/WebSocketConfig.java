@@ -3,6 +3,7 @@ package com.taxipark.config;
 import com.taxipark.StatisticsSocketHandler;
 import com.taxipark.DispatcherSocketHandler;
 import com.taxipark.repos.*;
+import com.taxipark.services.ClientOrderAssigner;
 import com.taxipark.services.OrderCostCalculator;
 import com.taxipark.services.OrderLimitationChecker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,10 @@ public class WebSocketConfig
     ClientsRepo clientsRepo;
     @Autowired
     OrderCostCalculator orderCostCalculator;
+    @Autowired
+    ClientOrderAssigner clientOrderAssigner;
+    @Autowired
+    TransportRepo transportRepo;
 
     @Bean
     public StatisticsSocketHandler statisticsSocketHandler()
@@ -44,7 +49,7 @@ public class WebSocketConfig
     {
         System.out.println(servicesRepo);
         return new DispatcherSocketHandler(servicesRepo,clientOrderRepo,orderRouteRepo,personnelRepo,
-                orderLimitationChecker,clientsRepo,orderCostCalculator);
+                orderLimitationChecker,clientsRepo,orderCostCalculator,clientOrderAssigner, transportRepo);
     }
 
     @Bean

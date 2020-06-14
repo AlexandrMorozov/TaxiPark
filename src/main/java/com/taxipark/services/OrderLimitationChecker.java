@@ -31,6 +31,7 @@ public class OrderLimitationChecker
     //Similar to 1st method but with the phone number
     public boolean checkPreOrderLimit(String date,String phone,String type)
     {
+       // System.out.println();
         String[] weekMarginDays= calculateWeekMarginDays(date);
 
         int numberOfOrderedServices=clientOrderRepo.

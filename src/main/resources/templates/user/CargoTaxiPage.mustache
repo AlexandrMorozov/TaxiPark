@@ -5,9 +5,9 @@
     <title>MyCityTaxi | Заказ грузового такси</title>
     <link rel='stylesheet' href='/css/bootstrap.min.css' type='text/css' media='all'>
      <link rel="stylesheet" href="/css/orderpagecss.css" type='text/css'>
+    <script src="/js/OrderMenuWebsocket.js"></script>
 </head>
-<body>
-
+<body onload="afterLoad(2)">
 <nav class="navbar navbar-expand-lg navbar-light" style="height: 80px;background-color: #007bff">
     <a class="navbar-brand" href="/">MyCityTaxi</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -41,7 +41,7 @@
                 <a class="nav-link" href="/MainTimetableMenu">Расписание</a>
             </li>
             <li class="nav-item" style="margin-left: 750px">
-                <a class="nav-link" href="{{authEntLink}}">{{authEntLinkName}}</a>
+                <a class="nav-link" id="logn" href="{{authEntLink}}">{{authEntLinkName}}</a>
             </li>
 
         </ul>
@@ -64,7 +64,7 @@
 
         <div>
 
-            <form class="form-signin" method="POST" action="/CreateCargoTransportOrder">
+           <!-- <form class="form-signin" method="POST" action="/CreateCargoTransportOrder">-->
                 <div class="service-detail" style="margin-left: 330px">
                     <div class="service-detail__head">
                         <div class="row">
@@ -72,7 +72,7 @@
                                 <img alt="{{serviceName}}" title="{{serviceName}}" src="/img/{{foto}}" style="width: 416px;height: 390px">
 
                                 <div style="margin-top: 8px">
-                                    <button class="btn btn-lg btn-primary btn-block" type="submit" name="id" value="{{servicesID}}">Заказать услугу</button>
+                                    <button class="btn btn-lg btn-primary btn-block" onclick="sendCargoOrderRequest()" type="submit" name="id" value="{{servicesID}}">Заказать услугу</button>
                                 </div>
 
                             </div>
@@ -87,7 +87,7 @@
                                         <div class="service-prop__block">
                                             <div class="service-prop__name">Стоимость:</div>
                                             <div class="service-prop__value">
-                                                <span>{{calculatablePrice}}</span> руб./км.
+                                                <span id="unitcost">{{calculatablePrice}}</span> руб./км.
                                             </div>
                                         </div>
                                     </div>
@@ -97,7 +97,7 @@
                                         <div class="service-prop__block">
                                             <div class="service-prop__name">Стоимость:</div>
                                             <div class="service-prop__value">
-                                                <span>0.1</span> руб./кг.
+                                               <span id="finalcost">0</span> руб.
                                             </div>
                                         </div>
                                     </div>
@@ -118,19 +118,19 @@
                                 <div class="service-prop">
                                     <div class="service-prop__block">
                                         <div class="service-prop__name">Откуда</div>
-                                        <input type="text" name="fromPoint" class='form-control' required>
+                                        <input type="text" name="fromPoint" class='form-control' onchange="sendCargoPriceRequest()" required>
                                     </div>
                                 </div>
                                 <div class="service-prop">
                                     <div class="service-prop__block">
                                         <div class="service-prop__name">Куда</div>
-                                        <input type="text" name="toPoint" class='form-control' required>
+                                        <input type="text" name="toPoint" class='form-control' onchange="sendCargoPriceRequest()" required>
                                     </div>
                                 </div>
                                 <div class="service-prop">
                                     <div class="service-prop__block">
                                         <div class="service-prop__name">Масса груза(до 3000 кг)</div>
-                                        <input type="number" name="weight" min="1" max="3000" class='form-control' required>
+                                        <input type="number" name="weight" min="1" max="3000" class='form-control' onchange="sendCargoPriceRequest()" required>
                                     </div>
                                 </div>
 
@@ -161,7 +161,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            <!--</form>-->
         </div>
     {{/service}}
 

@@ -5,6 +5,7 @@
     <title>MyCityTaxi | Выбор времени заказа</title>
 
     <link rel='stylesheet' href='/css/bootstrap.min.css' type='text/css' media='all'>
+    <script src="/js/OrderMenuWebsocket.js"></script>
 
     <style>
 
@@ -149,13 +150,53 @@
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg navbar-light" style="height: 80px;background-color: #007bff">
+    <a class="navbar-brand" href="/">MyCityTaxi</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Компания</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="/CategoriesMenu" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Услуги
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/CategoriesMenu">Категории услуг</a>
+                    <div class="dropdown-divider"></div>
+                    {{#categories}}
+                        <a class="dropdown-item" href="/SubcategoriesMenu?id={{serviceCategoryID}}">{{serviceCategoryName}}</a>
+                    {{/categories}}
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="/CategoriesMenu" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Перевозки
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {{#transportSubcategories}}
+                        <a class="dropdown-item" href="transportPage?id={{servicesID}}&name={{serviceName}}">{{serviceName}}</a>
+                    {{/transportSubcategories}}
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/MainTimetableMenu">Расписание</a>
+            </li>
+            <li class="nav-item" style="margin-left: 750px">
+                <a class="nav-link" id="logn" href="{{authEntLink}}">{{authEntLinkName}}</a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
 <div style="margin-left: 400px">
     <h1>Выберите подходящее для вас время:</h1>
 </div>
 
 <div class="main-wrap" style="margin-top: 30px">
 
-<form class="form-signin" method="POST" action="/CreateOrder">
+<!--<form class="form-signin" method="POST" action="/CreateOrder">-->
 
     <div style="float: left; margin-left: 200px">
         <table width="100%" class="scrollTable table">
@@ -259,7 +300,7 @@
                             {{/addServiceData}}
 
                             <div>
-                                <button class="btn btn-lg btn-primary btn-block" style="margin-left: 20px; width: 352px" type="submit" name="id" value="{{servicesID}}">Заказать услугу</button>
+                                <button class="btn btn-lg btn-primary btn-block" style="margin-left: 20px; width: 352px"  onclick="sendServiceOrderRequest()" type="submit" name="id" value="{{servicesID}}">Заказать услугу</button>
                             </div>
                         </div>
                     </div>
@@ -267,7 +308,7 @@
             </div>
 
     </div>
-</form>
+<!--</form>-->
 {{/service}}
 
 </div>

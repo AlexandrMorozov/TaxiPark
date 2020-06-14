@@ -26,14 +26,12 @@ public class MainController
     private Customer_Services_DataRepo customer_services_dataRepo;
 
     @Autowired
-    private NavBarLoader navBarLoader/*=new NavBarLoader()*/;
+    private NavBarLoader navBarLoader;
 
     @GetMapping
     public String mainPage(HttpSession session, Map<String, Object> model)
     {
         String login=(String) session.getAttribute("login");
-
-        System.out.println(session.getId());
 
         navBarLoader.checkAuthorization(login,model);
         navBarLoader.loadNavigationBarLinks(model,services_categoryRepo,servicesRepo);
@@ -88,7 +86,7 @@ public class MainController
 
         Services currentService=servicesRepo.findByServicesID(serviceID);
         Customer_Services_Data additionalServiceData=
-                customer_services_dataRepo.findByMainServiceData(currentService)/*.findByServiceID(currentService.getServicesID())*/;
+                customer_services_dataRepo.findByMainServiceData(currentService);
 
         model.put("service", currentService);
         model.put("addServiceData", additionalServiceData);
@@ -103,8 +101,8 @@ public class MainController
     }
 
     @GetMapping("/transportPage")
-    public String transportPage(@RequestParam(name = "id", required = true) int serviceID, @RequestParam(name="name") String serviceName,
-                                HttpSession session, Map<String,Object> model)
+    public String transportPage(@RequestParam(name = "id", required = true) int serviceID,
+                                @RequestParam(name="name") String serviceName,HttpSession session, Map<String,Object> model)
     {
 
         String response;

@@ -23,12 +23,13 @@ public class ClientOrderAssigner
 
     public Personnel selectCustomerOrderReceiver()
     {
+        System.out.println("1");
         Positions position=positionsRepo.findByPositionName("Мастер-приёмщик");
-
+        System.out.println("2");
         List<Personnel> allPositionPersonnel=personnelRepo.findByPersonnelProfession(position);
-
+        System.out.println("3");
         Personnel selectedEmployee=selectOrderReceiver(allPositionPersonnel);
-
+        System.out.println("4");
         return selectedEmployee;
     }
 

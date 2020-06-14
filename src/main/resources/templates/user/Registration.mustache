@@ -14,6 +14,10 @@
 <body class="text-center">
 <form class="form-signin" method="POST" action="/Registration.mustache/registrate" onsubmit="return registrationChecker();">
     <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+    {{#RegStatus}}
+        <i style="margin-top: 20px">Данный аккаунт уже существует!</i>
+        <br>
+    {{/RegStatus}}
     <label for="name">Имя</label>
     <!--Имя:--><input type='text' id='name' name='name' class='form-control' required><br><i id='alert3' class='hiddentext'></i>
     <label for="surname">Фамилия</label>

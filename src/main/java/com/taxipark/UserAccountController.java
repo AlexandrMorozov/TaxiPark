@@ -27,21 +27,39 @@ public class UserAccountController
     private ServicesRepo servicesRepo;
     @Autowired
     private ClientOrderRepo clientOrderRepo;
-    @Autowired
-    private Order_RouteRepo order_routeRepo;
 
     @Autowired
-    private NavBarLoader navBarLoader/*=new NavBarLoader()*/;
+    private NavBarLoader navBarLoader;
 
     @GetMapping("/Registration.mustache")
-    public String registrationPage()
+    public String registrationPage(@RequestParam(name="response",required = false) Boolean response,
+                                   Map<String,Object> model)
     {
+        if(response==null)
+        {
+            model.put("RegStatus",false);
+        }
+        else
+        {
+            model.put("RegStatus",true);
+        }
+
         return "user/Registration";
     }
 
     @GetMapping("/Authorization")
-    public String authorizationPage()
+    public String authorizationPage(@RequestParam(name="response",required = false) Boolean response,
+                                    Map<String,Object> model)
     {
+        if(response==null)
+        {
+            model.put("AuthStatus",false);
+        }
+        else
+        {
+            model.put("AuthStatus",true);
+        }
+
         return "user/Authorization";
     }
 
@@ -60,7 +78,7 @@ public class UserAccountController
         }
         else
         {
-            return "redirect:/Registration.mustache";
+            return "redirect:/Registration.mustache?response="+false;
         }
 
 
@@ -111,7 +129,7 @@ public class UserAccountController
 
         if(clientsRepo.findByClientLoginAndClientPassword(login,password)==null)
         {
-            return "redirect:/Authorization";
+            return "redirect:/Authorization?response="+false;
         }
 
         request.getSession().setAttribute("login", login);

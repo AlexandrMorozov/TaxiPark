@@ -28,7 +28,7 @@ public class AdminController {
     TransportRepo transportRepo;
 
     @Autowired
-    private NavBarLoader navBarLoader;/*=new NavBarLoader();*/
+    private NavBarLoader navBarLoader;
 
     @PostMapping("/adminportal/signin")
     public String signInAdmin(@RequestParam String login,

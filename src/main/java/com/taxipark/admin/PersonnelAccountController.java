@@ -74,7 +74,7 @@ public class PersonnelAccountController
                 model.put("isAllowed",true);
                 model.put("isAllowed1",true);
                 model.put("isAllowed2",false);
-                model.put("isTaxi",false);
+               // model.put("isTaxi",false);
             }
         }
         else
@@ -82,7 +82,7 @@ public class PersonnelAccountController
             model.put("isAllowed",false);
             model.put("isAllowed1",false);
             model.put("isAllowed2",true);
-            model.put("isTaxi",false);
+           // model.put("isTaxi",false);
         }
 
         ArrayList<ClientOrder> relatedOrders=new ArrayList<>();
